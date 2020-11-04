@@ -120,4 +120,25 @@ export const globalStyles = StyleSheet.create({
     amarelo3: {
         color: '#BF8C0A'
     }
+    mediumButtonStyle:{
+        fontSize:14,
+        fontFamily:'Roboto-Medium',
+        marginTop:"3.59375%",
+        minHeight:40,
+        minWidth:"33.33%",
+        marginBottom:"3%",
+        alignItems:"center",
+        justifyContent:"center",
+        borderRadius:5,
+        backgroundColor: '#740300',
+        elevation:3,
+    },
+    normalInput:{
+        minHeight: 45,
+        marginTop:"3.125%",
+        minWidth:"88%",
+        borderRadius:8,
+        backgroundColor:"#E5E5E5",
+        paddingLeft:"5%"
+    },
 });
