@@ -119,7 +119,7 @@ export const globalStyles = StyleSheet.create({
     },
     amarelo3: {
         color: '#BF8C0A'
-    }
+    },
     mediumButtonStyle:{
         fontSize:14,
         fontFamily:'Roboto-Medium',
