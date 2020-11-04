@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import {AppLoading} from 'expo';
 import NavBar from './shared/NavBar';
+import Register from './screens/register'
+import Login from './screens/login';
+import {LoginNavigator} from './routes/loginstack'
 
 const getFonts = () => Font.loadAsync({
   'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -14,7 +17,7 @@ export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false)
     if(fontsLoaded){
       return(
-        <NavBar />
+          <LoginNavigator />
       );
     } else{
       return(

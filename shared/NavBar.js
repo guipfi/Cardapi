@@ -21,7 +21,6 @@ const Icon = (iconName) => <MaterialIcons style={{position:'absolute',bottom:"35
 
 export default function NavBar(){
     return(
-        <NavigationContainer>
             <Tab.Navigator  tabBarOptions={{style:style.navbar, activeTintColor:'#060606', labelStyle:style.labelStyle, inactiveTintColor:'#595959'}}>
                 <Tab.Screen name="Início"  component={Home} options = {{ tabBarIcon: ({focused}) => focused ? Icon('home') :  <HomeOutline /> }} />
                 <Tab.Screen name="Buscar" component={Search} options = {{ tabBarIcon: ({focused}) => focused ? <Lupa /> :  Icon('search') }} />
@@ -29,7 +28,6 @@ export default function NavBar(){
                 <Tab.Screen name="Notificações" component={Notification} options = {{ tabBarIcon: ({focused}) => focused ? Icon('notifications') :  Icon('notifications-none') }}/>
                 <Tab.Screen name="Perfil" component={Profile} options = {{ tabBarIcon: ({focused}) => focused ? Icon('person') :  Icon('person-outline') }}/>
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
 
