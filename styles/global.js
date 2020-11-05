@@ -63,6 +63,63 @@ export const globalStyles = StyleSheet.create({
         fontSize:10,
         fontFamily:'Roboto-Regular',
     },
+    branco1: {
+        color: '#FAFAFA'
+    },
+    branco2: {
+        color: '#F2F2F2'
+    },
+    branco3: {
+        color: '#E5E5E5'
+    },
+    branco4: {
+        color: '#D9D9D9'
+    },
+    branco5: {
+        color: '#BFBFBF'
+    },
+    branco6: {
+        color: '#878787'
+    },
+    preto1: {
+        color: '#060606'
+    },
+    preto2: {
+        color: '#141414'
+    },
+    preto3: {
+        color: '#262626'
+    },
+    preto4: {
+        color: '#404040'
+    },
+    preto5: {
+        color: '#595959'
+    },
+    vermelho1: {
+        color: '#A60400'
+    },
+    vermelho2: {
+        color: '#8C0A07'
+    },
+    vermelho3: {
+        color: '#740300'
+    },
+    vermelho4: {
+        color: '#590B09'
+    },
+    vermelho5: {
+        color: '#400806'
+    },
+    amarelo1: {
+        color: '#262626'
+    },
+    amarelo2: {
+        color: '#E0A819'
+    },
+    amarelo3: {
+        color: '#BF8C0A'
+    },
     mediumButtonStyle:{
         fontSize:14,
         fontFamily:'Roboto-Medium',
