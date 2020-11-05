@@ -134,6 +134,8 @@ export const globalStyles = StyleSheet.create({
         elevation:3,
     },
     normalInput:{
+        fontSize:14,
+        fontFamily:'Roboto-Medium',
         minHeight: 45,
         marginTop:"3.125%",
         minWidth:"88%",
