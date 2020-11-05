@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 // React Navigation V5
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 // Telas

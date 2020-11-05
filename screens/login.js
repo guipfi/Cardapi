@@ -1,11 +1,15 @@
-import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import {globalStyles} from '../styles/global';
 import {Formik} from 'formik';
 import { MaterialIcons } from '@expo/vector-icons'; 
-
+import {firebase} from '../utils/firebase';
+import Loading from '../shared/Loading';
 
 export default function Login({navigation}){
+    const [errorMsg, setError] = useState('');
+    const [isLoading, setLoading] = useState(false);
+
     const ToRegisterUser = () =>{
         navigation.navigate('Registro')
     }
@@ -24,45 +28,75 @@ export default function Login({navigation}){
                 behavior='position'>     
                 <Formik
                     initialValues={{email:'', password:''}}
-                    onSubmit={(values) => {
-                    }}
+                    onSubmit={ async (values) => {
+                        try{
+                            setLoading(true)
+                            setError('');
+                            await firebase.auth().signInWithEmailAndPassword(values.email,values.password).then(() =>{
+                                Alert.alert("Success ✅", "Authenticated successfully")
+                                ToHome();
+                            });
+                        } catch (e) {
+                            console.log(e.code)
+                            if(e.code == 'auth/invalid-email'){
+                                setError('Um campo ou mais estão inválidos');
+                            } else if(e.code == 'auth/user-disabled'){
+                                setError('O usuário com o email: '+ values.email + ' foi desabilitado');
+                            } else if(e.code == 'auth/user-not-found'){
+                                setError('Não existe nenhum usuário com o email:' + values.email)
+                            } else if(e.code == 'auth/wrong-password'){
+                                setError('Senha incorreta, tente novamente');
+                            }
+                        }
+                        setLoading(false)
+                    }
+                }
                 >
-                    {(props) => (
-                        <View>
-                            <TouchableOpacity onPress={ToHome}>
-                                <MaterialIcons style={{alignSelf:"flex-end", marginTop:"2.34375%"}} name="close" size={22} color="black" />
-                            </TouchableOpacity>
-                            <Text style={{...globalStyles.h5, marginBottom:"3.125%" ,color:"#740300", alignSelf:"center" }}>Login</Text>
-                            <TextInput 
-                                style={globalStyles.normalInput}
-                                placeholder="E-mail"
-                                onChangeText={props.handleChange('email')}
-                                value={props.values.email}
-                            />
-                            <TextInput
-                                style={globalStyles.normalInput}
-                                placeholder="Senha"
-                                secureTextEntry={true}
-                                onChangeText={props.handleChange('password')}
-                                value={props.values.password} />
-                            <View style={{alignItems:"center"}}>
-                                <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
-                                    <Text style={{color:"#FAFAFA"}}>Entrar</Text>
-                                </TouchableOpacity>
-
-                                <View style={{flexDirection:"row"}}>
-                                    <Text>Não possui conta?</Text>
-                                    <TouchableOpacity onPress={ToRegisterUser}>
-                                    <Text style={{color:"#A60400", marginLeft:"5%", marginBottom:"5%"}}>Cadastre-se</Text>
+                    {(props) => {
+                        if(!isLoading){
+                            return(
+                                <View>
+                                    <TouchableOpacity onPress={ToHome}>
+                                        <MaterialIcons style={{alignSelf:"flex-end", marginTop:"2.34375%",padding:1}} name="close" size={22} color="black" />
                                     </TouchableOpacity>
-                                </View>
+                                    <Text style={{...globalStyles.h5, marginBottom:"3.125%" ,color:"#740300", alignSelf:"center" }}>Login</Text>
+                                    
+                                    <TextInput 
+                                    style={globalStyles.normalInput}
+                                    placeholder="E-mail"
+                                    onChangeText={props.handleChange('email')}
+                                    value={props.values.email}
+                                    />
 
-                                <TouchableOpacity onPress={props.handleSubmit}>
-                                <Text style={{color:"#A60400"}}>Cadastro de restaurante</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    )}
+                                    <TextInput
+                                    style={globalStyles.normalInput}
+                                    placeholder="Senha"
+                                    secureTextEntry={true}
+                                    onChangeText={props.handleChange('password')}
+                                    value={props.values.password} />
+
+                                    <Text style={{...globalStyles.legenda1, color: "#A60400"}}>{errorMsg}</Text>
+
+                                    <View style={{alignItems:"center"}}>
+                                        <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
+                                            <Text style={{color:"#FAFAFA"}}>Entrar</Text>
+                                        </TouchableOpacity>
+
+                                        <View style={{flexDirection:"row"}}>
+                                            <Text>Não possui conta?</Text>
+                                            <TouchableOpacity onPress={ToRegisterUser}>
+                                                <Text style={{color:"#A60400", marginLeft:"5%", marginBottom:"5%"}}>Cadastre-se</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <TouchableOpacity onPress={props.handleSubmit}>
+                                            <Text style={{color:"#A60400"}}>Cadastro de restaurante</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>)
+                        } else{
+                            return (<Loading />)
+                        }
+                    }}
                 </Formik>
                 </KeyboardAvoidingView>
             </View> 
@@ -81,13 +115,4 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
         borderRadius:16,
     },
-    input:{
-        minHeight: 45,
-        marginTop:"3.125%",
-        minWidth:"88%",
-        borderRadius:8,
-        backgroundColor:"#E5E5E5",
-        paddingLeft:"5%"
-    },
-
 })
