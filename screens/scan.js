@@ -62,11 +62,12 @@ export default function Scan(){
             
             <Text style={{...globalStyles.body2, marginTop: '15%'}}>Digite o código da comanda</Text>
             
-            <View styles={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{ width: "30%", height: '30%', margin: 10, backgroundColor: "red" }}> 
+            <View style={{display: 'flex', flexDirection: 'row', width: '100%', height: '6%', marginTop: '3%'}}>
+              <View style={{ width: '72%', height: '100%' }}> 
                 <TextInput placeholder="03a54fgh2..." style={{
-                  padding: 20,
-                  marginTop: 20,
+                  paddingLeft: 20,
+                  width: '100%',
+                  height: '100%',
                   borderWidth: 2,
                   borderRadius: 5,
                   borderColor: 'black',
@@ -74,35 +75,18 @@ export default function Scan(){
                 }}
                 />
               </View>
-              <View style={{ width: "30%", height: '30%', margin: 10, backgroundColor: "red" }}>
+              <View style={{ width: '20%', height: '100%', marginLeft: '2%', ...styles.buttonShadow}}>
+                <View style={styles.buttonStyle}>
                 <TouchableHighlight
                   onPress={() => {
                     setModalVisible(!modalVisible);
                   }}
                   >
-                  <Text style={{...globalStyles.h4, padding: 20,
-                  borderWidth: 2,
-                  borderRadius: 5,
-                  borderColor: 'black',
-                  color: 'black'}}>V</Text>
+                  <Text style={{...globalStyles.h4, color: globalStyles.branco1.color}}>V</Text>
                 </TouchableHighlight>
+                </View>
               </View>
 
-            </View>
-
-            <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-              <View style={styles.square} />
-              <View style={styles.square2} />
-            </View>
-
-            <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-              <View style={styles.square} />
-              <View style={styles.square2} />
-            </View>
-
-            <View style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row'}}>
-              <View style={styles.square} />
-              <View style={styles.square2} />
             </View>
             
           </View>
@@ -135,21 +119,29 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.2,
   }, 
   itens: {
     width: 130,
     alignSelf: 'center'
   },
-  square: {
-    width: 50,
-    height: 50.,
-    backgroundColor: 'purple'
+  buttonShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    borderRadius: 5,
+    backgroundColor: 'transparent',
   },
-  square2: {
-    width: 50,
-    height: 50.,
-    backgroundColor: 'green'
-  },
+  buttonStyle: {
+    backgroundColor: globalStyles.vermelho3.color,
+    padding: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+  }
 
 });
