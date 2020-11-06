@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 // React Navigation V5
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 // Telas
@@ -14,6 +15,7 @@ import Comanda from '../screens/comanda';
 // Icones
 import {QrCode,Lupa,HomeOutline} from '../assets/icons/icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { ProfileStack } from '../routes/profilestack';
 
 
 const Tab = createBottomTabNavigator();
@@ -26,7 +28,7 @@ export default function NavBar(){
                 <Tab.Screen name="Buscar" component={Search} options = {{ tabBarIcon: ({focused}) => focused ? <Lupa /> :  Icon('search') }} />
                 <Tab.Screen name="Comanda" component={Comanda} options = {{tabBarLabel: () => (<Text style={style.comandaStyle}>Comanda</Text>),tabBarIcon: () => (<View style={{position:'absolute', bottom: '0%', height: 65, width: 65, borderRadius: 58, backgroundColor: '#590B09',justifyContent: 'center', alignItems: 'center',top:'-12%'}}><QrCode /></View>)}} />
                 <Tab.Screen name="Notificações" component={Notification} options = {{ tabBarIcon: ({focused}) => focused ? Icon('notifications') :  Icon('notifications-none') }}/>
-                <Tab.Screen name="Perfil" component={Profile} options = {{ tabBarIcon: ({focused}) => focused ? Icon('person') :  Icon('person-outline') }}/>
+                <Tab.Screen name="Perfil" component={ProfileStack} options = {{ tabBarIcon: ({focused}) => focused ? Icon('person') :  Icon('person-outline') }}/>
             </Tab.Navigator>
     );
 }
