@@ -11,6 +11,7 @@ import Profile from '../screens/profile';
 import Search from '../screens/search';
 import Scan from '../screens/scan';
 import Notification from '../screens/notification';
+import Comanda from '../screens/comanda';
 // Icones
 import {QrCode,Lupa,HomeOutline} from '../assets/icons/icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -25,7 +26,7 @@ export default function NavBar(){
             <Tab.Navigator  tabBarOptions={{style:style.navbar, activeTintColor:'#060606', labelStyle:style.labelStyle, inactiveTintColor:'#595959'}}>
                 <Tab.Screen name="Início"  component={Home} options = {{ tabBarIcon: ({focused}) => focused ? Icon('home') :  <HomeOutline /> }} />
                 <Tab.Screen name="Buscar" component={Search} options = {{ tabBarIcon: ({focused}) => focused ? <Lupa /> :  Icon('search') }} />
-                <Tab.Screen name="Comanda" component={Scan} options = {{tabBarLabel: () => (<Text style={style.comandaStyle}>Comanda</Text>),tabBarIcon: () => (<View style={{position:'absolute', bottom: '0%', height: 65, width: 65, borderRadius: 58, backgroundColor: '#590B09',justifyContent: 'center', alignItems: 'center',top:'-12%'}}><QrCode /></View>)}} />
+                <Tab.Screen name="Comanda" component={Comanda} options = {{tabBarLabel: () => (<Text style={style.comandaStyle}>Comanda</Text>),tabBarIcon: () => (<View style={{position:'absolute', bottom: '0%', height: 65, width: 65, borderRadius: 58, backgroundColor: '#590B09',justifyContent: 'center', alignItems: 'center',top:'-12%'}}><QrCode /></View>)}} />
                 <Tab.Screen name="Notificações" component={Notification} options = {{ tabBarIcon: ({focused}) => focused ? Icon('notifications') :  Icon('notifications-none') }}/>
                 <Tab.Screen name="Perfil" component={ProfileStack} options = {{ tabBarIcon: ({focused}) => focused ? Icon('person') :  Icon('person-outline') }}/>
             </Tab.Navigator>

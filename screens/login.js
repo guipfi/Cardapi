@@ -14,6 +14,10 @@ export default function Login({navigation}){
         navigation.navigate('Registro')
     }
 
+    const ToRegisterRestaurant = () => {
+        navigation.navigate('Cadastro do Restaurante');
+    }
+
     const ToHome = () =>{
         navigation.navigate('Nav')
     }
@@ -88,7 +92,7 @@ export default function Login({navigation}){
                                                 <Text style={{color:"#A60400", marginLeft:"5%", marginBottom:"5%"}}>Cadastre-se</Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <TouchableOpacity onPress={props.handleSubmit}>
+                                        <TouchableOpacity onPress={ToRegisterRestaurant}>
                                             <Text style={{color:"#A60400"}}>Cadastro de restaurante</Text>
                                         </TouchableOpacity>
                                     </View>
