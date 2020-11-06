@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList} f
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 import Card from '../shared/Card';
-import Highlight from '../shared/Highlight'
+// import Highlight from '../shared/Highlight'
 // Estilo Global
 import {globalStyles} from '../styles/global';
 
