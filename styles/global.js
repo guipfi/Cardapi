@@ -36,7 +36,7 @@ export const globalStyles = StyleSheet.create({
         fontFamily:'Roboto-Medium',
     },
     sub2:{
-        fontSize:64,
+        fontSize:16,
         fontFamily:'Roboto-Regular',
     },
     body1:{

@@ -27,7 +27,7 @@ export default function Carrinho(){
     "produto": "Pastel de frango milho e catupiry",
     "quantidade": "2",
     "valor_uni": "7.25",
-    "observacao": "Retirar milho"
+    "observacao": "Por favor, retirar o milho e enviar vinagrete"
   }]);
 
   const renderHeader = () => {
@@ -35,6 +35,36 @@ export default function Carrinho(){
       <View>
         <Text style={{...globalStyles.sub1, ...globalStyles.preto2, marginLeft: '3%', marginBottom: 10}}>Resumo do pedido</Text>
         <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color}} />
+      </View>
+    );
+  }
+
+  const renderFooter = () => {
+    let subtotal = 0;
+    carrinho.forEach((item) => {
+      subtotal += item.quantidade * item.valor_uni;
+    });
+    subtotal = subtotal.toFixed(2);
+    return (
+      <View>
+        <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color}} />
+        <View>
+          <Text style={{...globalStyles.sub2, marginTop: '5%',textAlign: 'right'}}>SUBTOTAL: <Text style={globalStyles.sub1}>R$ {subtotal}</Text></Text>
+        </View>
+        <View style={{height: 47, width: '44%', alignSelf: 'center', marginTop: '12%'}}>
+          <View style={styles.buttonShadow}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+                style={{width: '100%', height: '100%'}}
+              >
+                <View style={{...styles.buttonStyle}}>
+                  <Text style={{color: globalStyles.branco1.color}}>Confirmar pedido</Text>
+                </View>  
+              </TouchableOpacity>  
+            </View>        
+          </View>
       </View>
     );
   }
@@ -47,7 +77,9 @@ export default function Carrinho(){
 
   const renderEmpty = () => {
     return (
-      <Text>Carrinho vazio!</Text>
+      <View>
+        <Text style={{...globalStyles.sub2, textAlign: 'center', marginTop: '3%'}}>Seu carrinho está vazio.</Text>
+      </View>
     );
   }
 
@@ -59,14 +91,16 @@ export default function Carrinho(){
     } else {
       newQuantidade=parseInt(item.quantidade)-1;
     }
-    newQuantidade = (newQuantidade < 1) ? 0 : newQuantidade;
     let newCarrinho = [...carrinho];
     const index = newCarrinho.findIndex(e => e.id == id ? true : false);
-    newCarrinho[index].quantidade=newQuantidade;
+    newQuantidade = (newQuantidade < 1) ? (
+      newCarrinho.splice(index,1)
+    ) : (
+      newQuantidade = newQuantidade.toString(),
+      newCarrinho[index].quantidade=newQuantidade
+    );
     setCarrinho(newCarrinho);
   }
-  
-
 
   return (
       <View>
@@ -79,7 +113,7 @@ export default function Carrinho(){
             <View style={{marginBottom: '4%', marginTop:'4%'}}>
               <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent:'space-between'}}>
                 <View style={{flex: 1.6, marginLeft: '3%'}}>
-                  <Text>{item.produto}</Text>
+                  <Text style={globalStyles.sub1}>{item.produto}</Text>
                 </View>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1.5}}>
                   <TouchableOpacity
@@ -92,7 +126,7 @@ export default function Carrinho(){
                     </View>
                   </TouchableOpacity>
                   <View style={{width: 40, height: 40, backgroundColor: globalStyles.preto3.color, borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginRight: 5,marginLeft: 5}}>
-                    <TextInput style={{color: globalStyles.branco1.color, ...globalStyles.sub1}}>{item.quantidade}</TextInput>
+                    <Text style={{color: globalStyles.branco1.color, ...globalStyles.sub1}}>{item.quantidade}</Text>
                   </View>
                   <TouchableOpacity
                     onPress={() => {
@@ -105,14 +139,17 @@ export default function Carrinho(){
                   </TouchableOpacity>
                 </View>
                 <View style={{flex:1, display: 'flex', alignItems: 'flex-end'}}>
-                  <Text>R$ {(item.quantidade*item.valor_uni).toFixed(2)}</Text>
+                  <Text style={globalStyles.body1}>R$ {(item.quantidade*item.valor_uni).toFixed(2)}</Text>
                 </View>
               </View>
-              <Text style={{...globalStyles.legenda1, marginLeft: '6%', marginTop: '2%'}}>{item.observacao}</Text>
+              {item.observacao.length > 0 &&
+                <Text style={{...globalStyles.body3, marginLeft: '6%', marginTop: '4%'}}>| {item.observacao}</Text>
+              }
             </View>       
           )}
+          listKey={'carrinho'}
           keyExtractor={item => item.id}
-          ListFooterComponent={() => {return (carrinho.length > 0 ? renderSeparator() : null)}}
+          ListFooterComponent={() => {return (carrinho.length > 0 ? renderFooter() : null)}}
           ListEmptyComponent={renderEmpty}
         />
       </View>
@@ -121,19 +158,6 @@ export default function Carrinho(){
 
   const styles = StyleSheet.create({
   
-    modalView: {
-      height: "90%",
-      backgroundColor: "white",
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      padding: 35,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowOpacity: 0.2,
-    }, 
     buttonShadow: {
       shadowColor: '#000',
       shadowOffset: {
@@ -145,11 +169,11 @@ export default function Carrinho(){
       backgroundColor: 'transparent',
     },
     buttonStyle: {
-      backgroundColor: globalStyles.vermelho1.color,
+      backgroundColor: globalStyles.vermelho3.color,
       borderRadius: 5,
       flex: 1,
       justifyContent: 'center',
-      paddingLeft: 8,
+      alignItems: 'center'
     }
   
   });
