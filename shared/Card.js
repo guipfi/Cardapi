@@ -6,7 +6,7 @@ import {globalStyles} from '../styles/global';
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 
-export default function Card(){
+export default function Card({img}){
     const [isFavorite, setFavorite] = useState('false');
     const Favorite = () =>{
         setFavorite(!isFavorite);
@@ -15,7 +15,7 @@ export default function Card(){
     return(
         <View style={styles.cardContainer}>
             <View>
-                <Image source={require('../assets/images/home_outback_fachada.png')} style={{position:'relative', borderTopLeftRadius:20, borderTopRightRadius:20, width:"100%", height:133}}/>
+                <Image source={img} style={{position:'relative', borderTopLeftRadius:20, borderTopRightRadius:20, width:"100%", height:133}}/>
                 <View style={{backgroundColor:"#F2F2F2", position:'absolute', left:"90%", height:"25%", width:"10%", borderBottomLeftRadius:20, borderBottomRightRadius:20, alignItems:'center',justifyContent:'center'}}>
                     <TouchableOpacity onPress={Favorite}>
                         {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#740300"/> : <MaterialIcons name="favorite" size={25} color="#740300"/>  } 
@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
     },
     cardContainer:{
         borderRadius:20,
-        maxHeight:'35%',
+        height:215,
+        alignSelf:'center',
         backgroundColor:"#F2F2F2",
         elevation:3,
-        width:'93.6%',
-        marginBottom:"5%",
+        minWidth:'93.6%',
+        marginBottom:20,
     }
 })
