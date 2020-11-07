@@ -10,9 +10,9 @@ import Profile from '../screens/profile';
 
 const Stack = createStackNavigator();
 
-function LoginStack(){
+function LoginStack({initialRouteName}){
     return(
-        <Stack.Navigator headerMode="screen">
+        <Stack.Navigator initialRouteName={initialRouteName} headerMode="screen">
             <Stack.Screen name="Login" options={{headerShown: false}} component={Login} />
             <Stack.Screen name="Perfil" component={Profile} />
             <Stack.Screen name="Nav"  options={{headerShown: false}} component={NavBar}  />
@@ -22,8 +22,10 @@ function LoginStack(){
     )
 }
 
-export const LoginNavigator = () => (
+export const LoginNavigator = ({isLogged}) => (
     <NavigationContainer>
-        <LoginStack />
+        {isLogged == false ? (
+        <LoginStack initialRouteName= 'Login'  />) : (<LoginStack initialRouteName= 'Nav' />)
+        }
     </NavigationContainer>
 )
