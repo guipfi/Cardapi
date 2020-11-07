@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,8 +12,19 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function Profile({navigation}){
-    const user = firebase.auth().currentUser;
+    const [user,setUser] = useState(firebase.auth().currentUser)
 
+    const toData = () => {
+        navigation.navigate('Meus Dados')
+    }
+    
+    useEffect(() =>{
+        if(user == null){
+            return navigation.navigate('Login')
+        }
+    })
+
+    if(user){
     return(
         <ScrollView>
         <View style={{flex:1}}>
@@ -40,7 +51,7 @@ export default function Profile({navigation}){
             </View>
             <View style={styles.menuContainer}>
                 <View style={{height:59,justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={toData}>
                         <Text style={globalStyles.body1}>Meus Dados</Text>
                     </TouchableOpacity>
                 </View>
@@ -71,7 +82,11 @@ export default function Profile({navigation}){
         </View>
         </ScrollView>
    
-    );
+    );} else{
+        return(
+            <View></View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

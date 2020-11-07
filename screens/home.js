@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {firebase} from '../utils/firebase';
 
 import Card from '../shared/Card';
 // Estilo Global
