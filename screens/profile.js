@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import PopUpMsg from '../shared/PopUpMsg';
 
 
 
@@ -17,12 +18,11 @@ export default function Profile({navigation}){
     const [image,setImage] = useState(null)
 
     useEffect(() => {
-        setUser(firebase.auth().currentUser)
         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
             setImage(url);
         })
         
-    }, [user]);
+    }, []);
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -60,14 +60,10 @@ export default function Profile({navigation}){
             if(user.photoURL = ''){
                 user.updateProfile({
                     ...user,
-                    photoURL:'.'
+                    photoURL:user.uid
                 })
             }
             
-            const update = await user.updateProfile({
-                ...user.currentUser,
-                photoURL:user.uid
-            })
             const upload = await firebase.storage().ref(user.uid).put(blob)
 
             blob.close()
@@ -143,9 +139,11 @@ export default function Profile({navigation}){
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
                 </View>
+                <TouchableOpacity>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Ajuda</Text>
                 </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={toAbout}>
                     <View style={styles.OptionMenu}>
                         <Text style={globalStyles.body1}>Quem Somos</Text>
