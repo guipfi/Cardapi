@@ -17,6 +17,10 @@ export default function Profile({navigation}){
     const toData = () => {
         navigation.navigate('Meus Dados')
     }
+
+    const toAbout = () => {
+        navigation.navigate('Sobre nós')
+    }
     
     useEffect(() =>{
         if(user == null){
@@ -31,9 +35,16 @@ export default function Profile({navigation}){
             <View style={{marginLeft:"5%", marginTop:"4.8%"}}>
                 <View style={{flexDirection:'row' }}>
                     <Image source={require('../assets/images/meu_perfil_patricia_fogaca.png')} style={{borderWidth:1, width:77,height:77 ,borderColor:'black',borderRadius:77/2}}/>
-                    <View style={{flexDirection:'row',marginBottom:"4.375%"}}>
-                    <Text style={{...globalStyles.sub1, marginLeft:"4%" ,marginRight:"19%"}}>{user ? user.displayName : "Visitante"}</Text>
-                        <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
+                    <View style={{flex:1}}>
+                        <View style={{flex:1,flexDirection:'row',marginBottom:"4.375%", justifyContent:'space-between'}}>
+                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{user.displayName}</Text>
+                                <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
+                            </View>
+                        <View style={{marginLeft:"4%"}}>
+                            <Image source={require('../assets/images/progresso.png')} style={{flex:1, resizeMode:'contain', maxWidth:"93%"}}/>
+                            <Text style={globalStyles.body4}>Total de Conquistas: 9</Text>
+                            <Text style={globalStyles.body4}>Restaurantes Frequentados</Text>
+                        </View>
                     </View>
                 </View>
                 <View>
@@ -67,9 +78,11 @@ export default function Profile({navigation}){
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Ajuda</Text>
                 </View>
-                <View style={styles.OptionMenu}>
-                    <Text style={globalStyles.body1}>Quem Somos</Text>
-                </View>
+                <TouchableOpacity onPress={toAbout}>
+                    <View style={styles.OptionMenu}>
+                        <Text style={globalStyles.body1}>Quem Somos</Text>
+                    </View>
+                </TouchableOpacity>
                 
                 <View style={{alignItems:"center", marginTop:"9%"}}>
                 <TouchableOpacity onPress={() => {firebase.auth().signOut().then(() =>{

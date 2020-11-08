@@ -6,6 +6,7 @@ import {firebase} from '../utils/firebase';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
+import InputNormal from '../shared/InputNormal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -13,9 +14,8 @@ import * as yup from 'yup';
 
 const UserSchema  = yup.object({
     name: yup.string().required('Digite um nome válido').min(2,'Digite um nome maior'),
-    cpf: yup.string().min(11,'O cpf deve ter 11 números').max(11,'O cpf deve ter 11 números'),
     phone: yup.string().required('Digite um telefone válido'),
-    newPasswordConfirm: yup.string().oneOf([yup.ref('newPassowrd'),null], "As senhas devem ser iguais!"),
+    newPasswordConfirm: yup.string().oneOf([yup.ref('newPassword'),null], "As senhas devem ser iguais!"),
 })
 
 export default function MyData({navigation}){
@@ -44,101 +44,72 @@ export default function MyData({navigation}){
         }
     }, [userData]);
 
-
-    console.log(userData)
-
     if(!isLoading){
     return(
         <ScrollView>
+            <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
-                initialValues={{name: user.displayName, cpf:userData[0].cpf, phone:userData[0].phone, email:user.email, newPassword:'', newPasswordConfirm:'', oldPassword:''}}
+                initialValues={{name: user.displayName, cpf:'', phone:userData[0].phone, email:user.email, newPassword:'', newPasswordConfirm:'', oldPassword:''}}
                 validationSchema={UserSchema}
                 onSubmit={ async (values) => {
-                    
+                    var credential = firebase.auth.EmailAuthProvider.credential(
+                        user.email,
+                        values.oldPassword
+                    )
+                    try{
+                        await user.reauthenticateWithCredential(credential).then(() =>{
+                            if(values.newPassword!='')
+                                user.updatePassword(values.newPassword)
+
+                                user.updateProfile({
+                                    displayName: values.name
+                                })
+
+                                firebase.database().ref("/users/"+user.uid+"/profile/").set({
+                                    'name': values.name,
+                                    'phone': values.phone
+                                })
+                                
+                                user.updateEmail(values.email)
+                        })
+                    } catch(e){
+                        console.log(e.code)
+                        if(e.code == "auth/wrong-password"){
+                            setError("Por favor insira a senha correta para atualizar seus dados")
+                        }
+                    }
+ 
                 }}
             >
                 {(props) => (
                     <KeyboardAvoidingView
                     behavior='height'>
-                        <TextInput 
-                            style={{...globalStyles.normalInput, marginTop:"5.468%"}}
-                            placeholder="Nome"
-                            onChangeText={props.handleChange('name')}
-                            value={props.values.name}
-                        />
+                        <InputNormal placeholder="(Insira seu nome aqui)" label={"Nome"} onChangeText={props.handleChange('name')} value={props.values.name} />
                         <Text style={styles.errorStyle}>{props.errors.name}</Text>  
+                        <InputNormal placeholder={userData[0].cpf} keyboardType='numeric' label='CPF' editable={false} iconName="lock" onChangeText={props.handleChange('cpf')} value={props.values.cpf} />
+                        <Text style={styles.errorStyle}></Text>  
 
-                        <View style={styles.passwordEye}>
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder="CPF"
-                                keyboardType = 'numeric'
-                                editable={false}
-                                onChangeText={props.handleChange('cpf')}
-                                value={props.values.cpf} />
-                            <Text style={styles.errorStyle}>{props.errors.cpf}</Text> 
-                            <MaterialIcons name="lock" size={24} color="black" style={{padding:10}} /> 
-                        </View>  
-
-                        <TextInput
-                            style={globalStyles.normalInput}
-                            placeholder="Telefone"
-                            keyboardType = 'numeric'
-                            onChangeText={props.handleChange('phone')}
-                            value={props.values.phone} />
+                        <InputNormal placeholder="Telefone" keyboardType='numeric' label="Telefone" onChangeText={props.handleChange('phone')} value={props.values.phone} />
                         <Text style={styles.errorStyle}>{props.errors.phone}</Text>  
+                        
+                        <InputNormal label="E-mail"  placeholder="(Insira um e-mail aqui)" onChangeText={props.handleChange('email')} value={props.values.email} />
+                        <Text style={styles.errorStyle}>{props.errors.passwordConfirm}</Text>  
 
-                        <TextInput
-                            style={globalStyles.normalInput}
-                            placeholder="E-mail"
-                            onChangeText={props.handleChange('email')}
-                            value={props.values.email} />
+                        <InputNormal placeholder='(Digite uma nova senha)' label='Nova Senha' secureTextEntry={hidePass}  iconName="remove-red-eye" onPress={() => setHidePass(!hidePass)} onChangeText={props.handleChange('newPassword')} value={props.values.newPassword} />
+                        <Text style={styles.errorStyle}>{props.errors.newPassword}</Text>  
 
-                        <View style={styles.passwordEye}>
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder="(Digite uma nova senha)"
-                                secureTextEntry={hidePass}
-                                onChangeText={props.handleChange('newPassword')}
-                                value={props.values.newPassword} />
-                                <TouchableOpacity onPress={() => setHidePass(!hidePass)}>
-                                    <MaterialIcons name='remove-red-eye' size={24} color="black" style={{padding:10}} />
-                                </TouchableOpacity>
-                        </View>  
+                        <InputNormal placeholder='(Confirme a nova senha)' label='Confirme a Nova Senha' secureTextEntry={hidePassConfirm}  iconName="remove-red-eye" onPress={() => setHidePassConfirm(!hidePassConfirm)} onChangeText={props.handleChange('newPasswordConfirm')} value={props.values.newPasswordConfirm} />
+                        <Text style={styles.errorStyle}>{props.errors.newPasswordConfirm}</Text>     
 
-                        <View style={styles.passwordEye}>
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder="(Digite uma nova senha)"
-                                secureTextEntry={hidePassConfirm}
-                                onChangeText={props.handleChange('newPasswordConfirm')}
-                                value={props.values.newPasswordConfirm} />
-                                <TouchableOpacity onPress={() => setHidePassConfirm(!hidePassConfirm)}>
-                                    <MaterialIcons name='remove-red-eye' size={24} color="black" style={{padding:10}} />
-                                </TouchableOpacity>
-                        </View>
-                        <Text style={styles.errorStyle}>{props.errors.passwordConfirm}</Text>     
-
-                        <View style={styles.passwordEye}>
-                            <TextInput
-                                style={{flex:1}}
-                                placeholder="Senha Atual"
-                                secureTextEntry={hideOldPass}
-                                onChangeText={props.handleChange('oldPassword')}
-                                value={props.values.oldPassword} />
-                                <TouchableOpacity onPress={() => setHideOldPass(!hideOldPass)}>
-                                    <MaterialIcons name='remove-red-eye' size={24} color="black" style={{padding:10}} />
-                                </TouchableOpacity>
-                        </View>
-                        <Text style={styles.errorStyle}>{props.errors.passwordConfirm}</Text>       
-
+                        <InputNormal placeholder='(Digite sua senha atual)' label='Senha Atual' secureTextEntry={hideOldPass}  iconName="remove-red-eye" onPress={() => setHideOldPass(!hideOldPass)} onChangeText={props.handleChange('oldPassword')} value={props.values.oldPassword} />
+                    
+                        <Text style={styles.errorStyle}>{errorMsg}</Text>  
 
                         <View style={{alignItems:"center"}}>
                             <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
                                 <Text style={{color:"#FAFAFA"}}>Alterar</Text>
                             </TouchableOpacity>
-                        <Text style={{...globalStyles.legenda1, color: "#A60400"}}>{errorMsg}</Text>
 
                             <TouchableOpacity>
                             <View style={{flexDirection:"row"}}>
@@ -151,7 +122,9 @@ export default function MyData({navigation}){
                 )}
             </Formik>
         </View> 
+        </View>
     </ScrollView>
+    
     );} else{
         return(
             <View>
@@ -163,30 +136,16 @@ export default function MyData({navigation}){
 
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-
-    },
     containerForms:{
-        flex:1,
-        alignItems:'center',
         backgroundColor:"white",
         borderRadius:16,
+        justifyContent:'center',
+        alignItems:'center',
         marginBottom:"20%"
     },
-    passwordEye:{
-        paddingLeft:"5%",
-        marginTop:"3.125%",
-        borderRadius:8,
-        minWidth:"88%",
-        height:45,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:"#E5E5E5",
-    },
     errorStyle:{
-        ...globalStyles.legenda1,
-        color: "#A60400"
+        ...globalStyles.body4,
+        color: "#A60400",
+        maxWidth:"88%",
     }
 })
