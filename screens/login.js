@@ -19,7 +19,7 @@ export default function Login({navigation}){
     }
 
     const ToHome = () =>{
-        navigation.navigate('Nav')
+        navigation.replace('Nav')
     }
 
     return(

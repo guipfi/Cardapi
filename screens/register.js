@@ -38,6 +38,7 @@ export default function Register({navigation}) {
                     await firebase.auth().createUserWithEmailAndPassword(values.email,values.password).then((response) =>{
                         firebase.auth().currentUser.updateProfile({
                             displayName:values.name,
+                            photoURL:'default_profile.png'
                         }).then(() =>{
                             firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/profile').set({
                                 name:values.name,

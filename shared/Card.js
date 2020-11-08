@@ -6,7 +6,7 @@ import {globalStyles} from '../styles/global';
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 
-export default function Card({img}){
+export default function Card({img,name}){
     const [isFavorite, setFavorite] = useState('false');
     const Favorite = () =>{
         setFavorite(!isFavorite);
@@ -22,7 +22,7 @@ export default function Card({img}){
                     </TouchableOpacity>
                 </View>
              </View>
-            <Text style={{...globalStyles.sub1, marginLeft:"3.5%",marginTop:'2.8%'}}>Outback SteakHouse</Text>
+    <Text style={{...globalStyles.sub1, marginLeft:"3.5%",marginTop:'2.8%'}}>{name}</Text>
             <View style={styles.rowContainerTipo}>
                 <Text style={{...globalStyles.legenda1,color:"#404040",paddingRight: "1.5%"}}>SteakHouse • 3,5km •</Text>
                 <Image source={require('../assets/icons/coupon.png')} style={{marginRight:"0.6%"}} />

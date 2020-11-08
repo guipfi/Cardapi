@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image,KeyboardAvoidingView, TextInput} from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {View, Text,StyleSheet,ScrollView, KeyboardAvoidingView, Alert} from 'react-native';
 import {firebase} from '../utils/firebase';
+import Loading from '../shared/Loading'
+
+
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -20,14 +21,28 @@ const UserSchema  = yup.object({
 
 export default function MyData({navigation}){
     const user = firebase.auth().currentUser
+    const [isDelete,setDelete] = useState(false);
     const [userData,setUserData] = useState('')
     const [isLoading, setLoading] = useState(true)
     const [hidePass, setHidePass] = useState(true);
     const [hidePassConfirm, setHidePassConfirm] = useState(true);
     const [hideOldPass, setHideOldPass] = useState(true);
     const [errorMsg, setError] = useState(''); 
+    
+    const  deleteUser = () =>{
+        user.delete().then(
+            firebase.database().ref('users/'+user.uid).remove().then(() =>{
+                navigation.navigate('Login')
+                Alert.alert('Usuário Excluído','Sua conta foi excluída')
+            })
+        )
+    }
 
     useEffect(() => {
+        if(isDelete){
+            deleteUser()
+            return;
+        }
         const ref = firebase.database().ref('users/'+user.uid);
         const listener = ref.on('value', snapshot => {
             const fetchedTasks = [];
@@ -68,7 +83,8 @@ export default function MyData({navigation}){
 
                                 firebase.database().ref("/users/"+user.uid+"/profile/").set({
                                     'name': values.name,
-                                    'phone': values.phone
+                                    'phone': values.phone,
+                                    'cpf': userData[0].cpf
                                 })
                                 
                                 user.updateEmail(values.email)
@@ -111,7 +127,7 @@ export default function MyData({navigation}){
                                 <Text style={{color:"#FAFAFA"}}>Alterar</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => setDelete(true)}>
                             <View style={{flexDirection:"row"}}>
                                 <Text style={{...globalStyles.body3, marginTop:"14.06%",color:"#A60400"}}>Excluir Conta</Text>
                             </View>
@@ -127,9 +143,7 @@ export default function MyData({navigation}){
     
     );} else{
         return(
-            <View>
-                <Text>Carregando...</Text>
-            </View>
+            <Loading />
         )
     }
 }
