@@ -10,7 +10,7 @@ import Loading from '../shared/Loading'
 
 const UserSchema  = yup.object({
     name: yup.string().required('Digite um nome válido').min(2,'Digite um nome maior'),
-    cnpj: yup.string().min(114,'O cnpj deve ter 14 números').max(11,'O cnpj deve ter 14 números'),
+    cnpj: yup.string().min(14,'O cnpj deve ter 14 números').max(14,'O cnpj deve ter 14 números'),
     phone: yup.string().required('Digite um telefone válido'),
     passwordConfirm: yup.string().oneOf([yup.ref('password'),null], "As senhas devem ser iguais!"),
 })
@@ -36,7 +36,7 @@ export default function RestaurantRegister({navigation}) {
                         firebase.auth().currentUser.updateProfile({
                             displayName:values.name,
                         }).then(() =>{
-                            firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/profile').set({
+                            firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
                                 name:values.name,
                                 cnpj:values.cnpj,
                                 phone:values.phone,
