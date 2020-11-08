@@ -7,7 +7,7 @@ import Card from '../shared/Card';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 
-export default function Home(){
+export default function Home({navigation}){
     const dataHighlight = [require('../assets/images/home_card_subway.png'),require('../assets/images/home_mcdonalds.png')];
     const dataCard = [{img:require('../assets/images/home_outback_fachada.png'), key:'1' },{img:require('../assets/images/restaurantes_favoritos_tandoor.png'), key:'2'},{img:require('../assets/images/home_outback_fachada.png'), key:'3'}]
     const [activeSlide,setActive] = useState(0)

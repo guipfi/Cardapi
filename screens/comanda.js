@@ -14,43 +14,43 @@ import Consumo from '../shared/Consumo';
 import {globalStyles} from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Comanda(){
-  const [modalVisible, setModalVisible] = useState(false);
+export default function Comanda({navigation}){
 
   return (
-    
-    <View style={globalStyles.container}>
       <Modal
         style= {styles.modalView}
         swipeToClose={false}
-        swipeThreshold={300} // The threshold to reach in pixels to close the modal
-        backdropOpacity={0.1}
+        backdropOpacity={0.5}
         position= {"bottom"}
-        isOpen= {modalVisible}
-        onClosed= {() => setModalVisible(false)}
+        isOpen={true}
+        onClosed={() => navigation.goBack()}
       >
+      <View style={{...globalStyles.container}}>
       <FlatList
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
-          <View style={{display: 'flex', alignSelf: 'flex-end', margin: '-5%'}}>
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-              >
-              <Text style={{...globalStyles.h4, padding: '5%'}}>X</Text>
-            </TouchableOpacity>
+          <View style={{display: 'flex', flexDirection: 'row',  justifyContent: 'space-between', alignItems: 'center', marginBottom: 5, marginTop: 5}}>
+            <View>
+              <Text style={{...globalStyles.h5}}>Atalhos</Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack()
+                }}
+                >
+                <Text style={{...globalStyles.h4, padding: '5%'}}>X</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           
           <View>
-          {/* Seção atalhos */}
-          <Text style={{...globalStyles.h5, marginBottom: 15}}>Atalhos</Text>
-          
+          {/* Seção atalhos */} 
           {/* 3 botões */}
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: 94}}> 
             {/* Botão cardápio */}
-            <View style={{height: '100%', width: '30%'}}>
+            <View style={{height: '100%', width: '29%'}}>
               <View style={styles.buttonShadow}>
                 <TouchableOpacity
                   onPress={() => {
@@ -122,17 +122,8 @@ export default function Comanda(){
         </View>
         </View>
       }/>
+      </View>
       </Modal>
-
-        <TouchableOpacity
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-        <Text>Show Modal</Text>
-      </TouchableOpacity>
-    </View>
 
 );
 };
@@ -140,11 +131,10 @@ export default function Comanda(){
 const styles = StyleSheet.create({
   
   modalView: {
-    height: "90%",
+    height: "88%",
     backgroundColor: globalStyles.branco2.color,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 35,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
