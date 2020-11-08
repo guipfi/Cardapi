@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
+import NavBar from './shared/NavBar'
 import {AppLoading} from 'expo';
-import NavBar from './shared/NavBar';
-import Register from './screens/register'
-import Login from './screens/login';
 import {LoginNavigator} from './routes/loginstack'
+import {firebase} from './utils/firebase';
 
 const getFonts = () => Font.loadAsync({
   'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -13,12 +12,31 @@ const getFonts = () => Font.loadAsync({
   'Roboto-Italic': require('./assets/fonts/Roboto-Italic.ttf')
 })
 
+
 export default function App() {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
   const [fontsLoaded, setFontsLoaded] = useState(false)
+
+  function onAuthStateChanged(user){
+    setUser(user);
+    if(initializing) setInitializing(false);
+  }
+
+  useEffect(() =>{
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  },[]);
+
+  if(initializing) return null;
+
     if(fontsLoaded){
-      return(
-          <LoginNavigator />
-      );
+      if(user){
+        return(<LoginNavigator isLogged = {true} />)
+      }
+      else{
+        return (<LoginNavigator isLogged = {false} />)
+      }
     } else{
       return(
         <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />

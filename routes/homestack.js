@@ -1,17 +1,15 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack';
+
 import Home from '../screens/home';
-import Profile from '../screens/profile';
-import Search from '../screens/search';
-import Notification from '../screens/notification';
-import { ProfileStack } from './profilestack';
+import Comanda from '../screens/comanda';
 
 const {Navigator, Screen} = createStackNavigator();
 
 const HomeNavigator = () => (
     <Navigator initialRouteName="Início" headerMode="screen">
-        <Screen name="Início" options={{headerShown: false}} component ={Home} />
-        <Screen name="Meu Perfil" component={ProfileStack} />
+        <Screen name="Início" options={{headerShown: false, unmountOnBlur: true}} component ={Home} />
+        <Screen name="VerComanda" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}}/>
     </Navigator>
 
 )

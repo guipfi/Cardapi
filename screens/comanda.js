@@ -2,55 +2,55 @@ import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
-  TextInput,
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
-import Carrinho from './carrinho';
+import Carrinho from '../shared/Carrinho';
+import Participantes from '../shared/Participantes';
+import Consumo from '../shared/Consumo';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Scan(){
-  const [modalVisible, setModalVisible] = useState(false);
+export default function Comanda({navigation}){
 
   return (
-    
-    <View style={globalStyles.container}>
       <Modal
         style= {styles.modalView}
         swipeToClose={false}
-        swipeThreshold={300} // The threshold to reach in pixels to close the modal
-        backdropOpacity={0.1}
+        backdropOpacity={0.5}
         position= {"bottom"}
-        isOpen= {modalVisible}
-        onClosed= {() => setModalVisible(false)}
+        isOpen={true}
+        onClosed={() => navigation.goBack()}
       >
+      <View style={{...globalStyles.container}}>
       <FlatList
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
-          <View style={{display: 'flex', alignSelf: 'flex-end', margin: '-5%'}}>
-            <TouchableHighlight
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-              >
-              <Text style={{...globalStyles.h4, padding: '5%'}}>X</Text>
-            </TouchableHighlight>
+          <View style={{display: 'flex', flexDirection: 'row',  justifyContent: 'space-between', alignItems: 'center', marginBottom: 5, marginTop: 5}}>
+            <View>
+              <Text style={{...globalStyles.h5}}>Atalhos</Text>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack()
+                }}
+                >
+                <Text style={{...globalStyles.h4, padding: '5%'}}>X</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           
-          <View style={{height: 640}}>
-          {/* Seção atalhos */}
-          <Text style={{...globalStyles.h5, marginBottom: 15}}>Atalhos</Text>
-          
+          <View>
+          {/* Seção atalhos */} 
           {/* 3 botões */}
-          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: '12%'}}> 
+          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', height: 94}}> 
             {/* Botão cardápio */}
-            <View style={{height: '100%', width: '30%'}}>
+            <View style={{height: '100%', width: '29%'}}>
               <View style={styles.buttonShadow}>
                 <TouchableOpacity
                   onPress={() => {
@@ -106,24 +106,24 @@ export default function Scan(){
           </View>
 
         <Text style={{...globalStyles.h5, marginBottom: 15, marginTop: 40}}>Meu carrinho</Text> 
+    
         <Carrinho />
 
+        <View style={{borderWidth: '1',  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
+          
+        <Participantes />
 
+        <View style={{marginTop: 30}} />
+        
+        <Consumo />
+        
+        <View style={{marginBottom: 100}}></View>
 
         </View>
         </View>
       }/>
+      </View>
       </Modal>
-
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-        <Text>Show Modal</Text>
-      </TouchableHighlight>
-    </View>
 
 );
 };
@@ -131,11 +131,10 @@ export default function Scan(){
 const styles = StyleSheet.create({
   
   modalView: {
-    height: "90%",
+    height: "88%",
     backgroundColor: globalStyles.branco2.color,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 35,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonStyle: {
-    backgroundColor: globalStyles.vermelho1.color,
+    backgroundColor: globalStyles.vermelho3.color,
     borderRadius: 5,
     flex: 1,
     justifyContent: 'center',
