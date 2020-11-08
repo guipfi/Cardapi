@@ -6,18 +6,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function PopUpMsg({message, isOpen, isOk, onPress}){
-
+export default function PopUpMsg({message, isOpen, isOk, onClosed}){
     return(
         <Modal
         style={styles.modalView}
         backdropOpacity={0.5}
-        isOpen={close}>
-            <TouchableOpacity style={{marginTop:"2.34375%", marginLeft:"90%"}} onPress={onPress}>
-                <MaterialIcons  name="close" size={20} color="black" />
-            </TouchableOpacity>
-            <View style={{marginTop:"1%", alignItems:'center'}}>
-                {isOk ? <Image source={require('../assets/icons/trueOK.png')}  />:<Image source={require('../assets/icons/falseOK.png')} />}
+        onClosed={onClosed}
+        isOpen={isOpen}>
+            <View style={{marginTop:"15%", alignItems:'center'}}>
+                {isOk ? (<Image source={require('../assets/icons/trueOK.png')}  />):(<Image source={require('../assets/icons/falseOK.png')} />)}
                 <Text style={{...globalStyles.sub2,marginTop:"5%",textAlign:'center', paddingBottom:"7%",paddingRight:"7%",paddingLeft:"7%"}}>{message}</Text>
             </View>
         </Modal>
