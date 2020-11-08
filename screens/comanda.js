@@ -109,7 +109,7 @@ export default function Comanda({navigation}){
     
         <Carrinho />
 
-        <View style={{borderWidth: '1',  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
+        <View style={{borderWidth: 1,  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
           
         <Participantes />
 

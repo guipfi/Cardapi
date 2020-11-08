@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image,Alert} from 'react-native';
+import {View, Text,StyleSheet,ScrollView,Image,Alert,Platform} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
@@ -17,10 +17,12 @@ export default function Profile({navigation}){
     const [image,setImage] = useState(null)
 
     useEffect(() => {
+        setUser(firebase.auth().currentUser)
         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
             setImage(url);
         })
-    }, []);
+        
+    }, [user]);
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -40,36 +42,36 @@ export default function Profile({navigation}){
     
         if (!result.cancelled) {
           setImage(result.uri);
-        }
 
-        const blob = await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-              resolve(xhr.response);
-            };
-            xhr.onerror = function(e) {
-              console.log(e);
-              reject(new TypeError('Network request failed'));
-            };
-            xhr.responseType = 'blob';
-            xhr.open('GET', result.uri, true);
-            xhr.send(null);
-          });
-        
-        if(user.photoURL = ''){
-            user.updateProfile({
-                photoURL:'.'
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                resolve(xhr.response);
+                };
+                xhr.onerror = function(e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+                };
+                xhr.responseType = 'blob';
+                xhr.open('GET', result.uri, true);
+                xhr.send(null);
+            });
+            
+            if(user.photoURL = ''){
+                user.updateProfile({
+                    ...user,
+                    photoURL:'.'
+                })
+            }
+            
+            const update = await user.updateProfile({
+                ...user.currentUser,
+                photoURL:user.uid
             })
-        }
-        
-        const update = await user.updateProfile({
-            ...user.currentUser,
-            photoURL:user.uid
-        })
-        const upload = await firebase.storage().ref(user.uid).put(blob)
+            const upload = await firebase.storage().ref(user.uid).put(blob)
 
-        blob.close()
-
+            blob.close()
+    }
       };
 
     const toData = () => {

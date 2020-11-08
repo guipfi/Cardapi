@@ -78,6 +78,7 @@ export default function MyData({navigation}){
                                 user.updatePassword(values.newPassword)
 
                                 user.updateProfile({
+                                    ...user,
                                     displayName: values.name
                                 })
 
@@ -87,7 +88,8 @@ export default function MyData({navigation}){
                                     'cpf': userData[0].cpf
                                 })
                                 
-                                user.updateEmail(values.email)
+                                user.updateEmail(values.email);
+                                navigation.navigate('MeuPerfil', () => {setUser(user)})
                         })
                     } catch(e){
                         console.log(e.code)

@@ -21,7 +21,14 @@ export default function Header() {
                 />
             </View>
             <View style={styles.headerText}>
-                <Text style={{...globalStyles.sub1}}>Cantina Tradicional de Santos</Text>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                    <Text style={{...globalStyles.sub1}}>Cantina Tradicional de Santos</Text>
+                    <View>
+                    <TouchableOpacity onPress={Favorite} style={styles.favorite}>
+                        {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#000"/> : <MaterialIcons name="favorite" size={25} color="#000"/>  } 
+                    </TouchableOpacity>    
+                    </View>
+                </View>
                 <View style={styles.subdetail}>
                     <Text style={{...globalStyles.legenda1}}>Massas Italianas</Text>
                     <Text style={{...globalStyles.legenda1}}>3,7km</Text>
@@ -42,11 +49,7 @@ export default function Header() {
                     </View>
                 </View>
             </View>
-            <View>
-                <TouchableOpacity onPress={Favorite} style={styles.favorite}>
-                    {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#000"/> : <MaterialIcons name="favorite" size={25} color="#000"/>  } 
-                </TouchableOpacity>    
-            </View>
+
         </View>
     )
 }
@@ -74,11 +77,8 @@ const styles = StyleSheet.create({
     },
    
     headerText: {
-        flex: 1,
+        marginLeft:"13.4%",
         flexDirection: 'column',
-        width: 100,
-        marginLeft: 30,
-        maxWidth: 220
     },
 
     favorite: {
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     },
     subdetail: {
         flex: 1, 
-        marginLeft: 1,
         flexDirection: "row", 
         justifyContent: "space-between", 
         maxWidth: 160,
