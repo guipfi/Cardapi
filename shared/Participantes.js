@@ -22,9 +22,9 @@ export default function Participantes({participantes, setParticipantes}){
   }
 
   const atualizarVisibilidade = (item) => {
-    let cpf = item.id;
+    let cpf = item.cpf;
     let newParticipantes = [...participantes];
-    const index = newParticipantes.findIndex(e => e.id == cpf ? true : false);
+    const index = newParticipantes.findIndex(e => e.cpf == cpf ? true : false);
     newParticipantes[index].visivel == "true" ? (
       newParticipantes[index].visivel = "false"
     ) : (
@@ -66,7 +66,7 @@ export default function Participantes({participantes, setParticipantes}){
             </View>       
           )}
           listKey={'participantes'}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.cpf}
         />
       </View>
   );

@@ -12,7 +12,7 @@ const HomeNavigator = () => (
     <Navigator initialRouteName="Início" headerMode="screen">
         <Screen name="Início" options={{headerShown: false, unmountOnBlur: true}} component ={Home} />
         <Screen name="Scan" component={Scan} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
-        <Screen name="Comanda3" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
+        <Screen name="Comanda" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
         <Screen name="PageStack" options={{headerShown: false, unmountOnBlur: true}} component ={PageStack} />        
     </Navigator>
 
