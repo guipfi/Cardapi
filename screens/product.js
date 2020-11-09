@@ -75,13 +75,13 @@ export default function Product({navigation}) {
 
                         <View style={{flexDirection: 'row', justifyContent: "space-between"}}>
                             <View style={{flexDirection: 'row', margin: 10, alignItems: "center", justifyContent: "space-between"}}>
-                                <TouchableOpacity onPress={() => {setQtd(qtd-1); setTotal(total + preco*(qtd-1))}}>
+                                <TouchableOpacity onPress={() => {setQtd(qtd-1); setTotal(total - preco)}}>
                                     <MaterialIcons name="remove-circle-outline" size={30} color="#262626"/>
                                 </TouchableOpacity>
                                 <View style={{ height: 30, width: 30, justifyContent: "center", alignItems: 'center', backgroundColor: "#262626", borderRadius: 8, marginRight: 10, marginLeft: 10}}>
                                     <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>{qtd}</Text>
                                 </View>
-                                <TouchableOpacity onPress={() => {setQtd(qtd+1); setTotal(total + preco*(qtd+1))}}>
+                                <TouchableOpacity onPress={() => {setQtd(qtd+1); setTotal(total + preco)}}>
                                     <MaterialIcons name="add-circle-outline" size={30} color="#262626"/>
                                 </TouchableOpacity>
                             </View>
