@@ -24,7 +24,7 @@ export default function Pedido(){
         swipeThreshold={300} // The threshold to reach in pixels to close the modal
         backdropOpacity={0.1}
         position= {"bottom"}
-        isOpen= {modalVisible}
+        isOpen= {true}
         onClosed= {() => setModalVisible(false)}
       >
       <FlatList
@@ -47,18 +47,9 @@ export default function Pedido(){
         </View>
       }/>
       </Modal>
-
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-        <Text>Show Modal</Text>
-      </TouchableHighlight>
     </View>
 
-);
+  );
 };
 
 const styles = StyleSheet.create({

@@ -2,6 +2,7 @@ import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from '../screens/home';
+import Scan from '../screens/scan';
 import Comanda from '../screens/comanda';
 
 const {Navigator, Screen} = createStackNavigator();
@@ -9,7 +10,8 @@ const {Navigator, Screen} = createStackNavigator();
 const HomeNavigator = () => (
     <Navigator initialRouteName="Início" headerMode="screen">
         <Screen name="Início" options={{headerShown: false, unmountOnBlur: true}} component ={Home} />
-        <Screen name="VerComanda" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}}/>
+        <Screen name="Scan" component={Scan} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}}/>
+        <Screen name="Comanda" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}}/>
     </Navigator>
 
 )

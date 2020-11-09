@@ -5,6 +5,7 @@ import {Formik} from 'formik';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
+import Modal from "react-native-modalbox";
 
 export default function Login({navigation}){
     const [errorMsg, setError] = useState('');
@@ -24,12 +25,17 @@ export default function Login({navigation}){
 
     return(
         <View style={{flex:1}}>
-            <View style={{flex:1}}>
-                <Image source={require('../assets/images/login_bonecos.png')} style={{width:"100%"}}/>
-            </View>
             <View style={styles.containerForms}>
-                 <KeyboardAvoidingView
-                behavior='position'>     
+            <Modal
+            style= {{...styles.modalView}}
+            swipeToClose={false}
+            position= {"bottom"}
+            isOpen={true}
+            backdropPressToClose={false}
+            backdrop={false}
+            onClosed={() => ToHome()}
+            >   
+               
                 <Formik
                     initialValues={{email:'', password:''}}
                     onSubmit={ async (values) => {
@@ -63,7 +69,7 @@ export default function Login({navigation}){
                                     <TouchableOpacity onPress={ToHome}>
                                         <MaterialIcons style={{alignSelf:"flex-end", marginTop:"2.34375%",padding:1}} name="close" size={22} color="black" />
                                     </TouchableOpacity>
-                                    <Text style={{...globalStyles.h5, marginBottom:"3.125%" ,color:"#740300", alignSelf:"center" }}>Login</Text>
+                                    <Text style={{...globalStyles.h5, marginBottom:"3.125%" ,color:"#740300", alignSelf:"center" }}>Login</Text>  
                                     
                                     <TextInput 
                                     style={globalStyles.normalInput}
@@ -102,8 +108,12 @@ export default function Login({navigation}){
                         }
                     }}
                 </Formik>
-                </KeyboardAvoidingView>
-            </View> 
+                </Modal>
+                <View>
+                
+            </View>     
+            <Image source={require('../assets/images/login_bonecos.png')} style={{width:"100%", height: '60%'}}/>
+                </View> 
         </View>
     );
 }
@@ -119,4 +129,16 @@ const styles = StyleSheet.create({
         backgroundColor:"white",
         borderRadius:16,
     },
+    modalView: {
+        height: "50%",
+        backgroundColor: globalStyles.branco2.color,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.2,
+      }, 
 })

@@ -17,9 +17,10 @@ export default function Profile({navigation}){
     const [image,setImage] = useState(null)
 
     useEffect(() => {
+        if(user) {
         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
             setImage(url);
-        })
+        })}
     }, []);
 
     const pickImage = async () => {

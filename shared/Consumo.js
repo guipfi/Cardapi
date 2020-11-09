@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,80 +11,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Consumo(){
-  const [consumo, setConsumo] = useState([
-    {
-    "visivel": "true",
-    "cpf": "88765437890",
-    "nome": "João Almeida",
-    "foto": "JA",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  }]},
-  {
-    "visivel": "true",
-    "cpf": "44565437985",
-    "nome": "Gabriela Rodrigues",
-    "foto": "GR",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  },
-  {
-    "id": "3",
-    "produto": "Pastel doce",
-    "quantidade": "2",
-    "valor_uni": "8",
-    "observacao": ""
-  }]
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437654",
-    "nome": "Giulia Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437655",
-    "nome": "Gustavo Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "false",
-    "cpf": "13265437653",
-    "nome": "Gabriel Fernandes",
-    "foto": "GF",
-    "pedido": []
-  },
-  ]);
-
+const Consumo = ({consumo}) => {
+  
   const renderHeader = () => {
     return(
       <View>
         <Text style={{...globalStyles.h5, ...globalStyles.preto2, marginBottom: 10, marginLeft: '3%'}}>Pedidos realizados</Text>
-        <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color}} />
+        <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginBottom: 10}} />
       </View>
     );
   }
@@ -121,7 +54,7 @@ export default function Consumo(){
     total = total.toFixed(2);
     return (
       <View>
-        <View style={{marginBottom: 30, marginTop: 30}}>
+        <View style={{marginBottom: 25, marginTop: 20}}>
           <Text style={{...globalStyles.sub2, textAlign: 'right'}}>TOTAL DA COMANDA: <Text style={globalStyles.sub1}>R$ {total}</Text></Text>
         </View>
         <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color}} />
@@ -140,14 +73,13 @@ export default function Consumo(){
   return (
       <View>
         <FlatList 
-          ItemSeparatorComponent={renderSeparator}
           scrollEnabled={false}
           data={consumo}
           ListHeaderComponent={renderHeader}
           ListFooterComponent={renderFooterConsumo}
           renderItem={({item}) => (
             item.visivel=="true" ? (
-            <View style={{marginBottom: '5%', marginTop:'5%', marginLeft: '3%'}}>
+            <View style={{marginBottom: '3%', marginTop:'3%', marginLeft: '3%'}}>
               <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 {/* Foto */}
                 <View style={{width: 60, height: 60, borderRadius: 360, backgroundColor: globalStyles.branco5.color, justifyContent: 'center', alignItems: 'center'}}>
@@ -185,6 +117,7 @@ export default function Consumo(){
                       
                     </View> 
                     )}/>
+                   <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginTop: 20}} />
                   </View>
                   </View>
                     ) : (null)
@@ -195,3 +128,5 @@ export default function Consumo(){
       </View>
   );
 };
+
+export default Consumo;
