@@ -35,6 +35,7 @@ export default function RestaurantRegister({navigation}) {
                     await firebase.auth().createUserWithEmailAndPassword(values.email,values.password).then((response) =>{
                         firebase.auth().currentUser.updateProfile({
                             displayName:values.name,
+                            photoURL:'default_profile.png'
                         }).then(() =>{
                             firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
                                 name:values.name,

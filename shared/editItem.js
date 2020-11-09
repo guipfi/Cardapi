@@ -8,8 +8,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 
-
-export default function NewItem(){
+export default function EditItem(){
     const UserSchema  = yup.object({
         name: yup.string().required('Digite um nome válido').min(2,'Digite um nome maior'),
         desc: yup.string().required('Digite um telefone válido'),
@@ -51,9 +50,12 @@ export default function NewItem(){
                                 </TouchableOpacity>
                             </View>
 
-                            <View style={{alignItems:"center", marginTop:"15%"}}>
+                            <View style={{alignItems:"center", marginTop:"15%", flexDirection:'row', justifyContent:'center'}}>
+                                <TouchableOpacity style={{flexDirection:'row', borderWidth:1, borderColor:"#A60400", borderRadius:5, marginRight:10, justifyContent:'center', alignItems:'center', alignContent:'center',height:40,minWidth:"33.33%"}} onPress={props.handleSubmit}>
+                                    <Text style={{color:"#A60400",...globalStyles.body1}}>Excluir</Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
-                                    <Text style={{color:"#FAFAFA",...globalStyles.body1}}>Adicionar</Text>
+                                    <Text style={{color:"#FAFAFA",...globalStyles.body1}}>Salvar</Text>
                                 </TouchableOpacity>
                             </View>
 

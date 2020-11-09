@@ -29,7 +29,7 @@ export default function NewIngredient(){
                             <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
                             <View style={{alignItems:"center", marginTop:"72.9%"}}>
                                 <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
-                                    <Text style={{color:"#FAFAFA"}}>Adicionar</Text>
+                                    <Text style={{color:"#FAFAFA", ...globalStyles.body1}}>Adicionar</Text>
                                 </TouchableOpacity>
                             </View>
                         </KeyboardAvoidingView>

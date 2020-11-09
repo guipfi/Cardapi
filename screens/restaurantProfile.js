@@ -17,14 +17,14 @@ export default function Profile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
     const [image,setImage] = useState(null)
 
-    // useEffect(() => {
-    //     if(user){
-    //         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
-    //             setImage(url);
-    //         })
-    //     }
+     useEffect(() => {
+         if(user){
+             firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
+                 setImage(url);
+             })
+         }
         
-    // }, []);
+     }, []);
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
