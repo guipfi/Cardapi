@@ -8,8 +8,6 @@ import * as ImagePicker from 'expo-image-picker';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import PopUpMsg from '../shared/PopUpMsg';
-
 
 
 
@@ -139,7 +137,7 @@ export default function Profile({navigation}){
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Meu Cardápio')}>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Ajuda</Text>
                 </View>

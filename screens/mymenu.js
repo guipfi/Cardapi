@@ -52,7 +52,7 @@ export default function MyMenu(){
                         <Text style={globalStyles.body4}>{item.item.media_avaliacao}({item.item.num_avaliacao})</Text>
                     </View> 
                 </View>
-                <Image style={{width: "36%", height:"auto"}} source={item.item.foto}/>
+                <Image style={{width: "36%", height:"auto",resizeMode:'stretch'}} source={item.item.foto}/>
             </View>
         );
     }

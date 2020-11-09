@@ -4,13 +4,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import {globalStyles} from '../styles/global';
 
-export default function InputNormal({label,placeholder,onChangeText,value, keyboardType,iconName, onPress,editable, secureTextEntry}){
+export default function InputNormal({label,placeholder,onChangeText,value, keyboardType,iconName, onPress,editable, secureTextEntry, multiline}){
     if(iconName){
         return(
-            <View style={styles.inputLabel}>
+            <View style={{...styles.inputLabel}}>
                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>{label}</Text>
                 <View style={styles.passwordEye}>
                     <TextInput 
+                        multiline={multiline}
                         style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
                         placeholder={placeholder}
                         onChangeText={onChangeText}
