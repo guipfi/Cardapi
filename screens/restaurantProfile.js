@@ -73,7 +73,7 @@ export default function Profile({navigation}){
       };
 
     const toData = () => {
-        navigation.navigate('Meus Dados')
+        navigation.navigate('Minhas Infos')
     }
 
     const toAbout = () => {
@@ -82,6 +82,10 @@ export default function Profile({navigation}){
     
     const toFavorite = () =>{
         navigation.navigate('Restaurantes Favoritos')
+    }
+
+    const toMenu = () =>{
+        navigation.navigate('Meu Cardapio')
     }
 
     useEffect(() =>{
@@ -129,12 +133,12 @@ export default function Profile({navigation}){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
+                    <TouchableOpacity onPress={toMenu}>
                     <Text style={globalStyles.body1}>Meu Cardápio</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
-                    <TouchableOpacity onPress={toFavorite}>
                         <Text style={globalStyles.body1}>Conquistas</Text>
-                    </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
