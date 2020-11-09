@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,67 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Consumo(){
-  const [participantes, setParticipantes] = useState([
-    {
-    "visivel": "true",
-    "cpf": "88765437890",
-    "nome": "João Almeida",
-    "foto": "JA",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  }]},
-  {
-    "visivel": "true",
-    "cpf": "44565437985",
-    "nome": "Gabriela Rodrigues",
-    "foto": "GR",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  }]
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437654",
-    "nome": "Giulia Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437655",
-    "nome": "Giulia Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "false",
-    "cpf": "13265437653",
-    "nome": "Giulia Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  ]);
+export default function Participantes({participantes, setParticipantes}){
 
   const renderHeader = () => {
     return(

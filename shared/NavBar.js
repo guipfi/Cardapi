@@ -32,7 +32,7 @@ export default function NavBar({navigation}) {
                 <Tab.Screen name="Comanda" component={Comanda} listeners={({ navigation}) => ({
                  tabPress: e => {
                     e.preventDefault();
-                    navigation.navigate('VerComanda');
+                    navigation.navigate('Scan');
                  }
   })} options = {{tabBarLabel: () => (<Text style={style.comandaStyle}>Comanda</Text>),tabBarIcon: () => (<View style={{position:'absolute', bottom: '0%', height: 65, width: 65, borderRadius: 58, backgroundColor: '#590B09',justifyContent: 'center', alignItems: 'center',top:'-12%'}}><QrCode /></View>)}} />
                 <Tab.Screen name="Notificações" component={Notification} options = {{ tabBarIcon: ({focused}) => focused ? Icon('notifications') :  Icon('notifications-none') }}/>

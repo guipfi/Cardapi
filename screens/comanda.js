@@ -16,6 +16,76 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Comanda({navigation}){
 
+  const [comanda, setComanda] = useState([
+    {
+    "visivel": "false",
+    "cpf": "88765437890",
+    "nome": "João Almeida",
+    "foto": "JA",
+    "pedido": [{
+    "id": "0",
+    "produto": "Coca-Cola",
+    "quantidade": "1",
+    "valor_uni": "6.00",
+    "observacao": ""
+  },{
+    "id": "1",
+    "produto": "Pastel de frango milho e catupiry",
+    "quantidade": "2",
+    "valor_uni": "7.25",
+    "observacao": "Por favor, retirar o milho e enviar vinagrete"
+  }]},
+  {
+    "visivel": "true",
+    "cpf": "44565437985",
+    "nome": "Gabriela Rodrigues",
+    "foto": "GR",
+    "pedido": [{
+    "id": "0",
+    "produto": "Coca-Cola",
+    "quantidade": "1",
+    "valor_uni": "6.00",
+    "observacao": ""
+  },{
+    "id": "1",
+    "produto": "Pastel de frango milho e catupiry",
+    "quantidade": "2",
+    "valor_uni": "7.25",
+    "observacao": "Por favor, retirar o milho e enviar vinagrete"
+  },
+  {
+    "id": "3",
+    "produto": "Pastel doce",
+    "quantidade": "2",
+    "valor_uni": "8",
+    "observacao": ""
+  }]
+  },
+  {
+    "visivel": "true",
+    "cpf": "13265437654",
+    "nome": "Giulia Fogaça",
+    "foto": "GF",
+    "pedido": []
+  },
+  {
+    "visivel": "true",
+    "cpf": "13265437655",
+    "nome": "Gustavo Fogaça",
+    "foto": "GF",
+    "pedido": []
+  },
+  {
+    "visivel": "false",
+    "cpf": "13265437653",
+    "nome": "Gabriel Fernandes",
+    "foto": "GF",
+    "pedido": []
+  },
+  ]);
+
+  
+
   return (
       <Modal
         style= {styles.modalView}
@@ -111,11 +181,11 @@ export default function Comanda({navigation}){
 
         <View style={{borderWidth: 1,  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
           
-        <Participantes />
+        <Participantes participantes={comanda} setParticipantes={setComanda} />
 
         <View style={{marginTop: 30}} />
         
-        <Consumo />
+        <Consumo consumo={comanda} />
         
         <View style={{marginBottom: 100}}></View>
 
