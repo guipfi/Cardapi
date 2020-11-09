@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import {Text, View, StyleSheet, Image} from 'react-native';
 import Modal from "react-native-modalbox";
-import { MaterialIcons } from '@expo/vector-icons'; 
 // Estilo Global
 import {globalStyles} from '../styles/global';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function PopUpMsg({message, isOpen, isOk, onClosed}){
     return(
@@ -24,8 +22,7 @@ export default function PopUpMsg({message, isOpen, isOk, onClosed}){
 const styles = StyleSheet.create({
     modalView: {
         flex:1,
-
-        maxHeight: "30%",
+        maxHeight: "40%",
         width:"91%",
         alignContent:'center',
         alignItems:"center",
