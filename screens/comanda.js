@@ -10,7 +10,6 @@ import Carrinho from '../shared/Carrinho';
 import Participantes from '../shared/Participantes';
 import Consumo from '../shared/Consumo';
 import PopUpMsg from '../shared/PopUpMsg'
-import {firebase} from '../utils/firebase';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -18,52 +17,73 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Comanda({navigation}){
 
-  const [comanda, setComanda] = useState([]);
-  const [codigo, setCodigo] = useState(0);
-
-  useEffect(() => {    
-    
-    const user = firebase.auth().currentUser;
-
-    let aux;
-
-    if (user) {
-      console.log("olá")
-      firebase.database().ref('users/'+user.uid+"/comanda").on('value', snapshot => {
-      let codComanda = snapshot.val();
-      console.log(snapshot);
-      console.log(codComanda);
-      setCodigo(codComanda);
-      console.log(codigo);
-    }, []);
-    setCodigo(aux);
-
-    console.log("olá2")
-    console.log(codigo);
-    if(!codigo) {
-      navigation.pop();
-      navigation.navigate('Scan');
-    } else {
-      firebase.database().ref('comandas/'+codigo).on('value', snapshot => {
-      const fetchedComanda = [];
-      snapshot.forEach(childSnapshot => {
-          const key = childSnapshot.key;
-          const data = childSnapshot.val();
-          fetchedTasks.push({ id: key, ...data });
-          console.log(childSnapshot);
-      });
-      setComanda(fetchedComanda);
-      console.log(comanda);
-    })
-  }
-
-    } else {
-      alert("Você precisa estar logado para ter acesso a comanda!");
-      navigation.pop();
-    }
-
-  });
-
+  const [comanda, setComanda] = useState([
+    {
+    "visivel": "false",
+    "cpf": "88765437890",
+    "nome": "João Almeida",
+    "foto": "JA",
+    "pedido": [{
+    "id": "0",
+    "produto": "Coca-Cola",
+    "quantidade": "1",
+    "valor_uni": "6.00",
+    "observacao": ""
+  },{
+    "id": "1",
+    "produto": "Pastel de frango milho e catupiry",
+    "quantidade": "2",
+    "valor_uni": "7.25",
+    "observacao": "Por favor, retirar o milho e enviar vinagrete"
+  }]},
+  {
+    "visivel": "true",
+    "cpf": "44565437985",
+    "nome": "Gabriela Rodrigues",
+    "foto": "GR",
+    "pedido": [{
+    "id": "0",
+    "produto": "Coca-Cola",
+    "quantidade": "1",
+    "valor_uni": "6.00",
+    "observacao": ""
+  },{
+    "id": "1",
+    "produto": "Pastel de frango milho e catupiry",
+    "quantidade": "2",
+    "valor_uni": "7.25",
+    "observacao": "Por favor, retirar o milho e enviar vinagrete"
+  },
+  {
+    "id": "3",
+    "produto": "Pastel doce",
+    "quantidade": "2",
+    "valor_uni": "8",
+    "observacao": ""
+  }]
+  },
+  {
+    "visivel": "true",
+    "cpf": "13265437654",
+    "nome": "Giulia Fogaça",
+    "foto": "GF",
+    "pedido": []
+  },
+  {
+    "visivel": "true",
+    "cpf": "13265437655",
+    "nome": "Gustavo Fogaça",
+    "foto": "GF",
+    "pedido": []
+  },
+  {
+    "visivel": "false",
+    "cpf": "13265437653",
+    "nome": "Gabriel Fernandes",
+    "foto": "GF",
+    "pedido": []
+  },
+  ]);
 
   const dealPopUp = () => {
     alert("Aguarde... O garçom irá até a sua mesa!");

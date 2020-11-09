@@ -10,23 +10,25 @@ import {
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
 import QRCode from '../shared/QRCode';
+import {firebase} from '../utils/firebase';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { QrCode } from '../assets/icons/icons';
 
 function Scan({navigation}){
-  const [codigo, setCodigo] = useState(false);
+  
+  useEffect(() => {    
+    
+    const user = firebase.auth().currentUser;
 
-  useEffect(() => {
-    if(codigo) {
+    if (!user) {
+      alert("Você precisa estar logado para ter acesso a comanda!");
       navigation.pop();
-      navigation.navigate('Comanda');
     }
-  })
+  });
 
-  const abrirComanda = (codigoComanda) => {
-    setCodigo(codigoComanda);
+  const abrirComanda = () => {
     navigation.pop();
     navigation.navigate('Comanda');
   }
@@ -90,7 +92,7 @@ function Scan({navigation}){
         </View>
         <View style={{display: 'flex', flexDirection: 'row', marginTop: 10}}>
           <View style={{ width: '72%', height: 60 }}> 
-            <TextInput placeholder="03a54fgh2..." value={codigo} onChangeText={(text) => {setCodigo(text)}} style={{
+            <TextInput placeholder="03a54fgh2..." style={{
               paddingLeft: 20,
               width: '100%',
               height: '100%',
