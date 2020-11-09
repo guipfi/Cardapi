@@ -55,7 +55,7 @@ export default function Profile({navigation}){
                 xhr.send(null);
             });
             
-            if(user.photoURL = ''){
+            if(user.photoURL == ''){
                 user.updateProfile({
                     ...user,
                     photoURL:user.uid
@@ -82,7 +82,7 @@ export default function Profile({navigation}){
 
     useEffect(() =>{
         if(user == null){
-            return navigation.navigate('Login')
+            return navigation.replace('Login')
         }
     })
 
@@ -150,7 +150,7 @@ export default function Profile({navigation}){
                 
                 <View style={{alignItems:"center", marginTop:"9%"}}>
                 <TouchableOpacity onPress={() => {firebase.auth().signOut().then(() =>{
-                    navigation.navigate('Login')
+                    navigation.replace('Login')
                 })}}>
                     <Text style={{...globalStyles.body1, color:"#8C0A07"}}>Sair</Text>
                 </TouchableOpacity>

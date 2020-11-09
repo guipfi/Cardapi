@@ -64,7 +64,7 @@ export default function MyData({navigation}){
     if(!isLoading){
     return(
         <ScrollView>
-            <PopUpMsg message="Seus dados foram atualizados com sucesso!" onClosed={()=>navigation.navigate('MeuPerfil')} isOk={true} isOpen={modal}/>
+            <PopUpMsg message="Seus dados foram atualizados com sucesso!" onClosed={()=>navigation.navigate('Meu Perfil')} isOk={true} isOpen={modal}/>
             <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
@@ -91,7 +91,7 @@ export default function MyData({navigation}){
                                     'cpf': userData[0].cpf
                                 })
                                 
-                                user.updateEmail(values.email).then()
+                                user.updateEmail(values.email)
                                 setModal(true)
                         })
                     } catch(e){

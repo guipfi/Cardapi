@@ -13,14 +13,19 @@ import PopUpMsg from '../shared/PopUpMsg';
 
 
 
-export default function Profile({navigation}){
+export default function RestaurantProfile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
+    const [endereco, setEndereco] = useState(null)
     const [image,setImage] = useState(null)
 
      useEffect(() => {
          if(user){
              firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
                  setImage(url);
+             })
+             firebase.database().ref('restaurant/'+user.uid+"/profile/endereco").once('value', snapshot =>{
+                 var endereco = snapshot.val()
+                 setEndereco(endereco)
              })
          }
         
@@ -59,12 +64,9 @@ export default function Profile({navigation}){
                 xhr.send(null);
             });
             
-            if(user.photoURL = ''){
-                user.updateProfile({
-                    ...user,
-                    photoURL:user.uid
-                })
-            }
+            user.updateProfile({
+                photoURL:user.uid
+            })
             
             const upload = await firebase.storage().ref(user.uid).put(blob)
 
@@ -79,18 +81,14 @@ export default function Profile({navigation}){
     const toAbout = () => {
         navigation.navigate('Sobre nós')
     }
-    
-    const toFavorite = () =>{
-        navigation.navigate('Restaurantes Favoritos')
-    }
 
     const toMenu = () =>{
-        navigation.navigate('Meu Cardapio')
+        navigation.navigate('Meu Cardápio')
     }
 
     useEffect(() =>{
         if(user == null){
-            return navigation.navigate('Login')
+            return navigation.replace('Login')
         }
     })
 
@@ -118,7 +116,7 @@ export default function Profile({navigation}){
 
                     <View style={{flexDirection:'row', marginTop:"4.3%"}}>
                         <MaterialIcons style={{marginRight:"1%"}} name="room" size={16} color="black" />
-                        <Text style={globalStyles.body3}>Rua Fernando Diniz, 4222, Boqueirão - Santos/SP</Text>
+                        <Text style={globalStyles.body3}>{endereco!=null ? endereco :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
                     </View>
                     <View style={{flexDirection:'row', marginTop:"1%"}}>
                         <MaterialCommunityIcons style={{marginRight:"1%"}} name="phone" size={16} color="black" />
@@ -156,7 +154,7 @@ export default function Profile({navigation}){
                 
                 <View style={{alignItems:"center", marginTop:"9%"}}>
                 <TouchableOpacity onPress={() => {firebase.auth().signOut().then(() =>{
-                    navigation.navigate('Login')
+                    navigation.replace('Login')
                 })}}>
                     <Text style={{...globalStyles.body1, color:"#8C0A07"}}>Sair</Text>
                 </TouchableOpacity>
