@@ -8,6 +8,15 @@ import Loading from '../shared/Loading';
 
 export default function Product({navigation}) {
 
+    const [preco, setPreco] = useState(30.9);
+    const [total, setTotal] = useState(0)
+    const [qtd, setQtd] = useState(0);
+    const molhos = [17, 11];
+
+    const somaQtd = () => {
+        setQtd(qtd+1)
+    }
+
     return (  
             <FlatList 
                 ListFooterComponent= {()=> {
@@ -24,7 +33,7 @@ export default function Product({navigation}) {
                                 <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#000" />
                                 <Text style={{...globalStyles.body4}}>4,2 (42)</Text>
                             </View>
-                            <Text style={{...globalStyles.sub1}}>R$30,90</Text>
+                            <Text style={{...globalStyles.sub1}}>R${preco.toFixed(2)}</Text>
                         </View>
                         <View style={{margin: 10, textAlign: 'justify'}}>
                             <Text>Macarronada italiana da família mais tradicional da Baixada Santista, feita desde os anos 1910. É o prato mais amado da cidade. Macarrão artesanal feita na hora com molho especial usando os tomates da nossa horta.</Text>
@@ -36,7 +45,9 @@ export default function Product({navigation}) {
                                 <Text>Molho Rosê</Text>
                                 <Text>+ R$17,00</Text>
                             </View>
-                            <MaterialIcons name="add" size={25} color="#000" />
+                            <TouchableOpacity onPress={() => setTotal(total + molhos[0])}>
+                                <MaterialIcons name="add" size={25} color="#000" />
+                            </TouchableOpacity>
                         </View>
                         
                         <View style={styles.adicional}>
@@ -44,7 +55,9 @@ export default function Product({navigation}) {
                                 <Text>Molho Napolitano</Text>
                                 <Text>+ R$11,00</Text>
                             </View>
-                            <MaterialIcons name="add" size={25} color="#000" />
+                            <TouchableOpacity onPress={() => setTotal(total + molhos[1])}>
+                                <MaterialIcons name="add" size={25} color="#000" />
+                            </TouchableOpacity>                        
                         </View>
 
                         <Text style={{...globalStyles.sub1, marginLeft: 10, marginTop: 20}}>Observação</Text>
@@ -62,16 +75,20 @@ export default function Product({navigation}) {
 
                         <View style={{flexDirection: 'row', justifyContent: "space-between"}}>
                             <View style={{flexDirection: 'row', margin: 10, alignItems: "center", justifyContent: "space-between"}}>
-                                <MaterialIcons name="remove-circle-outline" size={30} color="#262626"/>
+                                <TouchableOpacity onPress={() => {setQtd(qtd-1); setTotal(total + preco*(qtd-1))}}>
+                                    <MaterialIcons name="remove-circle-outline" size={30} color="#262626"/>
+                                </TouchableOpacity>
                                 <View style={{ height: 30, width: 30, justifyContent: "center", alignItems: 'center', backgroundColor: "#262626", borderRadius: 8, marginRight: 10, marginLeft: 10}}>
-                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>1</Text>
+                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>{qtd}</Text>
                                 </View>
-                                <MaterialIcons name="add-circle-outline" size={30} color="#262626"/>
+                                <TouchableOpacity onPress={() => {setQtd(qtd+1); setTotal(total + preco*(qtd+1))}}>
+                                    <MaterialIcons name="add-circle-outline" size={30} color="#262626"/>
+                                </TouchableOpacity>
                             </View>
                             <TouchableOpacity style={{...globalStyles.mediumButtonStyle, height: 30, width: 180, marginRight: 10}}>
                                 <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                                     <Text style={{color:"#FAFAFA", ...globalStyles.sub2, marginRight: 20}}>Adicionar</Text> 
-                                    <Text style={{color:"#FAFAFA", ...globalStyles.sub1}}>R$30,90</Text>
+                                    <Text style={{color:"#FAFAFA", ...globalStyles.sub1}}>R${total.toFixed(2)}</Text>
                                 </View>
                             </TouchableOpacity>   
                         </View>
@@ -149,6 +166,7 @@ export default function Product({navigation}) {
 const styles = StyleSheet.create({
     content: {
         flex: 1,
+        marginBottom: 60
     },
 
     destaqueNome: {
