@@ -90,7 +90,7 @@ const Consumo = ({consumo}) => {
               </View>
               <View>
                 <FlatList 
-                  listKey={item.cpf}
+                  listKey={item.id}
                   keyExtractor={item => item.id}
                   scrollEnabled={false}
                   data={item.pedido}
@@ -123,7 +123,7 @@ const Consumo = ({consumo}) => {
                     ) : (null)
           )}
           listKey={'consumo'}
-          keyExtractor={item => item.cpf}
+          keyExtractor={item => item.id}
         />
       </View>
   );

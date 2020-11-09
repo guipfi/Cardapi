@@ -27,12 +27,12 @@ export default function NavBar({navigation}) {
 
     return(
             <Tab.Navigator tabBarOptions={{style:style.navbar, activeTintColor:'#060606', labelStyle:style.labelStyle, inactiveTintColor:'#595959'}}>
-                <Tab.Screen name="Início"  component={HomeStack} options = {{ tabBarIcon: ({focused}) => focused ? Icon('home') :  <HomeOutline /> }} />
+                <Tab.Screen name="Início"  component={HomeStack}  options = {{ tabBarIcon: ({focused}) => focused ? Icon('home') :  <HomeOutline /> }} />
                 <Tab.Screen name="Buscar" component={SearchStack} options = {{ tabBarIcon: ({focused}) => focused ? <Lupa /> :  Icon('search') }} />
-                <Tab.Screen name="Comanda" component={Comanda} listeners={({ navigation}) => ({
+                <Tab.Screen name="Comanda" component={HomeStack} listeners={({navigation}) => ({
                  tabPress: e => {
                     e.preventDefault();
-                    navigation.navigate('Scan');
+                    navigation.navigate('Comanda3');
                  }
   })} options = {{tabBarLabel: () => (<Text style={style.comandaStyle}>Comanda</Text>),tabBarIcon: () => (<View style={{position:'absolute', bottom: '0%', height: 65, width: 65, borderRadius: 58, backgroundColor: '#590B09',justifyContent: 'center', alignItems: 'center',top:'-12%'}}><QrCode /></View>)}} />
                 <Tab.Screen name="Notificações" component={Notification} options = {{ tabBarIcon: ({focused}) => focused ? Icon('notifications') :  Icon('notifications-none') }}/>

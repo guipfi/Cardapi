@@ -12,6 +12,8 @@ import MyMenu from '../screens/mymenu';
 import NewItem from '../screens/newItem';
 import NewIngredient from '../screens/newIngredient';
 import EditItem from '../shared/editItem'
+import controlComanda from '../control/controlComanda';
+import Scan from '../screens/scan';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -22,7 +24,9 @@ const ProfileNavigator = () => (
         <Screen name="Sobre nós" component={About}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Upload" component={UploadScreen}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />   
         <Screen name="Restaurantes Favoritos" component={Favorite}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
-        <Screen name="VerComanda" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}}/>
+        <Screen name="Comanda" component={controlComanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
+        <Screen name="Scan" component={Scan} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
+        <Screen name="Comanda2" component={Comanda} options={{cardStyle:{backgroundColor: 'transparent'}, headerShown: false, animationEnabled:false}} />
         <Screen name="Meu Cardápio" component={EditItem}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
     </Navigator>
 
