@@ -43,7 +43,10 @@ export default function App() {
 
     if(fontsLoaded){
       if(user){
-        return(<LoginNavigator isLogged = {true} />)
+        if(isRestaurant) {return(<LoginNavigator client = {false} />)}
+        else{
+          return(<LoginNavigator client ={true} /> )
+        }
       }
       else{
         return (<LoginNavigator isLogged = {false} />)

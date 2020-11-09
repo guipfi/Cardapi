@@ -72,17 +72,17 @@ export default function RestaurantMyData({navigation}) {
             <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
-                initialValues={{name: user.name, 
-                                cnpj:user.cnpj, 
-                                phone:user.phone, 
+                initialValues={{name: user.displayName, 
+                                cnpj:userData[0].cnpj, 
+                                phone:userData[0].phone, 
                                 email:user.email, 
                                 newPassword:'', 
                                 newPasswordConfirm:'', 
                                 oldPassword:'',
-                                acessible: user.acessible,
-                                estacionamento: user.estacionamento,
-                                music: user.music,
-                                wifi: user.wifi}}
+                                acessible: userData[0].acessible,
+                                estacionamento: userData[0].estacionamento,
+                                music: userData[0].music,
+                                wifi: userData[0].wifi}}
                 validationSchema={UserSchema}
                 onSubmit={ async (values) => {
                     var credential = firebase.auth.EmailAuthProvider.credential(
@@ -99,10 +99,15 @@ export default function RestaurantMyData({navigation}) {
                                 })
 
                                 firebase.database().ref("/users/"+user.uid+"/profile/").set({
-                                    'name': values.name,
-                                    'phone': values.phone,
-                                    // 'cnpj': userData[0].cnpj
-                                    'cnpj': ''
+                                    name:values.name,
+                                    cnpj:values.cnpj,
+                                    phone:values.phone,
+                                    endereco: values.address,
+                                    acessible: values.acessible,
+                                    estacionamento: values.estacionamento,
+                                    music: values.music,
+                                    wifi: values.wifi,
+                                    bio: values.bio
                                 })
                                 
                                 user.updateEmail(values.email)

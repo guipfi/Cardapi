@@ -10,7 +10,7 @@ import RestaurantProfile from '../screens/restaurantProfile';
 const {Navigator, Screen} = createStackNavigator();
 
 const RestaurantProfileNavigator = () => (
-    <Navigator initialRouteName="MeuPerfil" headerMode="screen" initial={false}>
+    <Navigator initialRouteName="Perfil" headerMode="screen" initial={false}>
         <Screen name="Perfil" component = {RestaurantProfile} options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Meus Dados" component={RestaurantMyData}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Sobre nós" component={About}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
