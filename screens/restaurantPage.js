@@ -29,11 +29,11 @@ export default function RestaurantPage({navigation}) {
         num_avaliacao: 24,
         foto: {img:require("../assets/images/pagina_restaurante_pomba_assada.png")  }
         },
-        {nome: "Carne Assada ao Rum", 
-        descricao: "Medalhão de alcatra acompanhando de batatas rústicas e molho especial",
-        preco: 67.90,
-        media_avaliacao: 4.7,
-        num_avaliacao: 24,
+        {nome: "Nhoque tradicional", 
+        descricao: "Nhoque tradicional de várias gerações acompanhando do molho de tomate clássico da casa",
+        preco: 58.90,
+        media_avaliacao: 4.9,
+        num_avaliacao: 54,
         foto: {img:require("../assets/images/pagina_restaurante_pomba_assada.png")  }
         },
     ];
@@ -41,7 +41,7 @@ export default function RestaurantPage({navigation}) {
     const renderPratos = (item) => {
         console.log(item)
         return(
-            <View style={{...styles.cardContainer}}>
+            <View style={{...styles.cardContainer, padding: 10, marginBottom: 20}}>
                 <View style={styles.cardContent}>
                     <View>
                         <Text style={globalStyles.sub1}>{item.item.nome}</Text>
@@ -57,7 +57,7 @@ export default function RestaurantPage({navigation}) {
                         <Text style={globalStyles.body4}>{item.item.media_avaliacao} ({item.item.num_avaliacao})</Text>
                     </View> 
                 </View>
-                {/* <Image style={{width: 120}} source={require(item.foto)} /> */}
+                <Image style={{width: 120, height: 120}} source={require("../assets/images/detalhe_produto_macarrao.png")} resizeMode="contain"/>
             </View>
         );
     }
