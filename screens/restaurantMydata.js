@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet,ScrollView, KeyboardAvoidingView, CheckBox, Alert, TextInput} from 'react-native';
 import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
+import PopUpMsg from '../shared/PopUpMsg';
+
 
 
 
@@ -23,6 +25,7 @@ const UserSchema  = yup.object({
 
 export default function RestaurantMyData({navigation}) {
     const user = firebase.auth().currentUser
+    const [modal,setModal] = useState(false)
     const [isDelete,setDelete] = useState(false);
     const [userData,setUserData] = useState('')
     const [isLoading, setLoading] = useState(true)
@@ -30,10 +33,10 @@ export default function RestaurantMyData({navigation}) {
     const [hidePassConfirm, setHidePassConfirm] = useState(true);
     const [hideOldPass, setHideOldPass] = useState(true);
     const [errorMsg, setError] = useState(''); 
-    const [isAcessible, setAcessible] = useState(user.acessible);
-    const [isEstacionamento, setEstacionamento] = useState(user.estacionamento);
-    const [isMusic, setMusic] = useState(user.music);
-    const [isWifi, setWifi] = useState(user.wifi);
+    const [isAcessible, setAcessible] = useState(false);
+    const [isEstacionamento, setEstacionamento] = useState(false);
+    const [isMusic, setMusic] = useState(false);
+    const [isWifi, setWifi] = useState(false);
 
 
     const  deleteUser = () =>{
@@ -65,10 +68,10 @@ export default function RestaurantMyData({navigation}) {
             setLoading(false)
         }
     }, [userData]);
-
     if(!isLoading){
-    return(
-        <ScrollView>
+        return(
+            <ScrollView>
+                        <PopUpMsg message="Seus dados foram atualizados com sucesso!" onClosed={()=>navigation.navigate('Perfil do Restaurante')} isOk={true} isOpen={modal}/>
             <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
@@ -81,12 +84,13 @@ export default function RestaurantMyData({navigation}) {
                                 oldPassword:'',
                                 acessible: userData[0].acessible,
                                 estacionamento: userData[0].estacionamento,
+                                endereco:userData[0].endereco,
                                 music: userData[0].music,
                                 wifi: userData[0].wifi,
                                 bio:userData[0].bio}
                             }
-                validationSchema={UserSchema}
-                onSubmit={ async (values) => {
+
+                           onSubmit={ async (values) => {
                     var credential = firebase.auth.EmailAuthProvider.credential(
                         user.email,
                         values.oldPassword
@@ -97,22 +101,27 @@ export default function RestaurantMyData({navigation}) {
                                 user.updatePassword(values.newPassword)
 
                                 user.updateProfile({
+                                    ...user,
                                     displayName: values.name
                                 })
-
-                                firebase.database().ref("/users/"+user.uid+"/profile/").set({
-                                    name:values.name,
-                                    cnpj:values.cnpj,
-                                    phone:values.phone,
-                                    endereco: values.address,
-                                    acessible: isAcessible,
-                                    estacionamento: isEstacionamento,
-                                    music: isMusic,
-                                    wifi: isWifi,
-                                    bio: values.bio
-                                })
                                 
-                                user.updateEmail(values.email)
+                                try{
+                                firebase.database().ref("/restaurant/"+user.uid+"/profile/").set({
+                                    'name': values.name,
+                                    'cnpj':values.cnpj,
+                                    'endereco':values.endereco,
+                                    'phone': values.phone,
+                                    'bio':values.bio,
+                                    'wifi':isWifi,
+                                    'music':isMusic,
+                                    'estacionamento':isEstacionamento,
+                                    'acessible':isAcessible
+                                }).then(()=>{
+                                    user.updateEmail(values.email)
+                                    setModal(true)
+                                })} catch(e){
+                                    console.log(e)
+                                }
                         })
                     } catch(e){
                         console.log(e.code)
@@ -122,6 +131,7 @@ export default function RestaurantMyData({navigation}) {
                     }
  
                 }}
+ 
             >
                 {(props) => (
                     <KeyboardAvoidingView
@@ -129,12 +139,12 @@ export default function RestaurantMyData({navigation}) {
 
                         <Text style={{...globalStyles.h6, marginTop: 30}}>Informações</Text>
 
-                        <InputNormal placeholder={userData[0].name} label={"Nome"} onChangeText={props.handleChange('name')} value={props.name} />
+                        <InputNormal placeholder='Escreva o nome do seu restaurante' label={"Nome"} onChangeText={props.handleChange('name')} value={props.values.name} />
                         <Text style={styles.errorStyle}>{props.errors.name}</Text>  
                         <InputNormal placeholder={userData[0].cnpj} keyboardType='numeric' label='CNPJ' editable={false} iconName="lock" onChangeText={props.handleChange('cnpj')} value={userData[0].cnpj} />
                         <Text style={styles.errorStyle}></Text>  
 
-                        <InputNormal placeholder="Endereço" label="Endereço" onChangeText={props.handleChange('address')} value={props.values.address} />
+                        <InputNormal placeholder="Endereço" label="Endereço" onChangeText={props.handleChange('endereco')} value={props.values.endereco} />
                         <Text style={styles.errorStyle}>{props.errors.phone}</Text> 
 
                         <InputNormal placeholder={userData[0].phone} keyboardType='numeric' label="Telefone" onChangeText={props.handleChange('phone')} value={props.values.phone} />
