@@ -1,13 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert} from 'react-native';
-import Modal from 'react-native-modalbox';
 import {globalStyles} from '../styles/global';
 import {Formik} from 'formik';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {firebase} from '../utils/firebase';
 import * as yup from 'yup';
-import Loading from '../shared/Loading'
-
+import PopUpMsg from '../shared/PopUpMsg';
 
 
 
@@ -20,6 +18,7 @@ const UserSchema  = yup.object({
 
 export default function Register({navigation}) {
     const [errorMsg, setError] = useState('');
+    const [modal,setModal] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [hidePass, setHidePass] = useState(true);
     const [hidePassConfirm, setHidePassConfirm] = useState(true);
@@ -47,8 +46,7 @@ export default function Register({navigation}) {
                             })
                         })
                     }).then(() =>{
-                        Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode usufruir do Cardapi", [{text:"Entendido",onPress: () => console.log("apertado")}])
-                        navigation.navigate('Login')
+                        setModal(true)
                     })
                 } catch(e){
                     console.log(e.code)
@@ -67,6 +65,7 @@ export default function Register({navigation}) {
             {(props) => (
                 <KeyboardAvoidingView
                 behavior='height'>
+                    <PopUpMsg message="Parabéns, seu cadastro foi um sucesso. Agora aproveite os melhores restaurantes!" onClosed={LoginUser} isOk={true} isOpen={modal} />
                     <TextInput 
                         style={{...globalStyles.normalInput, marginTop:"5.468%"}}
                         placeholder="Nome"
@@ -148,7 +147,6 @@ const styles = StyleSheet.create({
     },
     containerForms:{
         flex:1,
-        alignItems:'center',
         backgroundColor:"white",
         borderRadius:16,
     },

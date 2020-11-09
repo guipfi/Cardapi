@@ -106,7 +106,7 @@ export default function MyData({navigation}){
                 {(props) => (
                     <KeyboardAvoidingView
                     behavior='height'>
-                        <InputNormal placeholder="(Insira seu nome aqui)" label={"Nome"} onChangeText={props.handleChange('name')} value={props.values.name} />
+                        <InputNormal placeholder="(Insira seu nome aqui)" label="Nome" onChangeText={props.handleChange('name')} value={props.values.name} />
                         <Text style={styles.errorStyle}>{props.errors.name}</Text>  
                         <InputNormal placeholder={userData[0].cpf} keyboardType='numeric' label='CPF' editable={false} iconName="lock" onChangeText={props.handleChange('cpf')} value={props.values.cpf} />
                         <Text style={styles.errorStyle}></Text>  
