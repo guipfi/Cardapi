@@ -14,6 +14,10 @@ export default function RestaurantPage({navigation}) {
         navigation.navigate("Sobre");
     }
 
+    const ToProduct = () => {
+        navigation.navigate("Produto")
+    }
+
     const pratos = [
         {nome: "Macarronada Toscana", 
         descricao: "Macarronada feita com frango, curry e couve flor",
@@ -113,17 +117,19 @@ export default function RestaurantPage({navigation}) {
                             <Text style={globalStyles.h6}>Destaques</Text>
                         </View> 
 
-                        <View style={styles.cardDestaque}>
-                            <Image style={{maxWidth:"100%",borderRadius:5}} source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}/>
-                            <View style={styles.destaqueNome}>
-                                <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>Macarrão Italiano</Text>
-                                <View style={{flexDirection: 'row', alignItems: "center"}}>
-                                    <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#fff" />
-                                    <Text style={{...globalStyles.body4, ...globalStyles.branco1}}>4,2 (42)</Text>
+                        <TouchableOpacity onPress={ToProduct}>
+                            <View style={styles.cardDestaque}>
+                                <Image style={{maxWidth:"100%",borderRadius:5}} source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}/>
+                                <View style={styles.destaqueNome}>
+                                    <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>Macarrão Italiano</Text>
+                                    <View style={{flexDirection: 'row', alignItems: "center"}}>
+                                        <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#fff" />
+                                        <Text style={{...globalStyles.body4, ...globalStyles.branco1}}>4,2 (42)</Text>
+                                    </View>
+                                    <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>R$30,90</Text>
                                 </View>
-                                <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>R$30,90</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
 
                         <View style={styles.label}>
                             <Text style={globalStyles.h6}>Cardápio</Text>
