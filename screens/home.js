@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, FlatList} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import Loading from '../shared/Loading'
 import {firebase} from '../utils/firebase';
 
 import Card from '../shared/Card';
@@ -11,11 +12,26 @@ export default function Home({navigation}){
     const dataHighlight = [require('../assets/images/home_card_subway.png'),require('../assets/images/home_mcdonalds.png')];
     const dataCard = [{img:require('../assets/images/home_outback_fachada.png'), key:'1' },{img:require('../assets/images/restaurantes_favoritos_tandoor.png'), key:'2'},{img:require('../assets/images/home_outback_fachada.png'), key:'3'}]
     const [activeSlide,setActive] = useState(0)
+    const [isLoading,setLoading] = useState(false)
+    const[data,setData] = useState([])
 
+    useEffect(() => {
+        const ref = firebase.database().ref('restaurant/');
+        const listener =  ref.once('value', snapshot => {
+            const fetchedTasks = [];
+            snapshot.forEach(childSnapshot => {
+                const key = childSnapshot.key;
+                const data = childSnapshot.val();
+                fetchedTasks.push({id: key, ...data });
+            });
+            setData(fetchedTasks)
+        });
+    }, []);
+    console.log(data)
     const renderItem = ({item}) =>{
         return(
             <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
-                <Card img={item.img} />
+                <Card name={item.profile.name} img = {item.id} />
             </TouchableOpacity>
         )
     }
@@ -27,11 +43,11 @@ export default function Home({navigation}){
             </TouchableOpacity>
         );
     }
-
+    if(!isLoading){
     return(
         <View style={{marginBottom:"20%"}}>
             <FlatList
-            data={dataCard}
+            data={data}
             ListHeaderComponent={ () =>(
             <View style={styles.container}>
                 <View >
@@ -49,7 +65,11 @@ export default function Home({navigation}){
             renderItem = {renderItem}
             />
         </View>
-    );
+    );} else{
+        return(
+            <Loading />
+        )
+    }
 }
 
 
