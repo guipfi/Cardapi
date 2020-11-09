@@ -48,7 +48,7 @@ export default function Login({navigation}) {
                             await firebase.auth().signInWithEmailAndPassword(values.email,values.password).then(()=>{
                                 const ref = firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid).once('value',(snapshot)=>{
                                     if(snapshot.exists()){
-                                        navigation.navigate('Perfil do Restaurante')
+                                        navigation.replace('Perfil do Restaurante')
                                     } else{
                                         navigation.navigate('Nav')
                                     }

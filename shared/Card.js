@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import {firebase} from '../utils/firebase'
 import {StyleSheet, View, Text,Image, TouchableOpacity} from 'react-native';
 
 // Estilo Global
@@ -7,15 +8,28 @@ import {globalStyles} from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function Card({img,name}){
+    const uid = firebase.auth().currentUser.uid
     const [isFavorite, setFavorite] = useState('false');
+    const [image, setImage] = useState('default_profile.png')
     const Favorite = () =>{
         setFavorite(!isFavorite);
+        if(isFavorite == true){
+            firebase.database().ref('users/'+uid+"/profile/favorite/"+img).set({
+                isFavorite:true
+            })
+        }
     }
+
+    useEffect(() => {
+            firebase.storage().ref(img).getDownloadURL().then((url) =>{
+                setImage(url);
+            })
+    }, []);
 
     return(
         <View style={styles.cardContainer}>
             <View>
-                <Image source={img} style={{position:'relative', borderTopLeftRadius:20, borderTopRightRadius:20, width:"100%", height:133}}/>
+                <Image source={{uri:image}} style={{position:'relative', borderTopLeftRadius:20, borderTopRightRadius:20, width:"100%", height:133}}/>
                 <View style={{backgroundColor:"#F2F2F2", position:'absolute', left:"90%", height:"25%", width:"10%", borderBottomLeftRadius:20, borderBottomRightRadius:20, alignItems:'center',justifyContent:'center'}}>
                     <TouchableOpacity onPress={Favorite}>
                         {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#740300"/> : <MaterialIcons name="favorite" size={25} color="#740300"/>  } 

@@ -5,7 +5,16 @@ import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons';
 
 
-export default function MyMenu(){
+export default function MyMenu({navigation}){
+    const toNewItem = ()=>{
+        navigation.navigate('Novo Item')
+    }
+
+    const toNewIngredient = ()=>{
+        navigation.navigate('Novo Acompanhamento')
+    }
+
+
     const pratos = [
         {nome: "Macarronada Toscana", 
         descricao: "Macarronada feita com frango, curry e couve flor",
@@ -13,7 +22,7 @@ export default function MyMenu(){
         key:'1',
         media_avaliacao: 4.2,
         num_avaliacao: 10,
-        foto: require("../assets/images/pagina_restaurante_pomba_assada.png")
+        foto: require("../assets/images/pagina_restaurante_macarao_destaque.png")
         },
         {nome: "Carne Assada ao Rum", 
         descricao: "Medalhão de alcatra acompanhando de batatas rústicas e molho especial",
@@ -23,16 +32,33 @@ export default function MyMenu(){
         num_avaliacao: 24,
         foto: require("../assets/images/pagina_restaurante_pomba_assada.png") 
         },
-        {nome: "Carne Assada ao Rum", 
-        descricao: "Medalhão de alcatra acompanhando de batatas rústicas e molho especial",
-        preco: 67.90,
-        media_avaliacao: 4.7,
+        {nome: "Arroz Branco sem nada a adicionar", 
+        descricao: "Arroz Branco sem nada, para aqueles que são minimalistas",
+        preco: 19.50,
+        media_avaliacao: 1.7,
         key:'3',
-        num_avaliacao: 24,
-        foto: require("../assets/images/pagina_restaurante_pomba_assada.png")  
+        num_avaliacao: 5,
+        foto: require("../assets/images/simplesmente_arroz.png")  
         },
     ];
 
+    const bebidas =[
+        {nome: "Coca-Cola 1.5L", 
+        descricao: "O sabor do capitalismo imperial, sem igual! A bebida preferida dos brasileiros.",
+        preco: 6.90,
+        key:'4',
+        media_avaliacao: 4.4,
+        num_avaliacao: 10,
+        foto: require("../assets/images/pagina_restaurante_coca_cola.png")
+        },
+    ]
+
+    const sobremesas=[]
+
+    const acompanhamentos=[{nome: "Molho Chutney", 
+    preco: 32.90,
+    key:'5',
+    },]
     const renderPratos = (item) => {
         console.log(item)
         return(
@@ -73,7 +99,7 @@ export default function MyMenu(){
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}}>Pratos</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={toNewItem}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
@@ -83,31 +109,31 @@ export default function MyMenu(){
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}} >Bebidas</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={toNewItem}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={pratos}  renderItem={renderPratos} />
+                        <FlatList data={bebidas}  renderItem={renderPratos} />
                     </View>
 
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}}>Sobremesas</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={toNewItem}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={pratos}  renderItem={renderPratos} />
+                        <FlatList data={sobremesas}  renderItem={renderPratos} />
                     </View>
 
                     <View style={styles.section}>
                         <View style={{...styles.headerSection, borderBottomColor:'transparent'}}>
                             <Text style={{...globalStyles.sub1}}>Acompanhamento</Text>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={toNewIngredient}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={pratos}  renderItem={renderAcompanhamentos}/>
+                        <FlatList data={acompanhamentos}  renderItem={renderAcompanhamentos}/>
                     </View>
                 </View>
             </View>

@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import RestaurantPage from '../screens/restaurantPage';
 import AboutRestaurant from '../screens/aboutRestaurant';
+import Product from '../screens/product';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -13,6 +14,9 @@ const PageNavigator = () => (
                 options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Sobre" 
                 component={AboutRestaurant}  
+                options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
+        <Screen name="Produto" 
+                component={Product}  
                 options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
     </Navigator>
 
