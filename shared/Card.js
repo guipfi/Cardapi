@@ -8,15 +8,18 @@ import {globalStyles} from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function Card({img,name}){
-    const uid = firebase.auth().currentUser.uid
+    const user = firebase.auth().currentUser
     const [isFavorite, setFavorite] = useState('false');
     const [image, setImage] = useState('default_profile.png')
+
     const Favorite = () =>{
+        if(user) {
         setFavorite(!isFavorite);
         if(isFavorite == true){
-            firebase.database().ref('users/'+uid+"/profile/favorite/"+img).set({
+            firebase.database().ref('users/'+user.uid+"/profile/favorite/"+img).set({
                 isFavorite:true
             })
+        }
         }
     }
 
