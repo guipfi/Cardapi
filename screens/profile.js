@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image,Alert} from 'react-native';
+import {View, Text,StyleSheet,ScrollView,Image,Alert,Platform} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import PopUpMsg from '../shared/PopUpMsg';
 
 
 
@@ -20,6 +21,7 @@ export default function Profile({navigation}){
         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
             setImage(url);
         })
+        
     }, []);
 
     const pickImage = async () => {
@@ -40,36 +42,32 @@ export default function Profile({navigation}){
     
         if (!result.cancelled) {
           setImage(result.uri);
-        }
 
-        const blob = await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-              resolve(xhr.response);
-            };
-            xhr.onerror = function(e) {
-              console.log(e);
-              reject(new TypeError('Network request failed'));
-            };
-            xhr.responseType = 'blob';
-            xhr.open('GET', result.uri, true);
-            xhr.send(null);
-          });
-        
-        if(user.photoURL = ''){
-            user.updateProfile({
-                photoURL:'.'
-            })
-        }
-        
-        const update = await user.updateProfile({
-            ...user.currentUser,
-            photoURL:user.uid
-        })
-        const upload = await firebase.storage().ref(user.uid).put(blob)
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                resolve(xhr.response);
+                };
+                xhr.onerror = function(e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+                };
+                xhr.responseType = 'blob';
+                xhr.open('GET', result.uri, true);
+                xhr.send(null);
+            });
+            
+            if(user.photoURL = ''){
+                user.updateProfile({
+                    ...user,
+                    photoURL:user.uid
+                })
+            }
+            
+            const upload = await firebase.storage().ref(user.uid).put(blob)
 
-        blob.close()
-
+            blob.close()
+    }
       };
 
     const toData = () => {
@@ -141,9 +139,11 @@ export default function Profile({navigation}){
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
                 </View>
+                <TouchableOpacity>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Ajuda</Text>
                 </View>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={toAbout}>
                     <View style={styles.OptionMenu}>
                         <Text style={globalStyles.body1}>Quem Somos</Text>

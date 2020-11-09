@@ -11,6 +11,7 @@ import InputNormal from '../shared/InputNormal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import PopUpMsg from '../shared/PopUpMsg';
 
 
 const UserSchema  = yup.object({
@@ -21,6 +22,7 @@ const UserSchema  = yup.object({
 
 export default function MyData({navigation}){
     const user = firebase.auth().currentUser
+    const [modal,setModal] = useState(false);
     const [isDelete,setDelete] = useState(false);
     const [userData,setUserData] = useState('')
     const [isLoading, setLoading] = useState(true)
@@ -62,6 +64,7 @@ export default function MyData({navigation}){
     if(!isLoading){
     return(
         <ScrollView>
+            <PopUpMsg message="Seus dados foram atualizados com sucesso!" onClosed={()=>navigation.navigate('MeuPerfil')} isOk={true} isOpen={modal}/>
             <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
@@ -78,6 +81,7 @@ export default function MyData({navigation}){
                                 user.updatePassword(values.newPassword)
 
                                 user.updateProfile({
+                                    ...user,
                                     displayName: values.name
                                 })
 
@@ -87,7 +91,8 @@ export default function MyData({navigation}){
                                     'cpf': userData[0].cpf
                                 })
                                 
-                                user.updateEmail(values.email)
+                                user.updateEmail(values.email).then()
+                                setModal(true)
                         })
                     } catch(e){
                         console.log(e.code)

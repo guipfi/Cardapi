@@ -10,7 +10,7 @@ export default function AboutRestaurant(){
         <View style={styles.container}>
             <FlatList
                 ListFooterComponent={
-                    <View style={{margin: 10}}>
+                    <View style={{marginLeft: "4%", marginTop:'5%', marginRight:"4%"}}>
                     <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: "5%"}}>
                         <Image  source={require('../assets/images/pagina_restaurante_cantina_logo.png')} 
                                 resizeMode="contain"
@@ -80,15 +80,24 @@ export default function AboutRestaurant(){
                     <Text style={{marginTop: 5}}>* Sujeito a mudanças.</Text>
                     <Text style={{...globalStyles.h5, marginBottom: 10, marginTop: 10}}>Meios de Pagamento</Text>
                     
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={{backgroundColor: "#E5E5E5", maxWidth: 100, maxHeight: 100, alignItems: 'center', justifyContent: "center", marginRight: 10}}>
+                    <View style={{flexDirection: 'row', marginBottom:"50%", flexWrap:"wrap"}}>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
                             <Image source={require("../assets/images/sobre_restaurante_american_express.png")} />
                         </View>
-                        <View style={{backgroundColor: "#E5E5E5", maxWidth: 100, maxHeight: 100, alignItems: 'center', justifyContent: "center", marginRight: 10}}>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
                             <Image source={require("../assets/images/sobre_restaurante_elo.png")} />
                         </View>
-                        <View style={{backgroundColor: "#E5E5E5", maxWidth: 100, maxHeight: 100, alignItems: 'center', justifyContent: "center", marginRight: 10}}>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
                             <Image source={require("../assets/images/sobre_restaurante_hipercard.png")} />
+                        </View>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
+                            <Image source={require("../assets/images/sobre_restaurante_mastercard.png")} />
+                        </View>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
+                            <Image source={require("../assets/images/sobre_restaurante_visa.png")} />
+                        </View>
+                        <View style={{backgroundColor: "#E5E5E5", minWidth: 55, minHeight: 55, alignItems: 'center', justifyContent: "center", marginRight: 10, marginBottom:10}}>
+                            <Image source={require("../assets/images/sobre_restaurante_dinheiro.png")} />
                         </View>
                     </View>
 
@@ -100,6 +109,6 @@ export default function AboutRestaurant(){
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1
+        backgroundColor:'white',
     }
 })

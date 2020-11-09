@@ -8,7 +8,7 @@ const {Navigator, Screen} = createStackNavigator();
 
 const PageNavigator = () => (
     <Navigator initialRouteName="Restaurant Page" headerMode="screen">
-        <Screen name="Pagina Inicial" 
+        <Screen name="Pagina do Restaurante" 
                 component={RestaurantPage}  
                 options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Sobre" 
