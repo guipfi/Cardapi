@@ -29,11 +29,11 @@ export default function RestaurantPage({navigation}) {
         num_avaliacao: 24,
         foto: {img:require("../assets/images/pagina_restaurante_pomba_assada.png")  }
         },
-        {nome: "Carne Assada ao Rum", 
-        descricao: "Medalhão de alcatra acompanhando de batatas rústicas e molho especial",
-        preco: 67.90,
-        media_avaliacao: 4.7,
-        num_avaliacao: 24,
+        {nome: "Nhoque tradicional", 
+        descricao: "Nhoque tradicional de várias gerações acompanhando do molho de tomate clássico da casa",
+        preco: 58.90,
+        media_avaliacao: 4.9,
+        num_avaliacao: 54,
         foto: {img:require("../assets/images/pagina_restaurante_pomba_assada.png")  }
         },
     ];
@@ -41,7 +41,7 @@ export default function RestaurantPage({navigation}) {
     const renderPratos = (item) => {
         console.log(item)
         return(
-            <View style={{...styles.cardContainer, height: 130}}>
+            <View style={{...styles.cardContainer, padding: 10, marginBottom: 20}}>
                 <View style={styles.cardContent}>
                     <View>
                         <Text style={globalStyles.sub1}>{item.item.nome}</Text>
@@ -57,25 +57,25 @@ export default function RestaurantPage({navigation}) {
                         <Text style={globalStyles.body4}>{item.item.media_avaliacao} ({item.item.num_avaliacao})</Text>
                     </View> 
                 </View>
-                {/* <Image style={{width: 120}} source={require(item.foto)} /> */}
+                <Image style={{width: 120, height: 120}} source={require("../assets/images/detalhe_produto_macarrao.png")} resizeMode="contain"/>
             </View>
         );
     }
 
     return (
-
          <View style={styles.container}>
-            {/* <View>
-                <Image source={require("../assets/images/pagina_restaurantecantina_capa.png")} />
-            </View>       */}
-            <Image source={require("../assets/images/pagina_restaurantecantina_capa.png")} />
-            <View style={styles.content}>      
+        <View style={styles.content}>      
                 <FlatList 
                     data={pratos}
                     renderItem={renderPratos}
+                    ListFooterComponent= {()=> (
+                        <View style={{marginBottom:"30.5%"}}></View>
+                    )}
                     keyExtractor={(item) => item.nome}
                     ListHeaderComponent={() => (
-                    <View style={{padding: 10}}>
+                    <View style={{flex:1}}>
+                        <Image source={require("../assets/images/pagina_restaurantecantina_capa.png")} style={{width:"100%"}} />
+                        <View style={{padding:10}}>
                         <Header />
                     
                         <View style={styles.subHeader}>
@@ -114,7 +114,7 @@ export default function RestaurantPage({navigation}) {
                         </View> 
 
                         <View style={styles.cardDestaque}>
-                            <Image source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}/>
+                            <Image style={{maxWidth:"100%",borderRadius:5}} source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}/>
                             <View style={styles.destaqueNome}>
                                 <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>Macarrão Italiano</Text>
                                 <View style={{flexDirection: 'row', alignItems: "center"}}>
@@ -141,6 +141,7 @@ export default function RestaurantPage({navigation}) {
                             </TouchableOpacity>
                         </View>             
                     </View>
+                </View>
                     )}
                 />
             </View>
@@ -151,19 +152,15 @@ export default function RestaurantPage({navigation}) {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
-        backgroundColor: 'transparent',
-        height: '100%',
-        width: '100%'
+        flex:1,
     },
     content: {
-        flex: 1,
+        flex:1,
         backgroundColor: 'white',
         borderRadius: 16,
     },
 
     subHeader: {
-        flex: 1,
         maxHeight: 50,
         marginTop: "1%",
         height: "auto",
@@ -175,14 +172,13 @@ const styles = StyleSheet.create({
     label: {
         marginTop: "5%",
         maxHeight: 30,
-        flex: 1,
         flexDirection: "row",
         alignItems: 'center',
         justifyContent: 'space-between'
     },
 
     cardContainer: {
-        flex: 1,
+        flex:1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: "#E5E5E5",
@@ -191,13 +187,11 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginLeft: 10,
         borderRadius: 8,
-        maxHeight: 111
     },
     
     cardContent: {
-        padding: 8,
+
         maxWidth: "60%",
-        maxHeight: 130
     },
 
     descricao: {
@@ -212,10 +206,10 @@ const styles = StyleSheet.create({
     },
 
     cardDestaque: {
-        flex: 1,
         flexDirection: "column",
-        borderRadius: 8,
+        borderRadius: 5,
         justifyContent: "flex-start",
+        backgroundColor: "#740300",
         marginTop: 10,
     },
 
@@ -225,6 +219,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#740300",
         padding: 10,
         alignItems: "center",
+        borderRadius:5,
         justifyContent: "space-between"
     },
 

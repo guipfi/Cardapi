@@ -8,6 +8,8 @@ import * as ImagePicker from 'expo-image-picker';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import PopUpMsg from '../shared/PopUpMsg';
+
 
 
 
@@ -15,12 +17,14 @@ export default function Profile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
     const [image,setImage] = useState(null)
 
-    useEffect(() => {
-        if(user) {
-        firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
-            setImage(url);
-        })}
-    }, []);
+     useEffect(() => {
+         if(user){
+             firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
+                 setImage(url);
+             })
+         }
+        
+     }, []);
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -101,23 +105,21 @@ export default function Profile({navigation}){
                                 <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
                             </View>
                         <View style={{marginLeft:"4%"}}>
-                            <Image source={require('../assets/images/progresso.png')} style={{flex:1, resizeMode:'contain', maxWidth:"93%"}}/>
-                            <Text style={globalStyles.body4}>Total de Conquistas: 9</Text>
-                            <Text style={globalStyles.body4}>Restaurantes Frequentados</Text>
+                            <Text style={{...globalStyles.body3, color: "#009922"}}>Aberto</Text>
+                            <Text style={globalStyles.body3}>Desafios Propostos: 3</Text>
                         </View>
                     </View>
                 </View>
                 <View>
 
                     <View style={{flexDirection:'row', marginTop:"4.3%"}}>
-                        <Image style={{marginRight:"1%"}} source={require('../assets/icons/fork.png')} />
-                        <Text style={globalStyles.body3}>1020 Cardapoints disponíveis</Text>
+                        <MaterialIcons style={{marginRight:"1%"}} name="room" size={16} color="black" />
+                        <Text style={globalStyles.body3}>Rua Fernando Diniz, 4222, Boqueirão - Santos/SP</Text>
                     </View>
                     <View style={{flexDirection:'row', marginTop:"1%"}}>
-                        <MaterialCommunityIcons style={{marginRight:"1%"}} name="ticket-percent" size={16} color="black" />
-                        <Text style={globalStyles.body3}>3 cupons disponíveis</Text>
+                        <MaterialCommunityIcons style={{marginRight:"1%"}} name="phone" size={16} color="black" />
+                        <Text style={globalStyles.body3}>13965481583</Text>
                     </View>
-                    <Text style={{...globalStyles.body4, marginTop:"2.03%"}}>Utilizando os cupons você já economizou: <Text style={{color:"#009922",...globalStyles.body1}}>R$ 143,90</Text></Text>
                 </View>
             </View>
             <View style={styles.menuContainer}>
@@ -127,17 +129,17 @@ export default function Profile({navigation}){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
-                    <Text style={globalStyles.body1}>Conquistas e Cupons</Text>
+                    <Text style={globalStyles.body1}>Meu Cardápio</Text>
                 </View>
                 <View style={styles.OptionMenu}>
                     <TouchableOpacity onPress={toFavorite}>
-                        <Text style={globalStyles.body1}>Meus Restaurantes Favoritos</Text>
+                        <Text style={globalStyles.body1}>Conquistas</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Meu Cardápio')}>
+                <TouchableOpacity>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Ajuda</Text>
                 </View>

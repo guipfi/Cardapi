@@ -35,11 +35,18 @@ export default function RestaurantRegister({navigation}) {
                     await firebase.auth().createUserWithEmailAndPassword(values.email,values.password).then((response) =>{
                         firebase.auth().currentUser.updateProfile({
                             displayName:values.name,
+                            photoURL:'default_profile.png'
                         }).then(() =>{
                             firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
                                 name:values.name,
                                 cnpj:values.cnpj,
                                 phone:values.phone,
+                                endereco: '',
+                                acessible: false,
+                                estacionamento: false,
+                                music: false,
+                                wifi: false,
+                                bio: ''
                             })
                         })
                     }).then(() =>{
@@ -70,7 +77,7 @@ export default function RestaurantRegister({navigation}) {
                         value={props.values.name}
                     />
                     <Text style={styles.errorStyle}>{props.errors.name}</Text>  
-
+ 
                     <TextInput
                         style={globalStyles.normalInput}
                         placeholder="CNPJ"

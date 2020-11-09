@@ -5,6 +5,7 @@ import NavBar from './shared/NavBar'
 import {AppLoading} from 'expo';
 import {LoginNavigator} from './routes/loginstack'
 import {firebase} from './utils/firebase';
+import { useRoute } from '@react-navigation/native';
 
 const getFonts = () => Font.loadAsync({
   'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -16,6 +17,7 @@ const getFonts = () => Font.loadAsync({
 export default function App() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const [isRestaurant, setRestaurant] = useState(false)
   const [fontsLoaded, setFontsLoaded] = useState(false)
 
   function onAuthStateChanged(user){
@@ -25,9 +27,18 @@ export default function App() {
 
   useEffect(() =>{
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  },[]);
-
+    if(user != null){
+      const ref = firebase.database().ref('restaurant/'+user.uid).once('value', (snapshot)=>{
+          if(snapshot.exists()){
+            setRestaurant(true)
+            console.log(snapshot.val())
+            console.log(isRestaurant)
+          }
+        })
+      }
+      return subscriber;
+    },[]);
+    
   if(initializing) return null;
 
     if(fontsLoaded){

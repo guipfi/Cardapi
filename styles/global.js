@@ -37,7 +37,7 @@ export const globalStyles = StyleSheet.create({
     },
     sub2:{
         fontSize:16,
-        fontFamily:'Roboto-Regular',
+        fontFamily:'Roboto-Medium',
     },
     body1:{
         fontSize:14,
@@ -131,7 +131,6 @@ export const globalStyles = StyleSheet.create({
         justifyContent:"center",
         borderRadius:5,
         backgroundColor: '#740300',
-        elevation:3,
     },
     smallButtonStyle:{
         fontSize:14,

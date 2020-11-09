@@ -14,7 +14,9 @@ export default function Home({navigation}){
 
     const renderItem = ({item}) =>{
         return(
-            <Card img={item.img} />
+            <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
+                <Card img={item.img} />
+            </TouchableOpacity>
         )
     }
 
