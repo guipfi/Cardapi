@@ -40,6 +40,12 @@ export default function RestaurantRegister({navigation}) {
                                 name:values.name,
                                 cnpj:values.cnpj,
                                 phone:values.phone,
+                                endereco: '',
+                                acessible: false,
+                                estacionamento: false,
+                                music: false,
+                                wifi: false,
+                                bio: ''
                             })
                         })
                     }).then(() =>{
@@ -70,7 +76,7 @@ export default function RestaurantRegister({navigation}) {
                         value={props.values.name}
                     />
                     <Text style={styles.errorStyle}>{props.errors.name}</Text>  
-
+ 
                     <TextInput
                         style={globalStyles.normalInput}
                         placeholder="CNPJ"
