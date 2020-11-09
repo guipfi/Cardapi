@@ -27,7 +27,7 @@ function LoginStack({initialRouteName}){
 export const LoginNavigator = ({isLogged, client}) => (
     <NavigationContainer>
         {isLogged === false ? (
-        <LoginStack initialRouteName= 'Login'  />) :( client ? (<LoginStack initialRouteName= 'Nav' />):(<LoginStack initialRouteName='Perfil do Restaurante'/>))
+        <LoginStack initialRouteName= 'Login'  />) :( client===true ? (<LoginStack initialRouteName= 'Nav' />):(<LoginStack initialRouteName='Perfil do Restaurante'/>))
         }
     </NavigationContainer>
 )

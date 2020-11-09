@@ -82,7 +82,9 @@ export default function RestaurantMyData({navigation}) {
                                 acessible: userData[0].acessible,
                                 estacionamento: userData[0].estacionamento,
                                 music: userData[0].music,
-                                wifi: userData[0].wifi}}
+                                wifi: userData[0].wifi,
+                                bio:userData[0].bio}
+                            }
                 validationSchema={UserSchema}
                 onSubmit={ async (values) => {
                     var credential = firebase.auth.EmailAuthProvider.credential(
@@ -103,10 +105,10 @@ export default function RestaurantMyData({navigation}) {
                                     cnpj:values.cnpj,
                                     phone:values.phone,
                                     endereco: values.address,
-                                    acessible: values.acessible,
-                                    estacionamento: values.estacionamento,
-                                    music: values.music,
-                                    wifi: values.wifi,
+                                    acessible: isAcessible,
+                                    estacionamento: isEstacionamento,
+                                    music: isMusic,
+                                    wifi: isWifi,
                                     bio: values.bio
                                 })
                                 
@@ -201,7 +203,7 @@ export default function RestaurantMyData({navigation}) {
                                 style={{marginBottom:"3%", ...globalStyles.body1}}
                                 placeholder="(Escreva sua biografia)"
                                 onChangeText={props.handleChange('bio')} 
-                                value={""}
+                                value={props.values.bio}
                             />
                         </View>
                         
