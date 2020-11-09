@@ -22,7 +22,7 @@ export default function Header() {
             </View>
             <View style={styles.headerText}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                    <Text style={{...globalStyles.sub1}}>Cantina Tradicional de Santos</Text>
+                    <Text style={{...globalStyles.sub2, marginRight: 5}}>Cantina Tradicional de Santos</Text>
                     <View>
                     <TouchableOpacity onPress={Favorite} style={styles.favorite}>
                         {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#000"/> : <MaterialIcons name="favorite" size={25} color="#000"/>  } 
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        margin: 10,
         borderBottomWidth: 1
     },
     logoContainer: {

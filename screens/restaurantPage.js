@@ -101,25 +101,44 @@ export default function RestaurantPage({navigation}) {
                             </TouchableOpacity>
                         </View> 
 
-                        <View style={styles.awardCard}>
-                            <MaterialIcons name="star" size={25} color="#E0A819"/>
-                            <Text style={{...globalStyles.body1}}>Aventureiro</Text>
-                            <Text style={{...globalStyles.legenda1, textAlign: "center", marginTop: 10, marginBottom: 10}}>Peça uma picanha com 70% de desconto.</Text>
-                            <TouchableOpacity style={{...globalStyles.smallButtonStyle, height: 30}}>                              
-                                <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5}}>
-                                    <MaterialIcons name="star" size={15} color="white"/>
-                                    <Text style={{color:"#FAFAFA", marginLeft: 5}}>300</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        
+                        <View style={{flexDirection: 'row', flex: 1, justifyContent: "space-between", margin: 10}}>
+                            <View style={styles.awardCard}>
+                                <MaterialIcons name="star" size={25} color="#E0A819"/>
+                                <Text style={{...globalStyles.body1}}>Aventureiro</Text>
+                                <Text style={{...globalStyles.legenda1, textAlign: "center", marginTop: 10, marginBottom: 10}}>Peça uma picanha com 70% de desconto.</Text>
+                                
+                                    <TouchableOpacity style={{...globalStyles.smallButtonStyle, height: 30}}>                              
+                                        <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5}}>
+                                            <MaterialIcons name="star" size={15} color="white"/>
+                                            <Text style={{color:"#FAFAFA", marginLeft: 5}}>300</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.awardCard}>
+                                <MaterialIcons name="star" size={25} color="#E0A819"/>
+                                <Text style={{...globalStyles.body1}}>Rei de Roma</Text>
+                                <Text style={{...globalStyles.legenda1, textAlign: "center", marginTop: 10, marginBottom: 10}}>Peça todas as massas com 45% de desconto.</Text>
+                                
+                                    <TouchableOpacity style={{...globalStyles.smallButtonStyle, height: 30}}>                              
+                                        <View style={{flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5}}>
+                                            <MaterialIcons name="star" size={15} color="white"/>
+                                            <Text style={{color:"#FAFAFA", marginLeft: 5}}>200</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                            </View>
+
+                        </View>                        
                         <View style={styles.label}>
                             <Text style={globalStyles.h6}>Destaques</Text>
                         </View> 
 
                         <TouchableOpacity onPress={ToProduct}>
                             <View style={styles.cardDestaque}>
-                                <Image style={{maxWidth:"100%",borderRadius:5}} source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}/>
+                                <Image style={{Width:"100%",borderRadius:5}} 
+                                        source={require("../assets/images/pagina_restaurante_macarao_destaque.png")}
+                                        resizeMode="contain"
+                                />
                                 <View style={styles.destaqueNome}>
                                     <Text style={{...globalStyles.sub1, ...globalStyles.branco1}}>Macarrão Italiano</Text>
                                     <View style={{flexDirection: 'row', alignItems: "center"}}>
