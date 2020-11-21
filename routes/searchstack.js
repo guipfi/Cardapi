@@ -1,7 +1,6 @@
 import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Comanda from '../screens/comanda';
 import Search from '../screens/search';
 
 const {Navigator, Screen} = createStackNavigator();

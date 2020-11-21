@@ -99,7 +99,7 @@ export default function Comanda({navigation}){
       <Modal
         style= {styles.modalView}
         swipeToClose={false}
-        backdropOpacity={0.5}
+        backdropOpacity={0}
         position= {"bottom"}
         isOpen={true}
         onClosed={() => navigation.goBack()}
