@@ -10,25 +10,18 @@ import {
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {addItem, deleteItem} from '../actions/cartActions';
+ 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Carrinho(){
-  const [carrinho, setCarrinho] = useState([{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  }]);
+
+  const dispatch = useDispatch();
+
+  const carrinho = useSelector((state) => state.cart);
 
   const renderHeader = () => {
     return(
@@ -84,22 +77,11 @@ export default function Carrinho(){
   }
 
   const atualizarQuantidade  = (item, op) => {
-    let id = item.id;
-    let newQuantidade;
     if(op=='adicionar') {
-      newQuantidade=parseInt(item.quantidade)+1;
+      dispatch(addItem(item));
     } else {
-      newQuantidade=parseInt(item.quantidade)-1;
+      dispatch(deleteItem(item));
     }
-    let newCarrinho = [...carrinho];
-    const index = newCarrinho.findIndex(e => e.id == id ? true : false);
-    newQuantidade = (newQuantidade < 1) ? (
-      newCarrinho.splice(index,1)
-    ) : (
-      newQuantidade = newQuantidade.toString(),
-      newCarrinho[index].quantidade=newQuantidade
-    );
-    setCarrinho(newCarrinho);
   }
 
   return (

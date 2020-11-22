@@ -6,6 +6,9 @@ import {AppLoading} from 'expo';
 import {LoginNavigator} from './routes/loginstack'
 import {firebase} from './utils/firebase';
 import { useRoute } from '@react-navigation/native';
+import {createStore} from 'redux';
+import {rootReducer} from './reducers/rootReducer';
+import {Provider} from 'react-redux';
 
 const getFonts = () => Font.loadAsync({
   'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -19,6 +22,8 @@ export default function App() {
   const [user, setUser] = useState();
   const [isRestaurant, setRestaurant] = useState(false)
   const [fontsLoaded, setFontsLoaded] = useState(false)
+  
+  const store = createStore(rootReducer);
 
   function onAuthStateChanged(user){
     setUser(user);
@@ -43,19 +48,34 @@ export default function App() {
 
     if(fontsLoaded){
       if(user){
-        if(isRestaurant) {return(<LoginNavigator client = {false} />)}
+        if(isRestaurant) {return(
+          <Provider store={store}>
+            <LoginNavigator client = {false} />
+          </Provider>
+        )}
         else{
-          return(<LoginNavigator client ={true} /> )
+          return(
+            <Provider store={store}>
+              <LoginNavigator client ={true} /> 
+            </Provider>
+          )
         }
       }
       else{
-        return (<LoginNavigator isLogged = {false} />)
+        return (
+          <Provider store={store}>
+            <LoginNavigator isLogged = {false} />
+          </Provider>
+          )
       }
     } else{
       return(
-        <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+        <Provider store={store}>
+          <AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+        </Provider>
       );
     }
+    
 }
 
 const styles = StyleSheet.create({
