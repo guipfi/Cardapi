@@ -6,9 +6,10 @@ import {AppLoading} from 'expo';
 import {LoginNavigator} from './routes/loginstack'
 import {firebase} from './utils/firebase';
 import { useRoute } from '@react-navigation/native';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {rootReducer} from './reducers/rootReducer';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk'
 
 const getFonts = () => Font.loadAsync({
   'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -23,7 +24,7 @@ export default function App() {
   const [isRestaurant, setRestaurant] = useState(false)
   const [fontsLoaded, setFontsLoaded] = useState(false)
   
-  const store = createStore(rootReducer);
+  const store = createStore(rootReducer, applyMiddleware(thunk));
 
   function onAuthStateChanged(user){
     setUser(user);
