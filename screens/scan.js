@@ -11,26 +11,30 @@ import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
 import QRCode from '../shared/QRCode';
 import {firebase} from '../utils/firebase';
+import {useDispatch} from 'react-redux';
+import {abrirComanda} from '../actions/comandaActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { QrCode } from '../assets/icons/icons';
 
 function Scan({navigation}){
-  
+
   useEffect(() => {    
-    
     const user = firebase.auth().currentUser;
 
     if (!user) {
       alert("Você precisa estar logado para ter acesso a comanda!");
       navigation.pop();
     }
-  });
+  },[]);
 
-  const abrirComanda = () => {
-    navigation.pop();
-    navigation.navigate('Comanda');
+  const [codComanda, setCodComanda] = useState('');
+
+  const dispatch = useDispatch();
+
+  const submitHandler = () => {
+    dispatch(abrirComanda(codComanda));
   }
 
   return (
@@ -100,14 +104,13 @@ function Scan({navigation}){
               borderRadius: 5,
               borderColor: 'black',
               color: 'black',
-            }}
-            />
+            }} value={codComanda} onChangeText={(codComanda) => setCodComanda(codComanda)} returnKeyType="send" onSubmitEditing={() => submitHandler()} />
           </View>
           <View style={{width: 60 , height: 60, marginLeft: '2%'}}>
             <View style={{...styles.buttonShadow}}>
               <TouchableOpacity
                 onPress={() => {
-                  submit();
+                  submitHandler();
                 }}
                 style={{width: '100%', height: '100%'}}
               >

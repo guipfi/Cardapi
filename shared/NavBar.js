@@ -8,7 +8,7 @@ import {useRoute} from '@react-navigation/native';
 import {globalStyles} from '../styles/global';
 // Telas
 import Notification from '../screens/notification';
-import Comanda from '../screens/comanda';
+import Comanda from '../screens/comandaControl';
 // Icones
 import {QrCode,Lupa,HomeOutline} from '../assets/icons/icons';
 import { MaterialIcons } from '@expo/vector-icons'; 

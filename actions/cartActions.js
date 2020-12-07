@@ -11,9 +11,3 @@ export const deleteItem = (item) => {
     item: item
   }
 }
-
-export const getItems = () => {
-  return {
-    type: "GET_ITEMS"
-  }
-}
