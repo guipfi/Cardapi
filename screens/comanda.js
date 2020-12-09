@@ -10,6 +10,8 @@ import Carrinho from '../shared/Carrinho';
 import Participantes from '../shared/Participantes';
 import Consumo from '../shared/Consumo';
 import PopUpMsg from '../shared/PopUpMsg'
+import {abrirComanda, chamarGarcom} from '../actions/comandaActions';
+import {useSelector, useDispatch} from 'react-redux';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -17,7 +19,11 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Comanda({navigation}){
 
-  const [comanda, setComanda] = useState([
+  const dispatch = useDispatch();
+
+  const comanda = useSelector((state) => state.comanda);
+
+  const [comandateste, setComandateste] = useState([
     {
     "visivel": "false",
     "cpf": "88765437890",
@@ -87,12 +93,7 @@ export default function Comanda({navigation}){
 
   const dealPopUp = () => {
     alert("Aguarde... O garçom irá até a sua mesa!");
-    return (
-      <View>
-        <Text>Teste</Text>
-        <PopUpMsg message={"Aguarde... O garçom irá até a sua mesa!"} isOpen={true} isOk={true} />
-      </View>
-    )
+    dispatch(chamarGarcom());
   }
 
   return (
@@ -156,11 +157,16 @@ export default function Comanda({navigation}){
                   }
                     style={{width: '100%', height: '100%'}}
                   >
-                    <View style={{...styles.buttonStyle}}>
+                    <View style={(comanda.chamando) ? {...styles.buttonStyle, backgroundColor: "green"} : {...styles.buttonStyle}}>
                       <View>
                         <MaterialIcons name="pan-tool" size={20} color={globalStyles.branco1.color}/>
                       </View>
-                      <Text style={{color: globalStyles.branco1.color, marginTop: 5}}>Chamar garçom</Text>
+                      {
+                        comanda.chamando ?
+                          <Text style={{color: globalStyles.branco1.color, marginTop: 5}}>Chamando garçom...</Text>
+                        :
+                          <Text style={{color: globalStyles.branco1.color, marginTop: 5}}>Chamar garçom</Text>
+                      }
                     </View>  
                   </TouchableOpacity>  
                 </View>        
@@ -191,11 +197,11 @@ export default function Comanda({navigation}){
 
         <View style={{borderWidth: 1,  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
           
-        <Participantes participantes={comanda} setParticipantes={setComanda} />
+        <Participantes participantes={comandateste} setParticipantes={setComandateste} />
 
         <View style={{marginTop: 30}} />
         
-        <Consumo consumo={comanda} />
+        <Consumo consumo={comandateste} />
         
         <View style={{marginBottom: 100}}></View>
 
