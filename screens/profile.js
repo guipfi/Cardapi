@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image,Alert,Platform} from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import {View, Text,StyleSheet,ScrollView,Image,Platform} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
 import * as ImagePicker from 'expo-image-picker';
+
+import {useSelector, useDispatch} from 'react-redux';
+import {loginUser} from '../actions/userActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -14,14 +16,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function Profile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
     const [image,setImage] = useState(null)
+    const userData = useSelector((state)=>state.user)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if(user) {
         firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
             setImage(url);
         })}
-    }, []);
-
+    }, [userData]);
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -55,19 +58,22 @@ export default function Profile({navigation}){
                 xhr.send(null);
             });
             
-            if(user.photoURL == ''){
-                user.updateProfile({
+            if(userData.photoURL == '' || userData.photoURL== 'default_profile.png'){
+                firebase.auth().currentUser.updateProfile({
                     ...user,
-                    photoURL:user.uid
+                    photoURL:userData.id
+                }).then(() =>{
+                    dispatch(loginUser({...userData,photoURL:userData.id}));
                 })
             }
             
-            const upload = await firebase.storage().ref(user.uid).put(blob)
+            const upload = await firebase.storage().ref(userData.id).put(blob)
 
             blob.close()
     }
       };
 
+    
     const toData = () => {
         navigation.navigate('Meus Dados')
     }
@@ -97,7 +103,7 @@ export default function Profile({navigation}){
                     </TouchableOpacity>
                     <View style={{flex:1}}>
                         <View style={{flex:1,flexDirection:'row',marginBottom:"4.375%", justifyContent:'space-between'}}>
-                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{user.displayName}</Text>
+                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{userData['name']}</Text>
                                 <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
                             </View>
                         <View style={{marginLeft:"4%"}}>

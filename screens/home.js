@@ -4,6 +4,9 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Loading from '../shared/Loading'
 import {firebase} from '../utils/firebase';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {loginUser} from '../actions/userActions';
+
 import Card from '../shared/Card';
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -12,22 +15,61 @@ export default function Home({navigation}){
     const dataHighlight = [require('../assets/images/home_card_subway.png'),require('../assets/images/home_mcdonalds.png')];
     const dataCard = [{img:require('../assets/images/home_outback_fachada.png'), key:'1' },{img:require('../assets/images/restaurantes_favoritos_tandoor.png'), key:'2'},{img:require('../assets/images/home_outback_fachada.png'), key:'3'}]
     const [activeSlide,setActive] = useState(0)
-    const [isLoading,setLoading] = useState(false)
+    const [isLoading,setLoading] = useState(true)
     const[data,setData] = useState([])
+    const [user,setUser] = useState(null);
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        const ref = firebase.database().ref('restaurant/');
-        const listener =  ref.once('value', snapshot => {
-            const fetchedTasks = [];
+        // Carrega os restaurantes antes de montar o componente
+        const refRestaurant = firebase.database().ref('restaurant/');
+        const listener =  refRestaurant.once('value', snapshot => {
+            const restaurantes = [];
             snapshot.forEach(childSnapshot => {
                 const key = childSnapshot.key;
                 const data = childSnapshot.val();
-                fetchedTasks.push({id: key, ...data });
+                restaurantes.push({id: key, ...data });
             });
-            setData(fetchedTasks)
+            setData(restaurantes)
         });
+          
+        setLoading(false)
     }, []);
-    console.log(data)
+
+    // Fica ouvindo qualquer tipo de alteração no Firebase Authorization
+    firebase.auth().onAuthStateChanged(function(userListener) {
+        if (userListener) {
+            setUser(firebase.auth().currentUser);
+            if(user != null){
+                const realtime = []
+                const refUser = firebase.database().ref('users/'+user.uid);
+                const listener = refUser.once('value', snapshot =>{
+                    snapshot.forEach(childSnapshot => {
+                        const key = childSnapshot.key;
+                        const data = childSnapshot.val();
+                        realtime.push({id: key, ...data });
+                    });
+       
+                    const object = {
+                        'id': user.uid,
+                        'email':user.email,
+                        'photoURL':user.photoURL,
+                        'name':realtime[0].name,
+                        'cpf':realtime[0].cpf,
+                        'phone':realtime[0].phone
+                    }
+                    // Adiciona os dados do usuário logado para o estado do Redux
+                    dispatch(loginUser(object))
+                })
+            }
+        } else {
+          // No user is signed in.
+        }
+      });
+
+    const teste = useSelector((state) => state.user)
+    //console.log(teste)
+
     const renderItem = ({item}) =>{
         return(
             <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
