@@ -16,9 +16,10 @@ export default function QRCode({autenticar}) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    console.log(data);
     alert(`Comanda inciada com sucesso! 
     Você já pode começar a fazer pedidos.`);
-    autenticar(data);
+    //autenticar(data);
   };
 
   if (hasPermission === null) {

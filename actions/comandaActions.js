@@ -26,15 +26,18 @@ export const chamandoGarcom = (status) => {
 
 export const abrirComanda = (codigo, userId) => {
   return (dispatch) => {
-    dispatch(abrindoComanda());
-    firebase.database().ref('comandas/'+ codigo).on('value', snap => {
-      var comanda = snap.val();
+    var comanda;
+    firebase.database().ref('comandas/'+ codigo).once('value', snap => {
+      comanda = snap.val();
     });
     if(comanda) {
       if(comanda.owner) {
         dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo, userId]});
       } else {
         dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo, userId]});
+        firebase.database().ref('comandas/' + codigo).update({
+          owner: userId
+        });
       }
     } else {
       dispatch({type: "COMANDA_INEXISTENTE"});
