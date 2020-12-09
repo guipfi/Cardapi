@@ -3,7 +3,8 @@ import {View, Text,StyleSheet,ScrollView, KeyboardAvoidingView, Alert} from 'rea
 import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading'
 
-
+import {useSelector, useDispatch} from 'react-redux';
+import {loginUser} from '../actions/userActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -21,7 +22,8 @@ const UserSchema  = yup.object({
 })
 
 export default function MyData({navigation}){
-    const user = firebase.auth().currentUser
+    const user = firebase.auth().currentUser;
+    const dispatch = useDispatch();
     const [modal,setModal] = useState(false);
     const [isDelete,setDelete] = useState(false);
     const [userData,setUserData] = useState('')
@@ -92,6 +94,8 @@ export default function MyData({navigation}){
                                 })
                                 
                                 user.updateEmail(values.email)
+                                dispatch(loginUser({'name':values.name,'phone':values.phone,'cpf':userData[0].cpf,'email':values.email}))
+
                                 setModal(true)
                         })
                     } catch(e){

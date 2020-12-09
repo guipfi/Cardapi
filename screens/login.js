@@ -7,12 +7,16 @@ import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
 import Modal from "react-native-modalbox";
 
+import {useSelector, useDispatch} from 'react-redux';
+import {loginUser} from '../actions/userActions';
+
 export default function Login({navigation}) {
     const [initializing, setInitializing] = useState(true);
     const [errorMsg, setError] = useState('');
     const [isRestaurant, setRestaurant] = useState(false)
     const [isLoading, setLoading] = useState(false);
     const [user,setUser] = useState(null)
+    
     
     const ToRegisterUser = () =>{
         navigation.navigate('Registro')
@@ -50,12 +54,10 @@ export default function Login({navigation}) {
                                     if(snapshot.exists()){
                                         navigation.replace('Perfil do Restaurante')
                                     } else{
-                                        navigation.navigate('Nav')
+                                        navigation.replace('Nav');
                                     }
-                                })
-                            
                             })
-                        } catch (e) {
+                        })} catch (e) {
                             console.log(e.code)
                             if(e.code == 'auth/invalid-email'){
                                 setError('Um campo ou mais estão inválidos');
