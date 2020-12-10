@@ -122,6 +122,10 @@ export default function RestaurantProfile({navigation}){
         navigation.navigate('Meu Cardápio')
     }
 
+    const toComandas = () => {
+        navigation.navigate('Comandas')
+    }
+
     useEffect(() =>{
         if(user == null){
             return navigation.replace('Login')
@@ -169,6 +173,11 @@ export default function RestaurantProfile({navigation}){
                 <View style={styles.OptionMenu}>
                     <TouchableOpacity onPress={toMenu}>
                     <Text style={globalStyles.body1}>Meu Cardápio</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.OptionMenu}>
+                    <TouchableOpacity onPress={toComandas}>
+                    <Text style={globalStyles.body1}>Comandas</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>

@@ -11,7 +11,7 @@ import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
 import QRCode from '../shared/QRCode';
 import {firebase} from '../utils/firebase';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {abrirComanda} from '../actions/comandaActions';
 
 // Estilo Global
@@ -33,8 +33,17 @@ function Scan({navigation}){
 
   const dispatch = useDispatch();
 
-  const submitHandler = () => {
-    dispatch(abrirComanda(codComanda));
+  const comanda= useSelector(state => state.comanda);
+
+  const submitHandler = (cod=codComanda) => {
+    dispatch(abrirComanda(cod));
+    if(comanda.status==1) {
+      alert("Comanda válida");
+    } else if(comanda.status==2) {
+      alert("Comanda ocupada");
+    } else {
+      alert("Comanda inválida");
+    }
   }
 
   return (
@@ -68,7 +77,7 @@ function Scan({navigation}){
       </View>
   
       <View style={{height: "30%", marginTop: 30}}>
-        <QRCode autenticar={abrirComanda}/>
+        <QRCode autenticar={submitHandler}/>
       </View>
       <View>
         <View style={{display: 'flex', alignItems: 'center', flexDirection: 'row', marginTop: '15%'}}>

@@ -73,8 +73,10 @@ const Consumo = ({consumo}) => {
   return (
       <View>
         <FlatList 
+          listKey={1}
           scrollEnabled={false}
           data={consumo}
+          keyExtractor={item => item.cpf}
           ListHeaderComponent={renderHeader}
           ListFooterComponent={renderFooterConsumo}
           renderItem={({item}) => (
@@ -90,8 +92,8 @@ const Consumo = ({consumo}) => {
               </View>
               <View>
                 <FlatList 
-                  listKey={item.id}
-                  keyExtractor={item => item.cpf}
+                  listKey={0}
+                  keyExtractor={item => item.id}
                   scrollEnabled={false}
                   data={item.pedido}
                   ListFooterComponent={() => {return (item.pedido.length > 0 ? renderFooterPedido(item.pedido) : null)}}
@@ -116,14 +118,13 @@ const Consumo = ({consumo}) => {
                       </View>
                       
                     </View> 
-                    )}/>
+                    )}
+                    />
                    <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginTop: 20}} />
                   </View>
                   </View>
                     ) : (null)
           )}
-          listKey={'consumo'}
-          keyExtractor={item => item.cpf}
         />
       </View>
   );

@@ -16,16 +16,14 @@ export default function QRCode({autenticar}) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Comanda inciada com sucesso! 
-    Você já pode começar a fazer pedidos.`);
     autenticar(data);
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Requisitando acesso à camera.</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>O acesso à câmera não foi permitido.</Text>;
   }
 
   return (
@@ -38,7 +36,7 @@ export default function QRCode({autenticar}) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      {scanned && <Button title={'Pressione para scanear novamente'} onPress={() => setScanned(false)} />}
     </View>
   );
 }

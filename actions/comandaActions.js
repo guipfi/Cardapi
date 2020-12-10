@@ -24,20 +24,28 @@ export const chamandoGarcom = (status) => {
   }
 }
 
-export const abrirComanda = (codigo, userId) => {
+export const abrirComanda = (codigo, userId=10) => {
+  console.log("cod:");
+  console.log(codigo);
   return (dispatch) => {
-    dispatch(abrindoComanda());
-    firebase.database().ref('comandas/'+ codigo).on('value', snap => {
-      var comanda = snap.val();
-    });
-    if(comanda) {
-      if(comanda.owner) {
-        dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo, userId]});
+    var comanda;
+    firebase.database().ref('comandas/'+ codigo).once('value', snap => {
+      comanda = snap.val();
+    }).then(() => {
+      if(comanda) {
+        if(comanda.owner) {
+          dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo, userId]});
+        } else {
+          console.log("chegou4");
+          dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo, userId]});
+          firebase.database().ref('comandas/' + codigo).update({
+            owner: userId
+          });
+        }
       } else {
-        dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo, userId]});
+        console.log("chegou5");
+        dispatch({type: "COMANDA_INEXISTENTE"});
       }
-    } else {
-      dispatch({type: "COMANDA_INEXISTENTE"});
-    }
+    })
   }
 }

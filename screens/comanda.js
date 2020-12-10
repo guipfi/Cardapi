@@ -107,6 +107,7 @@ export default function Comanda({navigation}){
       >
       <View style={{...globalStyles.container}}>
       <FlatList
+        listKey={2}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
@@ -207,7 +208,8 @@ export default function Comanda({navigation}){
 
         </View>
         </View>
-      }/>
+      }
+      />
       </View>
       </Modal>
 

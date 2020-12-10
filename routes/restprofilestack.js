@@ -9,6 +9,7 @@ import RestaurantProfile from '../screens/restaurantProfile';
 import MyMenu from '../screens/mymenu';
 import NewItem from '../screens/newItem'
 import NewIngredient from '../screens/newIngredient'
+import restaurantTable from '../screens/restaurantTables';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -17,12 +18,12 @@ const RestaurantProfileNavigator = () => (
         <Screen name="Perfil do Restaurante" component = {RestaurantProfile} options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Minhas Infos" component={RestaurantMyData}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Meu Cardápio" component={MyMenu}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
+        <Screen name="Comandas" component={restaurantTable}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Sobre nós" component={About}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Novo Item" component={NewItem}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Novo Acompanhamento" component={NewIngredient}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />      
         <Screen name="Upload" component={UploadScreen}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />   
     </Navigator>
-
 )
 
 export const RestaurantProfileStack = () => (<RestaurantProfileNavigator/>)

@@ -52,7 +52,7 @@ export default function Login({navigation}) {
                             await firebase.auth().signInWithEmailAndPassword(values.email,values.password).then(()=>{
                                 const ref = firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid).once('value',(snapshot)=>{
                                     if(snapshot.exists()){
-                                        navigation.replace('Perfil do Restaurante')
+                                        navigation.replace('Home Restaurante3')
                                     } else{
                                         navigation.replace('Nav');
                                     }
