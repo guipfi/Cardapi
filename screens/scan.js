@@ -35,8 +35,8 @@ function Scan({navigation}){
 
   const comanda= useSelector(state => state.comanda);
 
-  const submitHandler = () => {
-    dispatch(abrirComanda(codComanda));
+  const submitHandler = (cod=codComanda) => {
+    dispatch(abrirComanda(cod));
     if(comanda.status==1) {
       alert("Comanda válida");
     } else if(comanda.status==2) {
@@ -77,7 +77,7 @@ function Scan({navigation}){
       </View>
   
       <View style={{height: "30%", marginTop: 30}}>
-        <QRCode autenticar={abrirComanda}/>
+        <QRCode autenticar={submitHandler}/>
       </View>
       <View>
         <View style={{display: 'flex', alignItems: 'center', flexDirection: 'row', marginTop: '15%'}}>

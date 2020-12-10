@@ -1,17 +1,28 @@
-import React, {useState} from 'react';
-import { render } from 'react-dom';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from "react-native-modalbox";
 import QRCode from 'react-native-qrcode-generator';
 import { Dimensions } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import {criarComanda} from '../actions/gerenciamentoComandaActions';
+import {criarComanda, carregarComandas, deletarComanda} from '../actions/gerenciamentoComandaActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
+import { isEmptyArray } from 'formik';
 
 export default function restaurantTable({navigation}) {
+
+  const dispatch = useDispatch();
+
+  const comandas = useSelector((state) => state.comandas);
+
+  useEffect(() => {
+    if(!comandas) {
+      dispatch(carregarComandas());
+    }
+  }, [])
 
   const [openModal, setOpenModal] = useState(false);
   const [openModalAdd, setOpenModalAdd] = useState(false);
@@ -32,14 +43,16 @@ export default function restaurantTable({navigation}) {
     )
   }
 
-  const dispatch = useDispatch();
-
-  const comandas = useSelector((state) => state.comandas);
+  
 
   const adicionarComandaHandler = () => {
     dispatch(criarComanda(mesa));
     setMesa('');
     setOpenModalAdd(false);
+  }
+
+  const deleteHandler = (id) => {
+    dispatch(deletarComanda(id));
   }
 
   return (
@@ -71,6 +84,7 @@ export default function restaurantTable({navigation}) {
           <TextInput 
             style={{...globalStyles.normalInput, marginTop:"5.468%"}}
             placeholder="Mesa"
+            keyboardType="numeric"
             onChangeText={(e) => setMesa(e)}
             value={mesa}
           />
@@ -103,6 +117,17 @@ export default function restaurantTable({navigation}) {
                     </View>
                     <View style={{flex:1, marginLeft: 30, alignSelf: 'center'}}>
                       <Text style={globalStyles.sub2}>Mesa: {item.mesa}</Text>
+                    </View>
+                    <View style={{flex:0.5, alignSelf: 'center'}}>
+                    { !item.owner ? 
+                        <TouchableOpacity onPress={() => {
+                        deleteHandler(item.comanda_id);
+                        }}>
+                        <MaterialIcons name="delete" size={30} color={globalStyles.vermelho1.color}/>
+                        </TouchableOpacity> 
+                        :
+                        <Text style={{...globalStyles.body1, marginRight: 10}}>Em uso</Text>
+                    }
                     </View>
                   </View>
                 </View> 

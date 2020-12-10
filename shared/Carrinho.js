@@ -129,7 +129,7 @@ export default function Carrinho(){
               }
             </View>       
           )}
-          listKey={'carrinho'}
+          listKey='carrinho'
           keyExtractor={item => item.id}
           ListFooterComponent={() => {return (carrinho.length > 0 ? renderFooter() : null)}}
           ListEmptyComponent={renderEmpty}

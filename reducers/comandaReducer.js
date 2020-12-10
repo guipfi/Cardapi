@@ -4,7 +4,7 @@ const initState =
   mesa: null,
   owner: null,
   restaurante: null,
-  chamando: null,
+  chamando: false,
   // Status 0 = Comanda inexistente // Status 1 = Atribuida com sucesso // Status 2 = Comanda ocupada,
   status: null,
 };

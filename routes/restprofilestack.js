@@ -24,7 +24,6 @@ const RestaurantProfileNavigator = () => (
         <Screen name="Novo Acompanhamento" component={NewIngredient}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />      
         <Screen name="Upload" component={UploadScreen}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />   
     </Navigator>
-
 )
 
 export const RestaurantProfileStack = () => (<RestaurantProfileNavigator/>)

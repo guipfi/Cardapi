@@ -65,7 +65,7 @@ export default function Participantes({participantes, setParticipantes}){
               </View>
             </View>       
           )}
-          listKey={'participantes'}
+          listKey='participantes'
           keyExtractor={item => item.cpf}
         />
       </View>

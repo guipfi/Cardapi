@@ -45,7 +45,9 @@ export default function Pedido(){
           
           <Carrinho />
         </View>
-      }/>
+      }
+      listKey='pedido'
+      />
       </Modal>
     </View>
 
