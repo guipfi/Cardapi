@@ -4,32 +4,68 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
 import * as ImagePicker from 'expo-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {loginUser} from '../actions/userActions';
+
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import PopUpMsg from '../shared/PopUpMsg';
-
-
-
 
 export default function RestaurantProfile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
     const [endereco, setEndereco] = useState(null)
     const [image,setImage] = useState(null)
+    const userData = useSelector((state)=>state.user)
+    const dispatch = useDispatch()
 
      useEffect(() => {
          if(user){
              firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
                  setImage(url);
              })
-             firebase.database().ref('restaurant/'+user.uid+"/profile/endereco").once('value', snapshot =>{
-                 var endereco = snapshot.val()
-                 setEndereco(endereco)
-             })
          }
         
      }, []);
+
+     firebase.auth().onAuthStateChanged(function(userListener) {
+        if (userListener) {
+            setUser(firebase.auth().currentUser);
+            if(user != null){
+                console.log(user)
+                const realtime = []
+                const refUser = firebase.database().ref('restaurant/'+user.uid);
+                const listener = refUser.once('value', snapshot =>{
+                    snapshot.forEach(childSnapshot => {
+                        const key = childSnapshot.key;
+                        const data = childSnapshot.val();
+                        realtime.push({id: key, ...data });
+                    });
+       
+                    const object = {
+                        'id': user.uid,
+                        'email':user.email,
+                        'photoURL':user.photoURL,
+                        'name':realtime[0].name,
+                        'cnpj':realtime[0].cnpj,
+                        'categoria': realtime[0].type,
+                        'phone':realtime[0].phone,
+                        'endereco': realtime[0].endereco,
+                        'acessible': realtime[0].acessible,
+                        'estacionamento': realtime[0].estacionamento,
+                        'music': realtime[0].music,
+                        'wifi': realtime[0].wifi,
+                        'bio': realtime[0].bio,
+                    }
+                    // Adiciona os dados do usuário logado para o estado do Redux
+                    dispatch(loginUser(object))
+                })
+            }
+        } else {
+          // No user is signed in.
+        }
+      });
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -103,7 +139,7 @@ export default function RestaurantProfile({navigation}){
                     </TouchableOpacity>
                     <View style={{flex:1}}>
                         <View style={{flex:1,flexDirection:'row',marginBottom:"4.375%", justifyContent:'space-between'}}>
-                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{user.displayName}</Text>
+                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{userData['name']}</Text>
                                 <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
                             </View>
                         <View style={{marginLeft:"4%"}}>
@@ -116,11 +152,11 @@ export default function RestaurantProfile({navigation}){
 
                     <View style={{flexDirection:'row', marginTop:"4.3%"}}>
                         <MaterialIcons style={{marginRight:"1%"}} name="room" size={16} color="black" />
-                        <Text style={globalStyles.body3}>{endereco!=null ? endereco :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
+                        <Text style={globalStyles.body3}>{endereco!=null ? userData['endereco'] :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
                     </View>
                     <View style={{flexDirection:'row', marginTop:"1%"}}>
                         <MaterialCommunityIcons style={{marginRight:"1%"}} name="phone" size={16} color="black" />
-                        <Text style={globalStyles.body3}>13965481583</Text>
+                        <Text style={globalStyles.body3}>{userData['phone']}</Text>
                     </View>
                 </View>
             </View>

@@ -41,6 +41,7 @@ export default function Home({navigation}){
         if (userListener) {
             setUser(firebase.auth().currentUser);
             if(user != null){
+                console.log(user)
                 const realtime = []
                 const refUser = firebase.database().ref('users/'+user.uid);
                 const listener = refUser.once('value', snapshot =>{
@@ -73,7 +74,8 @@ export default function Home({navigation}){
     const renderItem = ({item}) =>{
         return(
             <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
-                <Card name={item.profile.name} img = {item.id} />
+                <Card name={item.profile.name} type={item.profile.type} img = {item.id} wifi = {item.profile.wifi} estacionameto = {item.profile.estacionameto} 
+                music = {item.profile.music} acessible ={item.profile.acessible} />
             </TouchableOpacity>
         )
     }
@@ -87,7 +89,7 @@ export default function Home({navigation}){
     }
     if(!isLoading){
     return(
-        <View style={{marginBottom:"20%"}}>
+        <View style={{marginBottom:"20%", backgroundColor:"white"}}>
             <FlatList
             data={data}
             ListHeaderComponent={ () =>(
