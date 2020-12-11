@@ -24,9 +24,16 @@ export const chamandoGarcom = (status) => {
   }
 }
 
+export const encerrarConta = () => {
+  return (dispatch) => {
+    dispatch({type: "REQUISITAR_PAGAMENTO"});
+    firebase.database().ref('comandas/' + comanda.comanda_id).update({
+      pagamento: true
+    });
+  }
+}
+
 export const abrirComanda = (codigo, userId=10) => {
-  console.log("cod:");
-  console.log(codigo);
   return (dispatch) => {
     var comanda;
     firebase.database().ref('comandas/'+ codigo).once('value', snap => {
@@ -36,14 +43,12 @@ export const abrirComanda = (codigo, userId=10) => {
         if(comanda.owner) {
           dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo, userId]});
         } else {
-          console.log("chegou4");
           dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo, userId]});
           firebase.database().ref('comandas/' + codigo).update({
             owner: userId
           });
         }
       } else {
-        console.log("chegou5");
         dispatch({type: "COMANDA_INEXISTENTE"});
       }
     })

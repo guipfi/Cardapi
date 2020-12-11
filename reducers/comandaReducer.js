@@ -5,6 +5,7 @@ const initState =
   owner: null,
   restaurante: null,
   chamando: false,
+  pagamento: false,
   // Status 0 = Comanda inexistente // Status 1 = Atribuida com sucesso // Status 2 = Comanda ocupada,
   status: null,
 };
@@ -16,6 +17,11 @@ export const comandaReducer = (state=initState, action) => {
         ...state,
         chamando: action.payload
       }
+    case "REQUISITAR_PAGAMENTO":
+      return {
+        ...state,
+        pagamento: true
+      }
     case "COMANDA_ATRIBUIDA":
       return {
         ...state,
@@ -23,6 +29,7 @@ export const comandaReducer = (state=initState, action) => {
         mesa: action.payload[0].mesa,
         owner: action.payload[3],
         restaurante: action.payload[0].restaurante,
+        pagamento: false,
         chamando: false,
         status: 1
       }

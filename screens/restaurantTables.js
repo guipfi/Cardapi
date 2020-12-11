@@ -126,7 +126,28 @@ export default function restaurantTable({navigation}) {
                         <MaterialIcons name="delete" size={30} color={globalStyles.vermelho1.color}/>
                         </TouchableOpacity> 
                         :
+                        !item.pagamento ?
+                        item.chamando ?
+                        <TouchableOpacity onPress={() => {
+                        deleteHandler(item.comanda_id);
+                        }}>
+                        <MaterialIcons name="pan-tool" size={30} color={globalStyles.vermelho1.color}/>
+                        </TouchableOpacity> 
+                        :
                         <Text style={{...globalStyles.body1, marginRight: 10}}>Em uso</Text>
+                        :
+                        item.pagamento==1 ?
+                        <TouchableOpacity onPress={() => {
+                        deleteHandler(item.comanda_id);
+                        }}>
+                        <MaterialIcons name="attach-money" size={30} color={globalStyles.vermelho1.color}/>
+                        </TouchableOpacity> 
+                        :
+                        <TouchableOpacity onPress={() => {
+                        deleteHandler(item.comanda_id);
+                        }}>
+                        <MaterialIcons name="credit-card" size={30} color={globalStyles.vermelho1.color}/>
+                        </TouchableOpacity> 
                     }
                     </View>
                   </View>

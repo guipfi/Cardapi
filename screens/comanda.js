@@ -23,6 +23,8 @@ export default function Comanda({navigation}){
 
   const comanda = useSelector((state) => state.comanda);
 
+  const [moneyPayment, setMoneyPayment] = useState(true);
+
   const [comandateste, setComandateste] = useState([
     {
     "visivel": "false",
@@ -90,6 +92,31 @@ export default function Comanda({navigation}){
     "pedido": []
   },
   ]);
+
+  const RadioButton = (isActive) => {
+    return (
+        <View style={{
+          height: 24,
+          width: 24,
+          borderRadius: 12,
+          borderWidth: 2,
+          borderColor: '#000',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {
+            isActive ?
+              <View style={{
+                height: 12,
+                width: 12,
+                borderRadius: 6,
+                backgroundColor: '#000',
+              }}/>
+              : null
+          }
+        </View>
+    );
+  }
 
   const dealPopUp = () => {
     alert("Aguarde... O garçom irá até a sua mesa!");
@@ -203,6 +230,37 @@ export default function Comanda({navigation}){
         <View style={{marginTop: 30}} />
         
         <Consumo consumo={comandateste} />
+
+        <Text style={{...globalStyles.h5, marginBottom: 30, marginTop: 30}}>Pagamento</Text> 
+
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
+          <TouchableOpacity onPress={() => setMoneyPayment(true)}>
+            {RadioButton(moneyPayment)}
+          </TouchableOpacity>
+          <Text style={{...globalStyles.sub1, marginLeft:5}}>Dinheiro</Text>
+        </View>
+        
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => setMoneyPayment(false)}>
+          {RadioButton(!moneyPayment)}
+          </TouchableOpacity>
+          <Text style={{...globalStyles.sub1, marginLeft:5}}>Cartão de crédito/débito</Text>
+        </View>
+
+        <View style={{height: 47, width: '44%', alignSelf: 'center', marginTop: '12%'}}>
+          <View style={styles.buttonShadow}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+                style={{width: '100%', height: '100%'}}
+              >
+                <View style={{...styles.buttonStyle, paddingLeft: 0}}>
+                  <Text style={{color: globalStyles.branco1.color, textAlign: 'center'}}>Fechar conta</Text>
+                </View>  
+              </TouchableOpacity>  
+            </View>        
+        </View>
         
         <View style={{marginBottom: 100}}></View>
 
