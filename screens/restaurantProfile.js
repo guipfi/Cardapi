@@ -33,7 +33,6 @@ export default function RestaurantProfile({navigation}){
         if (userListener) {
             setUser(firebase.auth().currentUser);
             if(user != null){
-                console.log(user)
                 const realtime = []
                 const refUser = firebase.database().ref('restaurant/'+user.uid);
                 const listener = refUser.once('value', snapshot =>{
@@ -81,8 +80,6 @@ export default function RestaurantProfile({navigation}){
           quality: 1,
         });
     
-        console.log(result);
-    
         if (!result.cancelled) {
           setImage(result.uri);
 
@@ -102,9 +99,14 @@ export default function RestaurantProfile({navigation}){
             
             user.updateProfile({
                 photoURL:user.uid
+            }).then(()=>{
+                firebase.database().ref("/restaurant/"+user.uid+"/profile/").update({
+                    "img":user.uid
+            })
             })
             
             const upload = await firebase.storage().ref(user.uid).put(blob)
+
 
             blob.close()
     }

@@ -46,6 +46,7 @@ export default function RestaurantRegister({navigation}) {
                                 music: false,
                                 wifi: false,
                                 bio: '',
+                                img:"default_profile.png",
                                 type:values.type
                             })
                         })

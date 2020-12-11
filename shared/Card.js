@@ -7,23 +7,24 @@ import {globalStyles} from '../styles/global';
 
 import { MaterialIcons } from '@expo/vector-icons'; 
 
-export default function Card({img,name,type,wifi,estacionamento,music,acessible}){
-    const user = firebase.auth().currentUser
-    const [isFavorite, setFavorite] = useState('false');
+export default function Card({img,name,type,wifi,estacionamento,music,acessible,user, id}){
     const [image, setImage] = useState('default_profile.png')
+    const [isFavorite, setFavorite] = useState(false);
 
-    const Favorite = () =>{
+    const Favorite = (param) =>{
         if(user) {
-        setFavorite(!isFavorite);
-        if(isFavorite == true){
-            firebase.database().ref('users/'+user.uid+"/profile/favorite/"+img).set({
-                isFavorite:true
-            })
-        }
+            if(param == true){
+                firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).set(true)  
+            } else{
+                firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).remove()
+            }
+            setFavorite(param);
         }
     }
-
     useEffect(() => {
+            if(img == undefined){
+                img = image
+            }
             firebase.storage().ref(img).getDownloadURL().then((url) =>{
                 setImage(url);
             })
@@ -33,11 +34,14 @@ export default function Card({img,name,type,wifi,estacionamento,music,acessible}
         <View style={styles.cardContainer}>
             <View>
                 <Image source={{uri:image}} style={{position:'relative', borderTopLeftRadius:20, borderTopRightRadius:20, width:"100%", height:133}}/>
-                <View style={{backgroundColor:"#F2F2F2", position:'absolute', left:"86%", height:"25%", width:"10%", borderBottomLeftRadius:20, borderBottomRightRadius:20, alignItems:'center',justifyContent:'center'}}>
-                    <TouchableOpacity onPress={Favorite}>
-                        {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#740300"/> : <MaterialIcons name="favorite" size={25} color="#740300"/>  } 
+                {user ?
+                    <View style={{backgroundColor:"#F2F2F2", position:'absolute', left:"86%", height:"25%", width:"10%", borderBottomLeftRadius:20, borderBottomRightRadius:20, alignItems:'center',justifyContent:'center'}}>
+                    <TouchableOpacity onPress={() => Favorite(!isFavorite)}>
+                        {isFavorite ? <MaterialIcons name="favorite" size={25} color="#740300"/> : <MaterialIcons name="favorite-border" size={25} color="black"/>  } 
                     </TouchableOpacity>
-                </View>
+                </View>: <View></View>
+                }
+
              </View>
     <Text style={{...globalStyles.sub1, marginLeft:"3.5%",marginTop:'2.8%'}}>{name}</Text>
             <View style={styles.rowContainerTipo}>
