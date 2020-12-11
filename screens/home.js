@@ -16,8 +16,8 @@ export default function Home({navigation}){
     const dataCard = [{img:require('../assets/images/home_outback_fachada.png'), key:'1' },{img:require('../assets/images/restaurantes_favoritos_tandoor.png'), key:'2'},{img:require('../assets/images/home_outback_fachada.png'), key:'3'}]
     const [activeSlide,setActive] = useState(0)
     const [isLoading,setLoading] = useState(true)
-    const[data,setData] = useState([])
-    const [user,setUser] = useState(null);
+    const[data,setData] = useState([]); // Lista de Restaurantes
+    const [user,setUser] = useState(null); // Informações do Auth
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -32,7 +32,6 @@ export default function Home({navigation}){
             });
             setData(restaurantes)
         });
-          
         setLoading(false)
     }, []);
 
@@ -56,7 +55,8 @@ export default function Home({navigation}){
                         'photoURL':user.photoURL,
                         'name':realtime[0].name,
                         'cpf':realtime[0].cpf,
-                        'phone':realtime[0].phone
+                        'phone':realtime[0].phone,
+                        'favorite': realtime[0].favorite
                     }
                     // Adiciona os dados do usuário logado para o estado do Redux
                     dispatch(loginUser(object))
@@ -66,14 +66,12 @@ export default function Home({navigation}){
           // No user is signed in.
         }
       });
-
-    const teste = useSelector((state) => state.user)
-    //console.log(teste)
-
+    
     const renderItem = ({item}) =>{
         return(
             <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
-                <Card name={item.profile.name} img = {item.id} />
+                <Card name={item.profile.name} type={item.profile.type} id={item.id} img = {item.profile.img} wifi = {item.profile.wifi} estacionameto = {item.profile.estacionameto} 
+                music = {item.profile.music} acessible ={item.profile.acessible}  user = {user}/>
             </TouchableOpacity>
         )
     }
@@ -87,7 +85,7 @@ export default function Home({navigation}){
     }
     if(!isLoading){
     return(
-        <View style={{marginBottom:"20%"}}>
+        <View style={{marginBottom:"20%", backgroundColor:"white"}}>
             <FlatList
             data={data}
             ListHeaderComponent={ () =>(

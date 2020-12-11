@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert} from 'react-native';
-import Modal from 'react-native-modalbox';
 import {globalStyles} from '../styles/global';
 import {Formik} from 'formik';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {firebase} from '../utils/firebase';
+import {Picker} from '@react-native-picker/picker';
 import * as yup from 'yup';
-import Loading from '../shared/Loading'
 
 const UserSchema  = yup.object({
     name: yup.string().required('Digite um nome válido').min(2,'Digite um nome maior'),
@@ -28,7 +27,7 @@ export default function RestaurantRegister({navigation}) {
     return(
         <View style={styles.containerForms}>     
         <Formik
-            initialValues={{name:'', cnpj:'', phone:'', email:'', password:'', passwordConfirm:''}}
+            initialValues={{name:'', cnpj:'', phone:'', email:'', password:'', passwordConfirm:'', type:''}}
             validationSchema={UserSchema}
             onSubmit={ async (values) => {
                 try{
@@ -46,12 +45,14 @@ export default function RestaurantRegister({navigation}) {
                                 estacionamento: false,
                                 music: false,
                                 wifi: false,
-                                bio: ''
+                                bio: '',
+                                img:"default_profile.png",
+                                type:values.type
                             })
                         })
                     }).then(() =>{
                         Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}])
-                        navigation.navigate('Login')
+                        navigation.replace('Perfil do Restaurante')
                     })
                 } catch(e){
                     console.log(e.code)
@@ -123,6 +124,18 @@ export default function RestaurantRegister({navigation}) {
                                 <MaterialIcons name='remove-red-eye' size={24} color="black" style={{padding:10}} />
                             </TouchableOpacity>
                     </View>
+
+                    <Picker
+                        selectedValue={props.values.type}
+                        style={{height: 50, width: 300}}
+                        onValueChange={props.handleChange('type')}>
+                        <Picker.Item label="Selecione uma Categoria" value="" />    
+                        <Picker.Item label="Comida Brasileira" value="Brasileira" />
+                        <Picker.Item label="Comida Indiana" value="Indiano" />
+                        <Picker.Item label="Pizzaria" value="Pizzaria" />
+                        <Picker.Item label="Churrascaria" value="Churrascaria" />
+                        <Picker.Item label="Sorveteria" value="Sorveteria" />
+                    </Picker>
                     <Text style={styles.errorStyle}>{props.errors.passwordConfirm}</Text>        
                     <View style={{alignItems:"center"}}>
                         <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
