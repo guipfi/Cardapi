@@ -1,3 +1,4 @@
+import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 import {firebase} from '../utils/firebase';
 
 export const loginUser = (user) => {
@@ -15,22 +16,19 @@ export const logoutUser = (user) => {
 }
 
 export const setComanda = (comanda=1, userID=1) => {
-  console.log("entrou");
-  console.log(userID);
-  console.log(comanda);
-  return (dispatch) => {
-    console.log(1);
+  return (dispatch, getState) => {
     if(comanda) {
-      console.log(2);
       firebase.database().ref('users/'+userID+'/profile').update({
         comanda: comanda
       });
-      console.log(3);
+      
+      firebase.database().ref('comandas/'+comanda+'/consumo/'+userID).update({
+        nome: getState().user.name,
+        foto: getState().user.photoURL
+      });
     } else {
-      console.log(4);
       firebase.database().ref('users/'+userID+'/profile/comanda').remove();
     }
-    console.log(5);
     dispatch({type: 'SET_COMANDA', payload: comanda});
   }
 }

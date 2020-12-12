@@ -4,8 +4,10 @@ import {
   Text,
   View,
   FlatList,
+  Image
 } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import {useSelector, useDispatch} from 'react-redux';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';

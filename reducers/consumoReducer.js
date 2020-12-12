@@ -1,10 +1,20 @@
 const initState = 
 {
-  consumo: [{nome: null, visivel: null, foto: null, pedido: [{}]}]
+  isLoading: true
 }
 
 export const consumoReducer = (state=initState, action) => {
   switch(action.type) {
+    case "CARREGAR_CONSUMO":
+      return {
+        ...state,
+        ...action.payload
+      }
+    case "LOAD_SUCCESS":
+    return {
+      ...state,
+      isLoading: false
+    }
     default:
       return state;
   }
