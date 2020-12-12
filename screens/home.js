@@ -32,7 +32,6 @@ export default function Home({navigation}){
             });
             setData(restaurantes)
         });
-        setLoading(false)
     }, []);
 
     // Fica ouvindo qualquer tipo de alteração no Firebase Authorization
@@ -58,12 +57,16 @@ export default function Home({navigation}){
                         'phone':realtime[0].phone,
                         'favorite': realtime[0].favorite
                     }
+
                     // Adiciona os dados do usuário logado para o estado do Redux
-                    dispatch(loginUser(object))
+                    if(isLoading == true){
+                        dispatch(loginUser(object))
+                        setLoading(false)
+                    }
                 })
             }
         } else {
-          // No user is signed in.
+            setLoading(false)
         }
       });
     

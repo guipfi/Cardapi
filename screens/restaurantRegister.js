@@ -49,10 +49,11 @@ export default function RestaurantRegister({navigation}) {
                                 img:"default_profile.png",
                                 type:values.type
                             })
+                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("")
                         })
                     }).then(() =>{
                         Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}])
-                        navigation.replace('Perfil do Restaurante')
+                        navigation.replace('Home Restaurante3')
                     })
                 } catch(e){
                     console.log(e.code)
