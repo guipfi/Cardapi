@@ -55,7 +55,8 @@ export default function Home({navigation}){
                         'name':realtime[0].name,
                         'cpf':realtime[0].cpf,
                         'phone':realtime[0].phone,
-                        'favorite': realtime[0].favorite
+                        'favorite': realtime[0].favorite,
+                        comanda: realtime[0].comanda
                     }
 
                     // Adiciona os dados do usuário logado para o estado do Redux

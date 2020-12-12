@@ -1,7 +1,14 @@
 export const addItem = (item) => {
   return {
-    type: "ADD_ITEM",
+    type: "ADD_ITEM_QTD",
     item: item
+  }
+}
+
+export const adicionarCarrinho = (item) => {
+  return {
+    type: "ADD_NOVO_ITEM",
+    payload: item
   }
 }
 

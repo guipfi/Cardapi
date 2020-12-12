@@ -35,7 +35,7 @@ export default function Carrinho(){
   const renderFooter = () => {
     let subtotal = 0;
     carrinho.forEach((item) => {
-      subtotal += item.quantidade * item.valor_uni;
+      subtotal += item.quantidade * item.valor;
     });
     subtotal = subtotal.toFixed(2);
     return (
@@ -95,7 +95,7 @@ export default function Carrinho(){
             <View style={{marginBottom: '4%', marginTop:'4%'}}>
               <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent:'space-between'}}>
                 <View style={{flex: 1.6, marginLeft: '3%'}}>
-                  <Text style={globalStyles.sub1}>{item.produto}</Text>
+                  <Text style={globalStyles.sub1}>{item.nome}</Text>
                 </View>
                 <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', flex: 1.5}}>
                   <TouchableOpacity
@@ -121,16 +121,16 @@ export default function Carrinho(){
                   </TouchableOpacity>
                 </View>
                 <View style={{flex:1, display: 'flex', alignItems: 'flex-end'}}>
-                  <Text style={globalStyles.body1}>R$ {(item.quantidade*item.valor_uni).toFixed(2)}</Text>
+                  <Text style={globalStyles.body1}>R$ {(item.quantidade*item.valor).toFixed(2)}</Text>
                 </View>
               </View>
-              {item.observacao.length > 0 &&
+              {item.observacao &&
                 <Text style={{...globalStyles.body3, marginLeft: '6%', marginTop: '4%'}}>| {item.observacao}</Text>
               }
             </View>       
           )}
-          listKey='carrinho'
-          keyExtractor={item => item.id}
+          listKey={'carrinho'}
+          keyExtractor={item => item.product_id}
           ListFooterComponent={() => {return (carrinho.length > 0 ? renderFooter() : null)}}
           ListEmptyComponent={renderEmpty}
         />

@@ -20,9 +20,9 @@ import { QrCode } from '../assets/icons/icons';
 
 function Scan({navigation}){
 
-  useEffect(() => {    
-    const user = firebase.auth().currentUser;
+  const user = firebase.auth().currentUser;
 
+  useEffect(() => {    
     if (!user) {
       alert("Você precisa estar logado para ter acesso a comanda!");
       navigation.pop();
@@ -33,17 +33,8 @@ function Scan({navigation}){
 
   const dispatch = useDispatch();
 
-  const comanda= useSelector(state => state.comanda);
-
   const submitHandler = (cod=codComanda) => {
-    dispatch(abrirComanda(cod));
-    if(comanda.status==1) {
-      alert("Comanda válida");
-    } else if(comanda.status==2) {
-      alert("Comanda ocupada");
-    } else {
-      alert("Comanda inválida");
-    }
+    dispatch(abrirComanda(cod, user.uid));
   }
 
   return (
