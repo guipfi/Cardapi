@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Alert,
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,12 +17,17 @@ import {useSelector, useDispatch} from 'react-redux';
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { setComanda } from '../actions/userActions';
 
 export default function Comanda({navigation}){
 
   const dispatch = useDispatch();
 
   const comanda = useSelector((state) => state.comanda);
+
+  const user = useSelector((state) => state.user);
+
+  const [modalVisible, setModalVisible] = useState(true);
 
   const [moneyPayment, setMoneyPayment] = useState(true);
 
@@ -119,7 +125,10 @@ export default function Comanda({navigation}){
   }
 
   const dealPopUp = () => {
-    alert("Aguarde... O garçom irá até a sua mesa!");
+    if(!comanda.chamando) {
+      Alert.alert("Aguarde...", "Um garçom irá até a sua mesa!");
+    }
+    
     dispatch(chamarGarcom());
   }
 
@@ -129,8 +138,11 @@ export default function Comanda({navigation}){
         swipeToClose={false}
         backdropOpacity={0}
         position= {"bottom"}
-        isOpen={true}
-        onClosed={() => navigation.goBack()}
+        isOpen={modalVisible}
+        onClosed={() => {
+          setModalVisible(false);
+          navigation.goBack()
+          }}
       >
       <View style={{...globalStyles.container}}>
       <FlatList
@@ -251,7 +263,10 @@ export default function Comanda({navigation}){
           <View style={styles.buttonShadow}>
             <TouchableOpacity
               onPress={() => {
-                setModalVisible(!modalVisible);
+                console.log(user.id);
+                dispatch(setComanda(null, user.id));
+                setModalVisible(false);
+                navigation.goBack()
               }}
                 style={{width: '100%', height: '100%'}}
               >

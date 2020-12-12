@@ -5,8 +5,22 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Loading from '../shared/Loading';
+import {adicionarCarrinho} from '../actions/cartActions';
+import {useDispatch} from 'react-redux';
 
 export default function Product({navigation}) {
+
+    const teste = {
+        product_id: 10,
+        nome: "Macarronada Indiana",
+        valor: 30.9,
+        quantidade: 1,
+        adicionais: [{nome: "Molho Rosê", valor: 10}, {nome: "Maionese", valor: 5.5}],
+        observacao: null,
+        total: 0
+    };
+
+    const dispatch = useDispatch();
 
     const [preco, setPreco] = useState(30.9);
     const [total, setTotal] = useState(0)
@@ -79,13 +93,17 @@ export default function Product({navigation}) {
                                     <MaterialIcons name="remove-circle-outline" size={30} color="#262626"/>
                                 </TouchableOpacity>
                                 <View style={{ height: 30, width: 30, justifyContent: "center", alignItems: 'center', backgroundColor: "#262626", borderRadius: 8, marginRight: 10, marginLeft: 10}}>
-                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>{qtd}</Text>
+                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>n</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => {setQtd(qtd+1); setTotal(total + preco)}}>
                                     <MaterialIcons name="add-circle-outline" size={30} color="#262626"/>
                                 </TouchableOpacity>
                             </View>
-                            <TouchableOpacity style={{...globalStyles.mediumButtonStyle, height: 30, width: 180, marginRight: 10}}>
+                            <TouchableOpacity style={{...globalStyles.mediumButtonStyle, height: 30, width: 180, marginRight: 10}} onPress={() => {
+                                console.log(teste.quantidade);
+                                dispatch(adicionarCarrinho(teste));
+                            }
+                            }>
                                 <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                                     <Text style={{color:"#FAFAFA", ...globalStyles.sub2, marginRight: 20}}>Adicionar</Text> 
                                     <Text style={{color:"#FAFAFA", ...globalStyles.sub1}}>R${total.toFixed(2)}</Text>

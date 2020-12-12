@@ -5,6 +5,7 @@ const initState = [{
     'cpf':'',
     'phone':'',
     'email':'',
+    comanda: null
 }];
 
 export const userReducer = (state = initState, action) =>{
@@ -17,6 +18,11 @@ export const userReducer = (state = initState, action) =>{
         case "LOGOUT_USER":
             user = [{}]
             return user;
+        case "SET_COMANDA":
+            return {
+                ...state,
+                comanda: action.payload
+            }
         default:
             return state;
     }

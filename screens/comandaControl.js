@@ -1,16 +1,25 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import { carregarComanda } from '../actions/comandaActions';
 import Comanda from '../screens/comanda';
 import Scan from '../screens/scan';
+import Loading from '../shared/Loading';
 
 export default function ComandaControl({navigation}) {
 
-  const comanda = useSelector((state) => state.comanda);
+  const user = useSelector((state) => state.user);
 
-  console.log(comanda.comanda_id);
+  const comanda = useSelector((state) => state.comanda)
 
-  if(comanda.comanda_id) {
-    return <Comanda navigation={navigation} /> 
+  const dispatch = useDispatch();
+
+  if(user.comanda) {
+    if(comanda.isLoading) {
+      dispatch(carregarComanda(user.comanda));
+      return <Loading />
+    } else {
+      return <Comanda navigation={navigation} /> 
+    }
   } else {
     return <Scan navigation={navigation} />
   }

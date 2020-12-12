@@ -1,4 +1,5 @@
 import {firebase} from '../utils/firebase';
+import {setComanda} from './userActions';
 
 export const addItem = (item) => {
   return {
@@ -33,7 +34,20 @@ export const encerrarConta = () => {
   }
 }
 
-export const abrirComanda = (codigo, userId=10) => {
+export const carregarComanda = (codigo=1) => {
+  return (dispatch) => {
+    var comanda;
+    firebase.database().ref('comandas/'+ codigo).once('value', snap => {
+      comanda = snap.val();
+    }).then(() => {
+      dispatch({type: "CARREGAR_COMANDA", payload: [comanda, codigo]});
+    }).then(() => {
+      dispatch({type: "LOAD_SUCCESS"});
+    });
+  }
+}
+
+export const abrirComanda = (codigo=1, userId=1) => {
   return (dispatch) => {
     var comanda;
     firebase.database().ref('comandas/'+ codigo).once('value', snap => {
@@ -41,12 +55,13 @@ export const abrirComanda = (codigo, userId=10) => {
     }).then(() => {
       if(comanda) {
         if(comanda.owner) {
-          dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo, userId]});
+          dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo]});
         } else {
-          dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo, userId]});
+          dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo]});
           firebase.database().ref('comandas/' + codigo).update({
             owner: userId
           });
+          dispatch(setComanda(codigo, userId));
         }
       } else {
         dispatch({type: "COMANDA_INEXISTENTE"});
