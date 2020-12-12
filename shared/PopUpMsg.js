@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     modalView: {
         flex:1,
         maxHeight: "40%",
-        width:"91%",
+        maxWidth:"91%",
         alignContent:'center',
         alignItems:"center",
        paddingBottom:"20%",

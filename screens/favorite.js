@@ -6,50 +6,47 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Card from '../shared/Card';
 import {firebase} from '../utils/firebase';
 import {useSelector} from 'react-redux';
+import Loading from '../shared/Loading'
+import { ref } from 'yup';
 
 export default function Favorite(){
 
-    const [isFavorite, setIsFavorite] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const user = useSelector(state => state.user)
-    //const restaurantes =  [{img:require('../assets/images/home_outback_fachada.png'),name:'Outback', key:'1' },{img:require('../assets/images/restaurantes_favoritos_tandoor.png'), name:"Tandoor" ,key:'2'},{img:require('../assets/images/home_outback_fachada.png'), name:"Outback Steak" ,key:'3'}]
     const [restaurantes,setRestaurantes] = useState([])
     const [restaurantesFavoritos,setRestaurantesFavoritos] = useState([])
     const [encontrados, setEncontrados] = useState(restaurantes)
     const [value,setValue] = useState("")
-
+    const refRestaurantFavoritos = firebase.database().ref('users/'+user.id+"/profile/favorite/");
 
     useEffect(() => {
         // Pega os ids dos restaurantes favoritos do usuário antes de montar o componente
-        const refRestaurantFavoritos = firebase.database().ref('users/'+user.id+"/profile/favorite/");
-        const listener =  refRestaurantFavoritos.on('value', snapshot => {
+        const listener =  refRestaurantFavoritos.once('value', snapshot => {
             const listaRestaurantes = [];
             snapshot.forEach(childSnapshot => {
                 const key = childSnapshot.key;
                 listaRestaurantes.push(key);
             });
             setRestaurantesFavoritos(listaRestaurantes)
-        });
-        const dadosRestaurantes = [];
-        restaurantesFavoritos.forEach((value)=>{
-            const refRestaurant = firebase.database().ref('restaurant/'+value);
-            const listenerRestaurant =  refRestaurant.once('value', snapshot => {
-                snapshot.forEach(childSnapshot => {
-                    const key = childSnapshot.key;
-                    const data = childSnapshot.val();
-                    dadosRestaurantes.push({id: key, ...data });
+
+            const dadosRestaurantes = [];
+            restaurantesFavoritos.forEach((value)=>{
+                const refRestaurant = firebase.database().ref('restaurant/'+value+"/profile");
+                const listenerRestaurant =  refRestaurant.once('value', snapshot => {
+                    dadosRestaurantes.push({...snapshot.val(),id:value})
                 });
                 setRestaurantes(dadosRestaurantes)
-            });
+            })
+        
+            setEncontrados(restaurantes)
+            
+            if(encontrados.length > 0){
+                setLoading(false)
+            }
         })
+      
 
-
-
-        return () =>{ 
-            refRestaurantFavoritos.off('value',listener)
-        }
-
-    },[restaurantesFavoritos]);
+    },[restaurantesFavoritos,restaurantes]);
 
     const searchFilterFunction = text => {
         setValue(text)
@@ -71,27 +68,33 @@ export default function Favorite(){
             </TouchableOpacity>
         )
     }
-
-    return(
-        <View style={{backgroundColor:'white', marginBottom:"20%", flex:1}}>
-            <SearchBar        
-            placeholder="Buscar Favoritos"        
-            round
-            placeholderTextColor="#BFBFBF"
-            searchIcon={{size:20, color:'black'}}
-            inputStyle={{...globalStyles.body1 ,backgroundColor:'#F2F2F2', borderColor:'red', color:'black'}}
-            containerStyle={{backgroundColor: 'white', marginBottom:'1.4%', marginTop:'1.4%', borderBottomColor:'transparent', borderTopColor:'transparent'}}
-            inputContainerStyle={{backgroundColor: '#F2F2F2'}}
-            value={value}
-            onChangeText={text => searchFilterFunction(text)}
-            autoCorrect={false}             
-            />      
-            <FlatList          
-                data={encontrados}          
-                renderItem={renderItem}                                     
-            />       
-        </View>
-    )
+    if(!isLoading){
+        return(
+            <View style={{backgroundColor:'white', marginBottom:"20%", flex:1}}>
+                <SearchBar        
+                placeholder="Buscar Favoritos"        
+                round
+                placeholderTextColor="#BFBFBF"
+                searchIcon={{size:20, color:'black'}}
+                inputStyle={{...globalStyles.body1 ,backgroundColor:'#F2F2F2', borderColor:'red', color:'black'}}
+                containerStyle={{backgroundColor: 'white', marginBottom:'1.4%', marginTop:'1.4%', borderBottomColor:'transparent', borderTopColor:'transparent'}}
+                inputContainerStyle={{backgroundColor: '#F2F2F2'}}
+                value={value}
+                onChangeText={text => searchFilterFunction(text)}
+                autoCorrect={false}             
+                />      
+                <FlatList          
+                    data={encontrados}
+                    keyExtractor={item => item.id}        
+                    renderItem={renderItem}                                 
+                />       
+            </View>
+        )
+    } else{
+        return(
+            <Loading />
+        )
+    }
 
 }
 
