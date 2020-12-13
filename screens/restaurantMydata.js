@@ -4,9 +4,6 @@ import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
 import PopUpMsg from '../shared/PopUpMsg';
 
-
-
-
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import InputNormal from '../shared/InputNormal';
@@ -37,7 +34,7 @@ export default function RestaurantMyData({navigation}) {
     const [isEstacionamento, setEstacionamento] = useState(false);
     const [isMusic, setMusic] = useState(false);
     const [isWifi, setWifi] = useState(false);
-
+   
 
     const  deleteUser = () =>{
         user.delete().then(
@@ -68,6 +65,7 @@ export default function RestaurantMyData({navigation}) {
             setLoading(false)
         }
     }, [userData]);
+    
     if(!isLoading){
         return(
             <ScrollView>
@@ -87,7 +85,16 @@ export default function RestaurantMyData({navigation}) {
                                 endereco:userData[0].endereco,
                                 music: userData[0].music,
                                 wifi: userData[0].wifi,
-                                bio:userData[0].bio}
+                                bio:userData[0].bio,
+                                price: userData[0].price,
+                                sunday: userData[0].sunday,
+                                monday: userData[0].monday,
+                                tuesday: userData[0].tuesday,
+                                wednesday: userData[0].wednesday,
+                                thursday: userData[0].thursday,
+                                friday: userData[0].friday,
+                                saturday: userData[0].saturday
+                               }
                             }
 
                            onSubmit={ async (values) => {
@@ -112,6 +119,14 @@ export default function RestaurantMyData({navigation}) {
                                     'endereco':values.endereco,
                                     'phone': values.phone,
                                     'bio':values.bio,
+                                    'price': values.price,
+                                    'sunday': values.sunday,
+                                    'monday': values.monday,
+                                    'tuesday': values.tuesday,
+                                    'wednesday': values.wednesday,
+                                    'thursday': values.thursday,
+                                    'friday': values.friday,
+                                    'saturday': values.saturday,
                                     'wifi':isWifi,
                                     'music':isMusic,
                                     'estacionamento':isEstacionamento,
@@ -140,9 +155,10 @@ export default function RestaurantMyData({navigation}) {
                     behavior='height'>
 
                         <Text style={{...globalStyles.h6, marginTop: 30}}>Informações</Text>
-
+                    
                         <InputNormal placeholder='Escreva o nome do seu restaurante' label={"Nome"} onChangeText={props.handleChange('name')} value={props.values.name} />
                         <Text style={styles.errorStyle}>{props.errors.name}</Text>  
+                        
                         <InputNormal placeholder={userData[0].cnpj} keyboardType='numeric' label='CNPJ' editable={false} iconName="lock" onChangeText={props.handleChange('cnpj')} value={userData[0].cnpj} />
                         <Text style={styles.errorStyle}></Text>  
 
@@ -221,6 +237,37 @@ export default function RestaurantMyData({navigation}) {
                         
                         <Text style={styles.errorStyle}>{props.errors.bio}</Text>  
 
+                        <View style={{borderTopWidth: 1, paddingTop: 1, marginTop: 5, marginBottom: 10}}>
+                            <Text style={{...globalStyles.h6, marginTop: 20}}>Horários</Text>
+                        </View>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Domingo" onChangeText={props.handleChange('sunday')} value={props.values.sunday} />
+                        <Text style={styles.errorStyle}></Text>  
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Segunda-feira" onChangeText={props.handleChange('monday')} value={props.values.monday} />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Terça-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Quarta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Quinta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Sexta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Sábado" onChangeText={props.handleChange('phone')} value="" />
+                        <Text style={styles.errorStyle}></Text>
+
+                        <View style={{borderTopWidth: 1, paddingTop: 1, marginTop: 5, marginBottom: 10}}>
+                            <Text style={{...globalStyles.h6, marginTop: 20}}>Faixa de Preço</Text>
+                        </View>
+
+                        <InputNormal placeholder="R$45,00" label="Faixa de Preço" onChangeText={props.handleChange('price')} value={props.values.price} />
+                        <Text style={styles.errorStyle}></Text>
 
                         <View style={{alignItems:"center"}}>
                         
@@ -268,6 +315,14 @@ const styles = StyleSheet.create({
         marginTop:"3.125%",
         borderRadius:8,
         minWidth:"88%",
+        height:200,
+        backgroundColor:"#E5E5E5",
+    },
+    hourLabel:{
+        paddingLeft:"5%",
+        marginTop:"3.125%",
+        borderRadius:8,
+        minWidth:"40%",
         height:200,
         backgroundColor:"#E5E5E5",
     }

@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
 
-export default function Header() {
+export default function Header(props) {
     
     const [isFavorite, setFavorite] = useState('false');
     const Favorite = () =>{
@@ -22,8 +22,10 @@ export default function Header() {
             </View>
             <View style={styles.headerText}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                    <Text style={{...globalStyles.sub2, marginRight: 5}}>Cantina Tradicional de Santos</Text>
-                    <View>
+                    <View style={{flex: 8}}>
+                       <Text style={{...globalStyles.sub2, marginRight: 5}}>{props.name}</Text>
+                    </View>
+                    <View style={{flex: 1}}>
                     <TouchableOpacity onPress={Favorite} style={styles.favorite}>
                         {isFavorite ? <MaterialIcons name="favorite-border" size={25} color="#000"/> : <MaterialIcons name="favorite" size={25} color="#000"/>  } 
                     </TouchableOpacity>    
@@ -58,8 +60,8 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         marginTop: "1%",
-        maxHeight: 70,
-        minHeight: 70,
+        maxHeight: 100,
+        minHeight: 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
@@ -67,6 +69,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     logoContainer: {
+        flex: 1,
         width: "8%",
         height: "8%"
     }, 
@@ -78,11 +81,13 @@ const styles = StyleSheet.create({
     },
    
     headerText: {
+        flex: 8,
         marginLeft:"13.4%",
         flexDirection: 'column',
     },
 
     favorite: {
+        flex: 1,
         marginTop: "20%",
         marginRight: "1.5%"
     },
