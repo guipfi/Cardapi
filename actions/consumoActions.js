@@ -9,28 +9,38 @@ export const carregarConsumo = (comandaId=1) => {
       snap.forEach(snapChild => {
         firebase.storage().ref(snapChild.val().foto).getDownloadURL().then((url) => {
           url_img=url;
-          if(getState().consumo.participantes) {
+          if(getState().consumo.participantes[snapChild.key]) {
             consumo.push({
               id: snapChild.key,
               ...snapChild.val(),
               foto: url_img,
-              visivel: true
+              visivel: getState().participantes[snapChild.key].visivel   
             });
           } else {
             consumo.push({
               id: snapChild.key,
               ...snapChild.val(),
               foto: url_img,
-              visivel: getState().participantes[snapChild.key].visivel
+              visivel: true
             });
           }
           processados++;
         if(processados==Object.values(snap.val()).length) {
-          console.log(JSON.stringify(consumo));
+          consumo.forEach((participante) => {
+            let pedidos = [];
+            Object.keys(participante.pedidos).forEach((key) => {
+              pedidos.push({
+                id: key,
+                pedidos: participante.pedidos[key]
+              });
+            });
+            participante.pedidos=pedidos;
+          });
+          consumo.reverse();
           dispatch({type: 'CARREGAR_CONSUMO', payload: consumo});
         }
         });
-      })
+      });
     });
   }
 }

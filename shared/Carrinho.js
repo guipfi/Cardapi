@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  SafeAreaView
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -88,8 +89,9 @@ export default function Carrinho({user, comanda}){
   }
 
   return (
-      <View>
+        <SafeAreaView>
         <FlatList 
+          listKey="carrinho"
           ItemSeparatorComponent={renderSeparator}
           scrollEnabled={false}
           data={carrinho}
@@ -132,12 +134,11 @@ export default function Carrinho({user, comanda}){
               }
             </View>       
           )}
-          listKey={4}
-          keyExtractor={item => item.product_id}
+          keyExtractor={item => item.product_id.toString()}
           ListFooterComponent={() => {return (carrinho.length > 0 ? renderFooter() : null)}}
           ListEmptyComponent={renderEmpty}
         />
-      </View>
+        </SafeAreaView>
   );
 };
 

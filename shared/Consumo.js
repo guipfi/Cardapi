@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   Image,
+  SafeAreaView
 } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import {useSelector} from 'react-redux';
@@ -18,7 +19,7 @@ const Consumo = ({consumo}) => {
   const renderHeader = () => {
     return(
       <View>
-        <Text style={{...globalStyles.h5, ...globalStyles.preto2, marginBottom: 10, marginLeft: '3%'}}>Pedidos realizados</Text>
+        <Text style={{...globalStyles.h5, ...globalStyles.preto2, marginBottom: 10, marginLeft: '3%'}}>Resumo dos pedidos</Text>
         <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginBottom: 10}} />
       </View>
     );
@@ -32,13 +33,11 @@ const Consumo = ({consumo}) => {
 
   const renderFooterPedido = (item) => {
     let subtotal = 0;
-    if(item) {
-      Object.values(item).forEach((pedido) => {
-        pedido.forEach((produto) => {
+      item.forEach((pedido) => {
+        pedido.pedidos.forEach((produto) => {
           subtotal += produto.quantidade * produto.valor;
         });
       });
-    }
     subtotal = subtotal.toFixed(2);
     return (
       <View style={{display: 'flex', marginTop: 10}}>
@@ -53,13 +52,11 @@ const Consumo = ({consumo}) => {
   const renderFooterConsumo = () => {
     let total = 0;
     consumo.forEach((pessoa) => {
-      if(pessoa.pedidos) {
-        Object.values(pessoa.pedidos).forEach((pedido) => {
-          pedido.forEach((produto) => {
+        pessoa.pedidos.forEach((pedido) => {
+          pedido.pedidos.forEach((produto) => {
             total += produto.quantidade * produto.valor;
           });
         });
-      }
     });
     total = total.toFixed(2);
     return (
@@ -81,10 +78,8 @@ const Consumo = ({consumo}) => {
   }
   
   return (
-      <View>
-        {console.log(30 + JSON.stringify(consumo))}
+      <SafeAreaView>
         <FlatList 
-          listKey={1}
           scrollEnabled={false}
           data={consumo}
           keyExtractor={item => item.id}
@@ -100,20 +95,17 @@ const Consumo = ({consumo}) => {
                 <Text style={{...globalStyles.preto1, ...globalStyles.sub1, marginLeft: 10}}>{item.nome}</Text>
               </View>
               <View>
-              {item.pedidos ?
                 <FlatList 
-                  listKey={2}
-                  keyExtractor={(item,index) => index.toString()}
+                  keyExtractor={(item) => item.id}
                   scrollEnabled={false}
-                  data={Object.values(item.pedidos)}
+                  data={item.pedidos}
                   ListFooterComponent={() => {return (item.pedidos ? renderFooterPedido(item.pedidos) : null)}}
                   ListEmptyComponent={renderEmpty}
                   renderItem={({item}) => (
                     <FlatList
-                      listKey={3}
-                      keyExtractor={item => item.product_id}
+                      keyExtractor={item => item.product_id.toString()}
                       scrollEnabled={false}
-                      data={Object.values(item)}
+                      data={item.pedidos}
                       renderItem={({item}) => (
                         <View style={{marginBottom: '4%', marginTop:'4%'}}>
                         <View style={{display: 'flex', flexDirection: 'row', justifyContent:'space-between'}}>
@@ -137,16 +129,13 @@ const Consumo = ({consumo}) => {
                       />
                   )}
                   />
-                  :
-                  renderEmpty()
-                }
                    <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginTop: 20}} />
                   </View>
                   </View>
                     ) : (null)
           )}
         />
-      </View>
+      </SafeAreaView>
   );
 };
 

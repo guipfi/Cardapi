@@ -16,8 +16,6 @@ export const consumoReducer = (state=initState, action) => {
       let index = state.participantes.findIndex((e) => e.id == action.payload ? true : false);
       let newConsumo = state.participantes;
       newConsumo[index].visivel=!newConsumo[index].visivel
-      console.log("oi");
-      console.log(newConsumo[index].visivel);
       return {
         ...state,
         participantes: newConsumo

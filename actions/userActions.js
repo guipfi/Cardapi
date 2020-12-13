@@ -44,3 +44,20 @@ export const setComanda = (comanda=1, userID=1) => {
     dispatch({type: 'SET_COMANDA', payload: comanda});
   }
 }
+
+export const removerParticipantes = (consumo) => {
+  return () => {
+    consumo.participantes.forEach((participante) => {
+      firebase.database().ref('users/'+participante.id+'/profile/comanda').remove();
+    });
+  }
+}
+
+export const controleComanda = () => {
+  return (dispatch, getState) => {
+    const id = getState().user.id;
+    firebase.database().ref('users/'+ id + '/profile/comanda').on('value', snap => {
+      dispatch({type: 'SET_COMANDA', payload: snap.val()});
+    });
+  }
+}
