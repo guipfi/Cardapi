@@ -4,7 +4,8 @@ import {
   Text,
   View,
   FlatList,
-  Image
+  Image,
+  SafeAreaView
 } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import {useSelector, useDispatch} from 'react-redux';
@@ -33,8 +34,10 @@ export default function Participantes(){
   }
 
   return (
+    <SafeAreaView>
       <View style={{marginLeft: '3%'}}>
         <FlatList 
+          listKey="participantes"
           scrollEnabled={false}
           data={consumo.participantes}
           numColumns={4}
@@ -64,9 +67,9 @@ export default function Participantes(){
               </View>
             </View>       
           )}
-          listKey={5}
           keyExtractor={item => item.id}
         />
       </View>
+      </SafeAreaView>
   );
 };
