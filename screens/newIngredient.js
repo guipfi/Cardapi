@@ -26,6 +26,7 @@ export default function NewIngredient({navigation}){
 
     return(
             <View style={{backgroundColor:'white', marginBottom:10,height:640}}>
+                <PopUpMsg message="O seu novo acompanhamento foi adicionado com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
                 <View style={styles.containerForms}>
                     <Formik
                         initialValues={{name:'', price:''}}
@@ -61,7 +62,6 @@ export default function NewIngredient({navigation}){
                         } else{
                             return(
                                 <View style={{width:360, height:640}}>
-                                <PopUpMsg message="O seu novo acompanhamento foi adicionado com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
                                 <Loading />
                                 </View>
                             )    

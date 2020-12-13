@@ -80,7 +80,7 @@ export default function EditItem({navigation, route}){
                                 "nome":values.name,
                                 "descricao":values.desc,
                                 "preco":values.price,
-                                "img":route.params.restaurante +"/"+route.params.id
+                                "img":image =="default_profile.png" ? image:route.params.restaurante +"/"+route.params.id
                             }  
                             const myRef = firebase.database().ref("restaurant/"+route.params.restaurante+"/cardapio/"+route.params.tipo +"/"+route.params.id).update(object).then(async () => {
                                 const blob = await new Promise((resolve, reject) => {

@@ -48,6 +48,7 @@ export default function NewDessert({navigation}){
         
         return(
             <ScrollView>
+                    <PopUpMsg message="A sua nova sobremesa foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
             <View style={{backgroundColor:'white', marginBottom:10,height:640}}>
                 <View style={styles.containerForms}>
                     <Formik
@@ -61,28 +62,30 @@ export default function NewDessert({navigation}){
                                 "nome":values.name,
                                 "descricao":values.desc,
                                 "preco":values.price,
-                                "img":restaurant.id +"/"+key
+                                "img": image =="default_profile.png" ? image: restaurant.id +"/"+key
                             }    
                             myRef.update(object).then(async () => {
-                                const blob = await new Promise((resolve, reject) => {
-                                    const xhr = new XMLHttpRequest();
-                                    xhr.onload = function() {
-                                    resolve(xhr.response);
-                                    };
-                                    xhr.onerror = function(e) {
-                                    console.log(e);
-                                    reject(new TypeError('Network request failed'));
-                                    };
-                                    xhr.responseType = 'blob';
-                                    xhr.open('GET', image, true);
-                                    xhr.send(null);
-                                });
-                        
-                                console.log(key)
-                        
-                                const upload = await firebase.storage().ref(object['img']).put(blob)
-                        
-                                blob.close()
+                                if(image != "default_profile.png"){
+                                    const blob = await new Promise((resolve, reject) => {
+                                        const xhr = new XMLHttpRequest();
+                                        xhr.onload = function() {
+                                        resolve(xhr.response);
+                                        };
+                                        xhr.onerror = function(e) {
+                                        console.log(e);
+                                        reject(new TypeError('Network request failed'));
+                                        };
+                                        xhr.responseType = 'blob';
+                                        xhr.open('GET', image, true);
+                                        xhr.send(null);
+                                    });
+                            
+                                    console.log(key)
+                            
+                                    const upload = await firebase.storage().ref(object['img']).put(blob)
+                            
+                                    blob.close()
+                                }
                             }).then(() =>{
                                 setModal(true)
                             })
@@ -134,7 +137,6 @@ export default function NewDessert({navigation}){
                         } else{
                             return(
                                 <View style={{width:360, height:640}}>
-                                <PopUpMsg message="A sua nova sobremesa foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
                                 <Loading />
                                 </View>
                             )    

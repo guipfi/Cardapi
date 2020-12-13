@@ -3,16 +3,16 @@ import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
 import {firebase} from '../utils/firebase';
-import { MaterialIcons } from '@expo/vector-icons';
-import {useSelector} from 'react-redux';
+
 
 export default function CardMenu({lista,restaurante, tipo}){
     const [image, setImage] = useState('default_profile.png')
     const [itens,setItens] = useState(null)
+    
     useEffect(() => {
         let isMounted = true
         firebase.database().ref("restaurant/"+restaurante+"/cardapio/"+tipo+"/"+lista).once('value', snapshot =>{
-            firebase.storage().ref(restaurante+"/"+lista).getDownloadURL().then((url) =>{
+            firebase.storage().ref(snapshot.val().img).getDownloadURL().then((url) =>{
                 if(isMounted){
                     setItens(snapshot.val())
                     setImage(url)

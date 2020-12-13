@@ -21,6 +21,8 @@ export default function Home({navigation}){
     const dispatch = useDispatch()
 
     useEffect(() => {
+
+        let isMounted = true
         // Carrega os restaurantes antes de montar o componente
         const refRestaurant = firebase.database().ref('restaurant/');
         const listener =  refRestaurant.once('value', snapshot => {
@@ -30,8 +32,9 @@ export default function Home({navigation}){
                 const data = childSnapshot.val();
                 restaurantes.push({id: key, ...data });
             });
-            setData(restaurantes)
+            if(isMounted) setData(restaurantes)
         });
+        return () => {isMounted = false}
     }, []);
 
     // Fica ouvindo qualquer tipo de alteração no Firebase Authorization
