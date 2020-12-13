@@ -24,13 +24,11 @@ export const userReducer = (state = initState, action) =>{
                 ...state,
                 favorite: newFavoritos
             }
-        
         case "DELETE_FAVORITO":
             return{
                 ...state,
                 favorite: state.favorite.filter(item => item !== action.payload) 
             }
-            
         case "SET_COMANDA":
             return {
                 ...state,

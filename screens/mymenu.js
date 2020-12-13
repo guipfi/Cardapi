@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
+import React from 'react';
+import {View, Text,StyleSheet} from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
-import {firebase} from '../utils/firebase';
-import { MaterialIcons } from '@expo/vector-icons';
 import {useSelector} from 'react-redux';
+
 import CardMenu from '../shared/cardMenu';
+import CardAcompanhamento from '../shared/cardAcompanhamento';
+
 
 export default function MyMenu({navigation}){
 
@@ -17,8 +18,8 @@ export default function MyMenu({navigation}){
 
     const toNewDrink = () =>{
         navigation.navigate('Nova Bebida')
-
     }
+
     const toNewDessert = () =>{
         navigation.navigate('Nova Sobremesa')
     }
@@ -28,17 +29,15 @@ export default function MyMenu({navigation}){
 
     const renderPratos = (item,tipo) => {
         return(
-            <CardMenu lista={item} restaurante ={restaurant.id} tipo = {tipo}/>
+            <TouchableOpacity onPress={() => navigation.navigate('Editar Item', {restaurante:restaurant.id, id:item,tipo:tipo})}>
+                <CardMenu lista={item} restaurante ={restaurant.id} tipo = {tipo}/>
+            </TouchableOpacity>
         )
- 
     }
 
-    const renderAcompanhamentos = (item) => {
+    const renderAcompanhamentos = ({item}) => {
         return(
-            <View style={{height:"auto"}}>
-                <Text style={{...globalStyles.sub2,...globalStyles.preto2}}></Text>
-                <Text style={{...globalStyles.body3, ...globalStyles.preto2}}>R$ </Text>
-            </View>
+            <CardAcompanhamento lista ={item} restaurante = {restaurant.id} />
         )
     }
 
@@ -85,9 +84,7 @@ export default function MyMenu({navigation}){
                         <FlatList data={restaurant.acompanhamentos} keyExtractor={item => item}  renderItem={renderAcompanhamentos}/>
                     </View>
                 </View>
-                }>
-
-                </FlatList>
+                } />
             
     );
 }

@@ -55,7 +55,6 @@ export default function NewItem({navigation}){
                         validationSchema={UserSchema}
                         onSubmit={async (values) =>{
                             setLoading(true)
-                            console.log("aqui")
 
                             const object = {
                                 "nome":values.name,

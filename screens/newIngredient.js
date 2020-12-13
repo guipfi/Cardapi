@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image, KeyboardAvoidingView,TextInput} from 'react-native';
+import {View, Text,StyleSheet,KeyboardAvoidingView} from 'react-native';
 import InputNormal from '../shared/InputNormal';
 import {TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
