@@ -93,7 +93,8 @@ export default function NewItem({navigation}){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
                                 <InputNormal placeholder="(Insira aqui o nome do seu prato)" label="Nome do Prato" onChangeText={props.handleChange('name')} value={props.values.name} />
-    
+                                <Text style={styles.errorStyle}>{props.errors.name}</Text> 
+
                                 <View style={{...styles.inputLabel}}>
                                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>Descrição</Text>
                                 <View style={styles.passwordEye}>
@@ -106,9 +107,10 @@ export default function NewItem({navigation}){
                                     />
                                 </View>
                             </View>
+                            <Text style={styles.errorStyle}>{props.errors.desc}</Text>  
     
                                 <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
-    
+                                <Text style={styles.errorStyle}>{props.errors.price}</Text>  
                                 
                              
                                 <View style={{marginTop:"9.9%", alignItems:'center'}}>
@@ -164,5 +166,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between'
     },
-
+    errorStyle:{
+        ...globalStyles.legenda1,
+        color: "#A60400"
+    }
 });

@@ -5,7 +5,7 @@ import {firebase} from '../utils/firebase';
 import * as ImagePicker from 'expo-image-picker';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {loginUser} from '../actions/userActions';
+import {loginUser,guestUser} from '../actions/userActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -103,7 +103,7 @@ export default function Profile({navigation}){
                     </TouchableOpacity>
                     <View style={{flex:1}}>
                         <View style={{flex:1,flexDirection:'row',marginBottom:"4.375%", justifyContent:'space-between'}}>
-                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{userData['name']}</Text>
+                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{userData && userData['name']}</Text>
                                 <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
                             </View>
                         <View style={{marginLeft:"4%"}}>
@@ -156,6 +156,8 @@ export default function Profile({navigation}){
                 
                 <View style={{alignItems:"center", marginTop:"9%"}}>
                 <TouchableOpacity onPress={() => {firebase.auth().signOut().then(() =>{
+                    dispatch(guestUser())
+                }).then(() =>{
                     navigation.replace('Login')
                 })}}>
                     <Text style={{...globalStyles.body1, color:"#8C0A07"}}>Sair</Text>
