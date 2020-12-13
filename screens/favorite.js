@@ -21,6 +21,7 @@ export default function Favorite(){
 
     useEffect(() => {
         // Pega os ids dos restaurantes favoritos do usuário antes de montar o componente
+        if(isLoading == true){
         const listener =  refRestaurantFavoritos.once('value', snapshot => {
             const listaRestaurantes = [];
             snapshot.forEach(childSnapshot => {
@@ -28,7 +29,6 @@ export default function Favorite(){
                 listaRestaurantes.push(key);
             });
             setRestaurantesFavoritos(listaRestaurantes)
-
             const dadosRestaurantes = [];
             restaurantesFavoritos.forEach((value)=>{
                 const refRestaurant = firebase.database().ref('restaurant/'+value+"/profile");
@@ -44,6 +44,7 @@ export default function Favorite(){
                 setLoading(false)
             }
         })
+    }
       
 
     },[restaurantesFavoritos,restaurantes]);

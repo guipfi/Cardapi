@@ -14,6 +14,20 @@ export const logoutUser = (user) => {
     }
 }
 
+export const updateFavorite = (favorito) =>{
+  return{
+    type: "UPDATE_FAVORITOS",
+    payload: favorito
+  }
+}
+
+export const deleteFavorite = (favorito) =>{
+  return{
+    type: "DELETE_FAVORITO",
+    payload: favorito
+  }
+}
+
 export const setComanda = (comanda=1, userID=1) => {
   console.log("entrou");
   console.log(userID);
