@@ -18,6 +18,8 @@ export default function restaurantTable({navigation}) {
 
   const comandas = useSelector((state) => state.comandas);
 
+  const user = useSelector(state => state.user);
+
   useEffect(() => {
     if(!comandas) {
       dispatch(carregarComandas());
@@ -34,11 +36,9 @@ export default function restaurantTable({navigation}) {
   const renderFooter = () => {
     return (
       <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 20}}>
-        <View>
           <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={() => setOpenModalAdd(true)}>
             <Text style={{color:"#FAFAFA"}}>Adicionar</Text>
           </TouchableOpacity>
-        </View>
       </View>
     )
   }

@@ -61,6 +61,7 @@ export const abrirComanda = (codigo=1, userId=1) => {
           firebase.database().ref('comandas/' + codigo).update({
             owner: userId
           });
+          firebase.database().ref('comandas/'+codigo+'/consumo/'+userId).push();
           dispatch(setComanda(codigo, userId));
         }
       } else {

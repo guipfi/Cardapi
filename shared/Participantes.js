@@ -4,14 +4,21 @@ import {
   Text,
   View,
   FlatList,
+  Image
 } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import {useSelector, useDispatch} from 'react-redux';
+import {setVisibilidade} from '../actions/consumoActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function Participantes({participantes, setParticipantes}){
+export default function Participantes(){
+
+  const consumo = useSelector(state => state.consumo);
+
+  const dispatch = useDispatch();
 
   const renderHeader = () => {
     return(
@@ -22,30 +29,22 @@ export default function Participantes({participantes, setParticipantes}){
   }
 
   const atualizarVisibilidade = (item) => {
-    let cpf = item.cpf;
-    let newParticipantes = [...participantes];
-    const index = newParticipantes.findIndex(e => e.cpf == cpf ? true : false);
-    newParticipantes[index].visivel == "true" ? (
-      newParticipantes[index].visivel = "false"
-    ) : (
-      newParticipantes[index].visivel = "true"
-    );
-    setParticipantes(newParticipantes);
+    dispatch(setVisibilidade(item.id));
   }
 
   return (
       <View style={{marginLeft: '3%'}}>
         <FlatList 
           scrollEnabled={false}
-          data={participantes}
+          data={consumo.participantes}
           numColumns={4}
           ListHeaderComponent={renderHeader}
           renderItem={({item}) => (
             <View style={{marginBottom: '2%', marginTop:'4%', marginRight: 10}}>
               <View>
                 {/* Foto */}
-                <View style={{width: 60, height: 60, borderRadius: 360, backgroundColor: globalStyles.branco5.color, justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{...globalStyles.body1, ...globalStyles.preto1}}>{item.foto}</Text>
+                <View>
+                  <Image source={{ uri: item.foto }} style={{width: 60, height: 60, borderRadius: 360, borderWidth: 1, borderColor: "black"}}/>
                 </View>
                 {/* Icone */}
                 <TouchableOpacity
@@ -54,7 +53,7 @@ export default function Participantes({participantes, setParticipantes}){
                     }}
                   >
                 <View style={{marginTop: 8, alignSelf: 'center'}}>
-                  {item.visivel == "true" ? (
+                  {item.visivel ? (
                     <MaterialIcons name="visibility" size={25} color={globalStyles.preto3.color}/>
                   ) : (
                     <MaterialIcons name="visibility-off" size={25} color={globalStyles.preto3.color}/>
@@ -65,8 +64,8 @@ export default function Participantes({participantes, setParticipantes}){
               </View>
             </View>       
           )}
-          listKey='participantes'
-          keyExtractor={item => item.cpf}
+          listKey="participantes"
+          keyExtractor={item => item.id}
         />
       </View>
   );

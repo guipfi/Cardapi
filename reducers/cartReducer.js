@@ -41,6 +41,8 @@ export const cartReducer = (state=initState, action) => {
         newCarrinho[index].quantidade=newQuantidade
       }
       return newCarrinho;
+    case "LIMPAR_CARRINHO":
+      return [];
     default:
       return state;
   }
