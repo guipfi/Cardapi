@@ -13,9 +13,9 @@ export default function Card({img,name,type,wifi,estacionamento,music,acessible,
     const [image, setImage] = useState('default_profile.png')
     const userRedux = useSelector(state => state.user)
     const dispatch = useDispatch()
-
+    console.log(userRedux)
     // Se o array do estado do redux for diferente de vazio e encontrar o elemento no array, então pinta o coração de vermelho
-    const [isFavorite, setFavorite] = useState((userRedux.favorite.length > 0 &&
+    const [isFavorite, setFavorite] = useState((userRedux!=null && userRedux.favorite.length > 0 &&
         userRedux.favorite.find((element) => element == id) !=undefined) ? true: false);
     
     // Função que realiza as ações de favoritamento/desfavoritamento

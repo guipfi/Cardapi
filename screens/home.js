@@ -5,7 +5,7 @@ import Loading from '../shared/Loading'
 import {firebase} from '../utils/firebase';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {loginUser} from '../actions/userActions';
+import {loginUser,guestUser} from '../actions/userActions';
 
 import Card from '../shared/Card';
 // Estilo Global
@@ -67,6 +67,7 @@ export default function Home({navigation}){
                 })
             }
         } else {
+            dispatch(guestUser())
             setLoading(false)
         }
       });

@@ -8,10 +8,9 @@ export const loginUser = (user) => {
     }
 }
 
-export const logoutUser = (user) => {
+export const guestUser = () => {
     return {
-        type: "LOGOUT_USER",
-        user: user
+        type: "GUEST_USER",
     }
 }
 

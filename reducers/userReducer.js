@@ -16,11 +16,9 @@ export const userReducer = (state = initState, action) =>{
         case "LOGIN_USER":
             user = action.user;
             return user;
-        case "LOGOUT_USER":
-            user = [{}]
-            return user;
+        case "GUEST_USER":
+            return null
         case "UPDATE_FAVORITOS":
-            console.log(state)
             const newFavoritos =state.favorite!=undefined ?  [...state.favorite,action.payload] : [action.payload];
             return{
                 ...state,
