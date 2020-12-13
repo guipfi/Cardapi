@@ -5,7 +5,7 @@ import Loading from '../shared/Loading'
 import {firebase} from '../utils/firebase';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {loginUser} from '../actions/userActions';
+import {loginUser,guestUser} from '../actions/userActions';
 
 import Card from '../shared/Card';
 // Estilo Global
@@ -55,7 +55,7 @@ export default function Home({navigation}){
                         'name':realtime[0].name,
                         'cpf':realtime[0].cpf,
                         'phone':realtime[0].phone,
-                        'favorite': realtime[0].favorite,
+                        'favorite': realtime[0].favorite == undefined ? [] : Object.keys(realtime[0].favorite),
                         comanda: realtime[0].comanda
                     }
 
@@ -67,6 +67,7 @@ export default function Home({navigation}){
                 })
             }
         } else {
+            dispatch(guestUser())
             setLoading(false)
         }
       });

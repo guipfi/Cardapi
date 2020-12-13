@@ -8,11 +8,24 @@ export const loginUser = (user) => {
     }
 }
 
-export const logoutUser = (user) => {
+export const guestUser = () => {
     return {
-        type: "LOGOUT_USER",
-        user: user
+        type: "GUEST_USER",
     }
+}
+
+export const updateFavorite = (favorito) =>{
+  return{
+    type: "UPDATE_FAVORITOS",
+    payload: favorito
+  }
+}
+
+export const deleteFavorite = (favorito) =>{
+  return{
+    type: "DELETE_FAVORITO",
+    payload: favorito
+  }
 }
 
 export const setComanda = (comanda=1, userID=1) => {
