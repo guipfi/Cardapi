@@ -13,9 +13,9 @@ import Loading from '../shared/Loading'
 import PopUpMsg from '../shared/PopUpMsg';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function NewItem({navigation}){
+export default function NewDrink({navigation}){
     const restaurant = useSelector(state => state.user);
-    const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/cardapio/pratos").push();
+    const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/cardapio/bebidas").push();
     const key = myRef.key
     const [isLoading, setLoading] = useState(false)
     const [image, setImage] = useState("default_profile.png")
@@ -41,9 +41,9 @@ export default function NewItem({navigation}){
       };
 
       const UserSchema  = yup.object({
-          name: yup.string().required('Digite um nome para o seu prato').min(2,'Digite um nome maior'),
-          desc: yup.string().required('Digite uma descrição para o seu prato').min(10, "O produto deve ter uma descrição de no mínimo 10 caracteres."),   
-          price: yup.number().required('O prato deve possuir um preço')
+          name: yup.string().required('Digite um nome para o sua bebida').min(2,'Digite um nome maior'),
+          desc: yup.string().required('Digite uma descrição para o sua bebida').min(5, "a bebida deve ter uma descrição de no mínimo 5 caracteres."),   
+          price: yup.number().required('A bebida deve possuir um preço')
         })
         
         return(
@@ -93,7 +93,7 @@ export default function NewItem({navigation}){
                         if(!isLoading){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
-                                <InputNormal placeholder="(Insira aqui o nome do seu prato)" label="Nome do Prato" onChangeText={props.handleChange('name')} value={props.values.name} />
+                                <InputNormal placeholder="(Insira aqui o nome da sua bebida)" label="Nome da bebida" onChangeText={props.handleChange('name')} value={props.values.name} />
     
                                 <View style={{...styles.inputLabel}}>
                                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>Descrição</Text>
@@ -101,7 +101,7 @@ export default function NewItem({navigation}){
                                     <TextInput 
                                     multiline={true}
                                     style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
-                                    placeholder="(Digite a descrição do prato)"
+                                    placeholder="(Digite a descrição da bebida)"
                                     onChangeText= {props.handleChange('desc')} 
                                     value={props.values.desc}
                                     />
@@ -131,7 +131,7 @@ export default function NewItem({navigation}){
                         } else{
                             return(
                                 <View style={{width:360, height:640}}>
-                                <PopUpMsg message="O seu novo prato foi adicionado com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
+                                <PopUpMsg message="A sua nova bebida foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
                                 <Loading />
                                 </View>
                             )    

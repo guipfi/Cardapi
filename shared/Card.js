@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import {firebase} from '../utils/firebase'
 import {StyleSheet, View, Text,Image, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux'
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -9,7 +10,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Card({img,name,type,wifi,estacionamento,music,acessible,user, id}){
     const [image, setImage] = useState('default_profile.png')
-    const [isFavorite, setFavorite] = useState(false);
+    const userRedux = useSelector(state => state.user)
+    const [isFavorite, setFavorite] = useState((userRedux.favorite != undefined &&
+         Object.getOwnPropertyNames(userRedux.favorite).find((element) => element == id) !=undefined) ? true: false);
 
     const Favorite = (param) =>{
         if(user) {

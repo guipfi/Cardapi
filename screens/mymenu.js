@@ -1,93 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
+import {firebase} from '../utils/firebase';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import {useSelector} from 'react-redux';
+import CardMenu from '../shared/cardMenu';
 
 export default function MyMenu({navigation}){
+
+    const restaurant = useSelector(state => state.user);
+
     const toNewItem = ()=>{
         navigation.navigate('Novo Item')
     }
 
+    const toNewDrink = () =>{
+        navigation.navigate('Nova Bebida')
+
+    }
+    const toNewDessert = () =>{
+        navigation.navigate('Nova Sobremesa')
+    }
     const toNewIngredient = ()=>{
         navigation.navigate('Novo Acompanhamento')
     }
 
-
-    const pratos = [
-        {nome: "Macarronada Toscana", 
-        descricao: "Macarronada feita com frango, curry e couve flor",
-        preco: 32.90,
-        key:'1',
-        media_avaliacao: 4.2,
-        num_avaliacao: 10,
-        foto: require("../assets/images/pagina_restaurante_macarao_destaque.png")
-        },
-        {nome: "Carne Assada ao Rum", 
-        descricao: "Medalhão de alcatra acompanhando de batatas rústicas e molho especial",
-        preco: 67.90,
-        key:'2',
-        media_avaliacao: 4.7,
-        num_avaliacao: 24,
-        foto: require("../assets/images/pagina_restaurante_pomba_assada.png") 
-        },
-        {nome: "Arroz Branco sem nada a adicionar", 
-        descricao: "Arroz Branco sem nada, para aqueles que são minimalistas",
-        preco: 19.50,
-        media_avaliacao: 1.7,
-        key:'3',
-        num_avaliacao: 5,
-        foto: require("../assets/images/simplesmente_arroz.png")  
-        },
-    ];
-
-    const bebidas =[
-        {nome: "Coca-Cola 1.5L", 
-        descricao: "O sabor do capitalismo imperial, sem igual! A bebida preferida dos brasileiros.",
-        preco: 6.90,
-        key:'4',
-        media_avaliacao: 4.4,
-        num_avaliacao: 10,
-        foto: require("../assets/images/pagina_restaurante_coca_cola.png")
-        },
-    ]
-
-    const sobremesas=[]
-
-    const acompanhamentos=[{nome: "Molho Chutney", 
-    preco: 32.90,
-    key:'5',
-    },]
     const renderPratos = (item) => {
         console.log(item)
         return(
-            <View style={{...styles.cardContainer}}>
-                <View style={styles.cardContent}>
-                    <View>
-                        <Text style={globalStyles.sub1}>{item.item.nome}</Text>
-                    </View>
-                    
-                    <View style={globalStyles.legenda1, styles.descricao}>
-                        <Text>{item.item.descricao}</Text>
-                    </View>
-                    
-                    <View style={styles.sideInformation}>
-                        <Text style={{...globalStyles.sub1, flex: 3}}>R${item.item.preco}</Text>
-                        <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#000" />
-                        <Text style={globalStyles.body4}>{item.item.media_avaliacao}({item.item.num_avaliacao})</Text>
-                    </View> 
-                </View>
-                <Image style={{width: "36%", height:"auto",resizeMode:'stretch'}} source={item.item.foto}/>
-            </View>
-        );
+            <CardMenu lista={item['item']} restaurante ={restaurant}/>
+        )
+ 
     }
 
     const renderAcompanhamentos = (item) => {
         return(
             <View style={{marginBottom:"4%", marginLeft: 10}}>
-                <Text style={{...globalStyles.sub2,...globalStyles.preto2}}>{item.item.nome}</Text>
-                <Text style={{...globalStyles.body3, ...globalStyles.preto2}}>R$ {item.item.preco}</Text>
+                <Text style={{...globalStyles.sub2,...globalStyles.preto2}}></Text>
+                <Text style={{...globalStyles.body3, ...globalStyles.preto2}}>R$ </Text>
             </View>
         )
     }
@@ -103,27 +54,27 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={pratos} renderItem={renderPratos} />
+                        <FlatList data={restaurant.pratos} renderItem={renderPratos} />
                     </View>
 
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}} >Bebidas</Text>
-                            <TouchableOpacity onPress={toNewItem}>
+                            <TouchableOpacity onPress={toNewDrink}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={bebidas}  renderItem={renderPratos} />
+                        <FlatList data={restaurant.bebidas}  renderItem={renderPratos} />
                     </View>
 
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}}>Sobremesas</Text>
-                            <TouchableOpacity onPress={toNewItem}>
+                            <TouchableOpacity onPress={toNewDessert}>
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={sobremesas}  renderItem={renderPratos} />
+                        <FlatList data={restaurant.sobremesas}  renderItem={renderPratos} />
                     </View>
 
                     <View style={styles.section}>
@@ -133,7 +84,7 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={acompanhamentos}  renderItem={renderAcompanhamentos}/>
+                        <FlatList data={restaurant.acompanhamentos}  renderItem={renderAcompanhamentos}/>
                     </View>
                 </View>
             </View>
