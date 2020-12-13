@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text,StyleSheet,ScrollView,Image, KeyboardAvoidingView,TextInput} from 'react-native';
+import {View, Text,StyleSheet,KeyboardAvoidingView} from 'react-native';
 import InputNormal from '../shared/InputNormal';
 import {TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
@@ -48,7 +48,9 @@ export default function NewIngredient({navigation}){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
                                     <InputNormal placeholder="(Insira aqui o nome do acompanhamento)" label="Nome do Acompanhamento" onChangeText={props.handleChange('name')} value={props.values.name} />
+                                    <Text style={styles.errorStyle}>{props.errors.name}</Text>  
                                     <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
+                                    <Text style={styles.errorStyle}>{props.errors.price}</Text>  
                                     <View style={{alignItems:"center", marginTop:"72.9%"}}>
                                         <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
                                             <Text style={{color:"#FAFAFA", ...globalStyles.body1}}>Adicionar</Text>
@@ -91,5 +93,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between'
     },
+    errorStyle:{
+        ...globalStyles.legenda1,
+        color: "#A60400"
+    }
 
 });

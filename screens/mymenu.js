@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import {View, Text,StyleSheet,ScrollView,Image} from 'react-native';
+import React from 'react';
+import {View, Text,StyleSheet} from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
-import {firebase} from '../utils/firebase';
-import { MaterialIcons } from '@expo/vector-icons';
 import {useSelector} from 'react-redux';
+
 import CardMenu from '../shared/cardMenu';
+import CardAcompanhamento from '../shared/cardAcompanhamento';
+
 
 export default function MyMenu({navigation}){
 
@@ -17,8 +18,8 @@ export default function MyMenu({navigation}){
 
     const toNewDrink = () =>{
         navigation.navigate('Nova Bebida')
-
     }
+
     const toNewDessert = () =>{
         navigation.navigate('Nova Sobremesa')
     }
@@ -26,27 +27,23 @@ export default function MyMenu({navigation}){
         navigation.navigate('Novo Acompanhamento')
     }
 
-    const renderPratos = (item) => {
-        console.log(item)
+    const renderPratos = (item,tipo) => {
         return(
-            <CardMenu lista={item['item']} restaurante ={restaurant}/>
+            <TouchableOpacity onPress={() => navigation.navigate('Editar Item', {restaurante:restaurant.id, id:item,tipo:tipo})}>
+                <CardMenu lista={item} restaurante ={restaurant.id} tipo = {tipo}/>
+            </TouchableOpacity>
         )
- 
     }
 
-    const renderAcompanhamentos = (item) => {
+    const renderAcompanhamentos = ({item}) => {
         return(
-            <View style={{marginBottom:"4%", marginLeft: 10}}>
-                <Text style={{...globalStyles.sub2,...globalStyles.preto2}}></Text>
-                <Text style={{...globalStyles.body3, ...globalStyles.preto2}}>R$ </Text>
-            </View>
+            <CardAcompanhamento lista ={item} restaurante = {restaurant.id} />
         )
     }
 
     return(
-        <ScrollView style={{backgroundColor:'white'}}>
-            <View style={{backgroundColor:'white', marginBottom:"50%"}}>
-                <View style={styles.container}>
+                <FlatList ListHeaderComponent={
+                    <View style={styles.container}>
                     <View style={styles.section}>
                         <View style={styles.headerSection}>
                             <Text style={{...globalStyles.sub1}}>Pratos</Text>
@@ -54,7 +51,7 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={restaurant.pratos} renderItem={renderPratos} />
+                        <FlatList data ={restaurant.pratos} keyExtractor={item => item} renderItem={({item, tipo = "pratos"}) => renderPratos(item,tipo)}  />
                     </View>
 
                     <View style={styles.section}>
@@ -64,7 +61,7 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={restaurant.bebidas}  renderItem={renderPratos} />
+                        <FlatList data={restaurant.bebidas}  keyExtractor={item => item} renderItem={({item, tipo = "bebidas"}) => renderPratos(item,tipo)}  />
                     </View>
 
                     <View style={styles.section}>
@@ -74,7 +71,7 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={restaurant.sobremesas}  renderItem={renderPratos} />
+                        <FlatList data={restaurant.sobremesas} keyExtractor={item => item}  renderItem={({item, tipo = "sobremesas"}) => renderPratos(item,tipo)}  />
                     </View>
 
                     <View style={styles.section}>
@@ -84,19 +81,18 @@ export default function MyMenu({navigation}){
                                 <Text style={{...globalStyles.body3, ...globalStyles.vermelho1}}>+ Adicionar</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList data={restaurant.acompanhamentos}  renderItem={renderAcompanhamentos}/>
+                        <FlatList data={restaurant.acompanhamentos} keyExtractor={item => item}  renderItem={renderAcompanhamentos}/>
                     </View>
                 </View>
-            </View>
-        </ScrollView>
+                } />
+            
     );
 }
 
 const styles = StyleSheet.create({
     container:{
+        width:"100%",
         backgroundColor:'white',
-        marginLeft:'4%',
-        marginRight:'4%',
     },
 
     headerSection:{

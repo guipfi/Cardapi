@@ -94,6 +94,7 @@ export default function NewDrink({navigation}){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
                                 <InputNormal placeholder="(Insira aqui o nome da sua bebida)" label="Nome da bebida" onChangeText={props.handleChange('name')} value={props.values.name} />
+                                <Text style={styles.errorStyle}>{props.errors.name}</Text>  
     
                                 <View style={{...styles.inputLabel}}>
                                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>Descrição</Text>
@@ -107,11 +108,11 @@ export default function NewDrink({navigation}){
                                     />
                                 </View>
                             </View>
+                            <Text style={styles.errorStyle}>{props.errors.desc}</Text>  
     
-                                <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
-    
+                            <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
+                            <Text style={styles.errorStyle}>{props.errors.price}</Text>  
                                 
-                             
                                 <View style={{marginTop:"9.9%", alignItems:'center'}}>
                                        {image && <Image source={{ uri: image }} style={{borderWidth:1,width:100,height:100 ,marginBottom:10,borderColor:'black'}}/>}
                                     <TouchableOpacity onPress={pickImage} style={{flexDirection:'row', borderWidth:1, borderColor:"#A60400", borderRadius:5, justifyContent:'center', alignItems:'center', alignContent:'center',height:40,minWidth:"89%"}}>
@@ -165,5 +166,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between'
     },
+    errorStyle:{
+        ...globalStyles.legenda1,
+        color: "#A60400"
+    }
 
 });
