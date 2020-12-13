@@ -4,6 +4,8 @@ import {
   Text,
   View,
   Alert,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -13,10 +15,10 @@ import Consumo from '../shared/Consumo';
 import PopUpMsg from '../shared/PopUpMsg'
 import {abrirComanda, chamarGarcom} from '../actions/comandaActions';
 import {useSelector, useDispatch} from 'react-redux';
+import { carregarConsumo } from '../actions/consumoActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { setComanda } from '../actions/userActions';
 
 export default function Comanda({navigation}){
@@ -25,79 +27,19 @@ export default function Comanda({navigation}){
 
   const comanda = useSelector((state) => state.comanda);
 
+  const consumo = useSelector(state => state.consumo);
+
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if(consumo.isLoading) {
+      dispatch(carregarConsumo(user.comanda));
+    }
+  }, []);
 
   const [modalVisible, setModalVisible] = useState(true);
 
   const [moneyPayment, setMoneyPayment] = useState(true);
-
-  const [comandateste, setComandateste] = useState([
-    {
-    "visivel": "false",
-    "cpf": "88765437890",
-    "nome": "João Almeida",
-    "foto": "JA",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  }]},
-  {
-    "visivel": "true",
-    "cpf": "44565437985",
-    "nome": "Gabriela Rodrigues",
-    "foto": "GR",
-    "pedido": [{
-    "id": "0",
-    "produto": "Coca-Cola",
-    "quantidade": "1",
-    "valor_uni": "6.00",
-    "observacao": ""
-  },{
-    "id": "1",
-    "produto": "Pastel de frango milho e catupiry",
-    "quantidade": "2",
-    "valor_uni": "7.25",
-    "observacao": "Por favor, retirar o milho e enviar vinagrete"
-  },
-  {
-    "id": "3",
-    "produto": "Pastel doce",
-    "quantidade": "2",
-    "valor_uni": "8",
-    "observacao": ""
-  }]
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437654",
-    "nome": "Giulia Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "true",
-    "cpf": "13265437655",
-    "nome": "Gustavo Fogaça",
-    "foto": "GF",
-    "pedido": []
-  },
-  {
-    "visivel": "false",
-    "cpf": "13265437653",
-    "nome": "Gabriel Fernandes",
-    "foto": "GF",
-    "pedido": []
-  },
-  ]);
 
   const RadioButton = (isActive) => {
     return (
@@ -146,7 +88,7 @@ export default function Comanda({navigation}){
       >
       <View style={{...globalStyles.container}}>
       <FlatList
-        listKey={2}
+        listkey="consumo"
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
@@ -233,15 +175,15 @@ export default function Comanda({navigation}){
 
         <Text style={{...globalStyles.h5, marginBottom: 15, marginTop: 40}}>Meu carrinho</Text> 
     
-        <Carrinho />
+        <Carrinho user={user} comanda={comanda} />
 
         <View style={{borderWidth: 1,  borderColor: globalStyles.branco5.color, marginTop: 40, marginBottom: 40}} />
           
-        <Participantes participantes={comandateste} setParticipantes={setComandateste} />
+        <Participantes />
 
         <View style={{marginTop: 30}} />
         
-        <Consumo consumo={comandateste} />
+        <Consumo consumo={consumo.participantes} />
 
         <Text style={{...globalStyles.h5, marginBottom: 30, marginTop: 30}}>Pagamento</Text> 
 

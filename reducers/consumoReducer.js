@@ -1,5 +1,6 @@
 const initState = 
 {
+  participantes: [],
   isLoading: true
 }
 
@@ -8,13 +9,19 @@ export const consumoReducer = (state=initState, action) => {
     case "CARREGAR_CONSUMO":
       return {
         ...state,
-        ...action.payload
+        participantes: action.payload,
+        isLoading: false
       }
-    case "LOAD_SUCCESS":
-    return {
-      ...state,
-      isLoading: false
-    }
+    case "SET_VISIBILIDADE":
+      let index = state.participantes.findIndex((e) => e.id == action.payload ? true : false);
+      let newConsumo = state.participantes;
+      newConsumo[index].visivel=!newConsumo[index].visivel
+      console.log("oi");
+      console.log(newConsumo[index].visivel);
+      return {
+        ...state,
+        participantes: newConsumo
+      }
     default:
       return state;
   }

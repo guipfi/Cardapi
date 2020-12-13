@@ -21,7 +21,6 @@ export const setComanda = (comanda=1, userID=1) => {
       firebase.database().ref('users/'+userID+'/profile').update({
         comanda: comanda
       });
-      
       firebase.database().ref('comandas/'+comanda+'/consumo/'+userID).update({
         nome: getState().user.name,
         foto: getState().user.photoURL
