@@ -64,7 +64,7 @@ export default function Participantes(){
               </View>
             </View>       
           )}
-          listKey="participantes"
+          listKey={5}
           keyExtractor={item => item.id}
         />
       </View>

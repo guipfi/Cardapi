@@ -32,11 +32,13 @@ const Consumo = ({consumo}) => {
 
   const renderFooterPedido = (item) => {
     let subtotal = 0;
-    Object.values(item).forEach((pedido) => {
-      pedido.forEach((produto) => {
-        subtotal += produto.quantidade * produto.valor;
+    if(item) {
+      Object.values(item).forEach((pedido) => {
+        pedido.forEach((produto) => {
+          subtotal += produto.quantidade * produto.valor;
+        });
       });
-    });
+    }
     subtotal = subtotal.toFixed(2);
     return (
       <View style={{display: 'flex', marginTop: 10}}>
@@ -82,7 +84,7 @@ const Consumo = ({consumo}) => {
       <View>
         {console.log(30 + JSON.stringify(consumo))}
         <FlatList 
-          listKey="consumo"
+          listKey={1}
           scrollEnabled={false}
           data={consumo}
           keyExtractor={item => item.id}
@@ -98,17 +100,17 @@ const Consumo = ({consumo}) => {
                 <Text style={{...globalStyles.preto1, ...globalStyles.sub1, marginLeft: 10}}>{item.nome}</Text>
               </View>
               <View>
+              {item.pedidos ?
                 <FlatList 
-                  listKey="itens"
+                  listKey={2}
                   keyExtractor={(item,index) => index.toString()}
                   scrollEnabled={false}
                   data={Object.values(item.pedidos)}
                   ListFooterComponent={() => {return (item.pedidos ? renderFooterPedido(item.pedidos) : null)}}
                   ListEmptyComponent={renderEmpty}
                   renderItem={({item}) => (
-                    console.log(50 + JSON.stringify(Object.values(item))),
                     <FlatList
-                      listKey="produtos"
+                      listKey={3}
                       keyExtractor={item => item.product_id}
                       scrollEnabled={false}
                       data={Object.values(item)}
@@ -135,6 +137,9 @@ const Consumo = ({consumo}) => {
                       />
                   )}
                   />
+                  :
+                  renderEmpty()
+                }
                    <View style={{borderWidth: 1, borderColor: globalStyles.branco5.color, marginTop: 20}} />
                   </View>
                   </View>

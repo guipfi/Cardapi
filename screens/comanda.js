@@ -88,7 +88,7 @@ export default function Comanda({navigation}){
       >
       <View style={{...globalStyles.container}}>
       <FlatList
-        listkey="consumo"
+        listkey={0}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
@@ -205,7 +205,6 @@ export default function Comanda({navigation}){
           <View style={styles.buttonShadow}>
             <TouchableOpacity
               onPress={() => {
-                console.log(user.id);
                 dispatch(setComanda(null, user.id));
                 setModalVisible(false);
                 navigation.goBack()
@@ -213,7 +212,12 @@ export default function Comanda({navigation}){
                 style={{width: '100%', height: '100%'}}
               >
                 <View style={{...styles.buttonStyle, paddingLeft: 0}}>
-                  <Text style={{color: globalStyles.branco1.color, textAlign: 'center'}}>Fechar conta</Text>
+                  {comanda.owner ? 
+                  <Text style={{color: globalStyles.branco1.color, textAlign: 'center'}}>Fechar conta</Text> 
+                  :
+                  <Text style={{color: globalStyles.branco1.color, textAlign: 'center'}}>Sair</Text>
+                  }
+                  
                 </View>  
               </TouchableOpacity>  
             </View>        

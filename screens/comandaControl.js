@@ -17,7 +17,7 @@ export default function ComandaControl({navigation}) {
     if(!comanda.isLoading) {
       return <Comanda navigation={navigation} /> 
     } else {
-      dispatch(carregarComanda(user.comanda));
+      dispatch(carregarComanda(user.comanda, user.id));
       return <Loading /> 
     }
   } else {

@@ -34,11 +34,16 @@ export const encerrarConta = () => {
   }
 }
 
-export const carregarComanda = (codigo=1) => {
+export const carregarComanda = (codigo=1, userId=1) => {
   return (dispatch) => {
     var comanda;
     firebase.database().ref('comandas/'+ codigo).once('value', snap => {
       comanda = snap.val();
+      if(userId==comanda.owner) {
+        comanda.owner=true;
+      } else {
+        comanda.owner=false;
+      }
     }).then(() => {
       dispatch({type: "CARREGAR_COMANDA", payload: [comanda, codigo]});
     }).then(() => {
@@ -55,7 +60,9 @@ export const abrirComanda = (codigo=1, userId=1) => {
     }).then(() => {
       if(comanda) {
         if(comanda.owner) {
-          dispatch({type: "COMANDA_OCUPADA", payload: [comanda, codigo]});
+          dispatch({type: "COMANDA_OCUPADA_ATRIBUIDA", payload: [comanda, codigo]});
+          firebase.database().ref('comandas/'+codigo+'/consumo/'+userId).push();
+          dispatch(setComanda(codigo, userId));
         } else {
           dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo]});
           firebase.database().ref('comandas/' + codigo).update({
@@ -64,6 +71,10 @@ export const abrirComanda = (codigo=1, userId=1) => {
           firebase.database().ref('comandas/'+codigo+'/consumo/'+userId).push();
           dispatch(setComanda(codigo, userId));
         }
+        firebase.database().ref('comandas/' + codigo).update({
+          chamando: false,
+          pagamento: false,
+        });
       } else {
         dispatch({type: "COMANDA_INEXISTENTE"});
       }
