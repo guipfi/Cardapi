@@ -63,7 +63,6 @@ export default function RestaurantProfile({navigation}){
                         } 
                     // Adiciona os dados do usuário logado para o estado do Redux
                     dispatch(loginUser(object))
-                    console.log(realtime[1])
                 })
             }
         } else {
@@ -146,7 +145,7 @@ export default function RestaurantProfile({navigation}){
         }
     })
 
-    if(user){
+    if(userData){
     return(
         <ScrollView>
         <View style={{flex:1}}>
@@ -162,7 +161,7 @@ export default function RestaurantProfile({navigation}){
                             </View>
                         <View style={{marginLeft:"4%"}}>
                             <Text style={{...globalStyles.body3, color: "#009922"}}>Aberto</Text>
-                            <Text style={globalStyles.body3}>Desafios Propostos: {userData ? userData.conquistas.length:"0"}</Text>
+                            <Text style={globalStyles.body3}>Desafios Propostos: {userData.conquistas!=undefined ? userData.conquistas.length:"0"}</Text>
                         </View>
                     </View>
                 </View>

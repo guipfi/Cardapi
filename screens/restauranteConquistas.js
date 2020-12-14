@@ -24,12 +24,13 @@ export default function RestauranteConquistas({navigation}){
                 <View>
                     <Text style={{...globalStyles.h5, marginLeft:"4%",marginTop:'5%',marginBottom:'3%'}}>Conquistas Ativas</Text>
                     <View style={{alignItems:"center", marginTop: 10}}>
-                        <TouchableOpacity style={globalStyles.mediumButtonStyle}>
+                        <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={() => navigation.navigate('Nova Conquista')}>
                             <Text style={{color:"#FAFAFA",...globalStyles.body1}}>Adicionar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>}
                 data = {restaurant.conquistas}
+                keyExtractor ={item => item}
                 renderItem={renderItem} 
             />
         </View>
