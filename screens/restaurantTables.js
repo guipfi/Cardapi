@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from "react-native-modalbox";
 import QRCode from 'react-native-qrcode-generator';
@@ -129,7 +129,7 @@ export default function restaurantTable({navigation}) {
                         !item.pagamento ?
                         item.chamando ?
                         <TouchableOpacity onPress={() => {
-                        deleteHandler(item.comanda_id);
+                        Alert.alert("Em breve", "A funcionalidade está em desenvolvimento")
                         }}>
                         <MaterialIcons name="pan-tool" size={30} color={globalStyles.vermelho1.color}/>
                         </TouchableOpacity> 
@@ -138,13 +138,13 @@ export default function restaurantTable({navigation}) {
                         :
                         item.pagamento==1 ?
                         <TouchableOpacity onPress={() => {
-                        deleteHandler(item.comanda_id);
+                        Alert.alert("Em breve", "A funcionalidade está em desenvolvimento")
                         }}>
                         <MaterialIcons name="attach-money" size={30} color={globalStyles.vermelho1.color}/>
                         </TouchableOpacity> 
                         :
                         <TouchableOpacity onPress={() => {
-                        deleteHandler(item.comanda_id);
+                        Alert.alert("Em breve", "A funcionalidade está em desenvolvimento")
                         }}>
                         <MaterialIcons name="credit-card" size={30} color={globalStyles.vermelho1.color}/>
                         </TouchableOpacity> 

@@ -238,7 +238,11 @@ ListHeaderComponent={() => (
     {comanda.owner ? 
     <TouchableOpacity
       onPress={() => {
-        setResumoConta(true);
+        Alert.alert("Deseja fechar a conta?", "O garçom virá até a sua mesa para efetuar o fechamento.", [
+          {text: "Confirmar", onPress: () => { 
+          setResumoConta(true);  
+          Alert.alert("Conta fechada", "Um garçom está indo à sua mesa para efetuar o fechamento.")}}, 
+          {text: "Cancelar"}]);
       }}
         style={{width: '100%', height: '100%'}}
       >
@@ -249,8 +253,13 @@ ListHeaderComponent={() => (
       :
       <TouchableOpacity
       onPress={() => {
-        dispatch(setComanda(null, user.id));
-        navigation.goBack();
+        Alert.alert("Deseja sair da comanda?", "Você não poderá mais fazer pedidos nessa comanda.", [
+          {text: "Confirmar", onPress: () => { 
+          dispatch(setComanda(null, user.id));
+          navigation.goBack(); 
+          Alert.alert("Você saiu da comanda", "Volte sempre :)")}}, 
+          {text: "Cancelar"}]);
+        
       }}
         style={{width: '100%', height: '100%'}}
       >
