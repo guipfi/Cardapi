@@ -11,10 +11,13 @@ export default function RestaurantPage({route, navigation}) {
 
     const [picture, setPicture] = useState(route.params.profile.img);
     const[data,setData] = useState([]); // Lista de Restaurantes
+    const [databebidas, setDatabebidas] = useState([]);
+    const [datasobremesas, setDatasobremesas] = useState([]);
+    const [qtdbebidas, setQtdBebidas] = useState(0);
+    const [qtdpratos, setQtdPratos] = useState(0);
+    const [qtd, setQtd] = useState(0);
 
     const ToAbout = () =>{
-        console.log("To About Img:")
-        console.log(route.params.profile.img);
         navigation.navigate("Sobre", 
                             {name: route.params.profile.name,
                              bio: route.params.profile.bio,
@@ -39,7 +42,7 @@ export default function RestaurantPage({route, navigation}) {
 
     useEffect(() => {
         // Carrega os pratos antes de montar o componente
-        const refPratos = firebase.database().ref('restaurant/' + route.params.id + '/cardapio/pratos/');
+        const refPratos = firebase.database().ref('restaurant/' + route.params.id + '/cardapio/pratos');
         const listener =  refPratos.once('value', snapshot => {
             const pratos = [];
             snapshot.forEach(childSnapshot => {
@@ -47,12 +50,31 @@ export default function RestaurantPage({route, navigation}) {
                 const data = childSnapshot.val();
                 pratos.push({id: key, ...data });
             });
-            setData(pratos)
-            console.log("Agora vai")
-            console.log(data)
+            setData(pratos);
+        });
+
+        const refBebidas = firebase.database().ref('restaurant/' + route.params.id + '/cardapio/bebidas');
+        const listener_bebidas =  refBebidas.once('value', snapshot => {
+            const bebidas = [];
+            snapshot.forEach(childSnapshot => {
+                const key = childSnapshot.key;
+                const databebidas = childSnapshot.val();
+                bebidas.push({id: key, ...databebidas });
+            });
+            setDatabebidas(bebidas);
+        });
+
+        const refSobremesas = firebase.database().ref('restaurant/' + route.params.id + '/cardapio/sobremesas');
+        const listener_sobremesas =  refSobremesas.once('value', snapshot => {
+            const sobremesas = [];
+            snapshot.forEach(childSnapshot => {
+                const key = childSnapshot.key;
+                const datasobremesas = childSnapshot.val();
+                sobremesas.push({id: key, ...datasobremesas });
+            });
+            setDatasobremesas(sobremesas);
         });
     }, []);
-
 
     useEffect(() => {
         if(picture == undefined){
@@ -64,9 +86,10 @@ export default function RestaurantPage({route, navigation}) {
     }, []);
 
     const renderPratos = (item) => {
-        console.log("Render Pratoss");
-        console.log(item);
         return(
+            <TouchableOpacity onPress={() => navigation.navigate('Produto', {nome: item.item.nome, 
+                                                                             descricao: item.item.descricao,
+                                                                             preco: item.item.preco})}>
             <View style={{...styles.cardContainer, padding: 10, marginBottom: 20}}>
                 <View style={styles.cardContent}>
                     <View>
@@ -81,8 +104,11 @@ export default function RestaurantPage({route, navigation}) {
                         <Text style={{...globalStyles.sub1, flex: 5}}>R${item.item.preco}</Text>
                     </View> 
                 </View>
-                <Image style={{position: 'relative', width: 50, minWidth: 50, height: 50, flex: 2, }} source={{uri: item.item.img}} resizeMode="contain"/>
+                <Image style={{position: 'relative', width: 80, minWidth: 50, height: 80, marginLeft: 40, flex: 1, borderWidth: 1, borderColor: 'black'}} 
+                       source={require('../assets/images/pagina_restaurante_macarao_destaque.png')} 
+                       resizeMode="contain"/>
             </View>
+            </TouchableOpacity>
         );
     }
 
@@ -90,7 +116,7 @@ export default function RestaurantPage({route, navigation}) {
          <View style={styles.container}>
         <View style={styles.content}>      
                 <FlatList 
-                    data={data}
+                    data={data.concat(databebidas.concat(datasobremesas))}
                     renderItem={renderPratos}
                     ListFooterComponent= {()=> (
                         <View style={{marginBottom:"30.5%"}}></View>
@@ -242,7 +268,7 @@ const styles = StyleSheet.create({
     },
     
     cardContent: {
-        flex: 4, 
+        flex: 6, 
         maxWidth: "50%",
     },
 

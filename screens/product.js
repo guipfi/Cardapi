@@ -8,7 +8,7 @@ import Loading from '../shared/Loading';
 import {adicionarCarrinho} from '../actions/cartActions';
 import {useDispatch} from 'react-redux';
 
-export default function Product({navigation}) {
+export default function Product({route, navigation}) {
 
     const teste = {
         product_id: 10,
@@ -22,7 +22,7 @@ export default function Product({navigation}) {
 
     const dispatch = useDispatch();
 
-    const [preco, setPreco] = useState(30.9);
+    const [preco, setPreco] = useState(Number(route.params.preco));
     const [total, setTotal] = useState(0)
     const [qtd, setQtd] = useState(0);
     const molhos = [17, 11];
@@ -42,15 +42,15 @@ export default function Product({navigation}) {
                             />
                         </View>
                         <View style={styles.destaqueNome}>
-                            <Text style={{...globalStyles.sub1}}>Macarrão Italiano</Text>
+                            <Text style={{...globalStyles.sub1}}>{route.params.nome}</Text>
                             <View style={{flexDirection: 'row', alignItems: "center"}}>
                                 <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#000" />
                                 <Text style={{...globalStyles.body4}}>4,2 (42)</Text>
                             </View>
-                            <Text style={{...globalStyles.sub1}}>R${preco.toFixed(2)}</Text>
+                            <Text style={{...globalStyles.sub1}}>R${preco}</Text>
                         </View>
                         <View style={{margin: 10, textAlign: 'justify'}}>
-                            <Text>Macarronada italiana da família mais tradicional da Baixada Santista, feita desde os anos 1910. É o prato mais amado da cidade. Macarrão artesanal feita na hora com molho especial usando os tomates da nossa horta.</Text>
+                            <Text>{route.params.descricao}</Text>
                         </View>
                         <Text style={{...globalStyles.sub1, marginLeft: 10, marginTop: 20}}>Adicionais</Text>
 
@@ -93,7 +93,7 @@ export default function Product({navigation}) {
                                     <MaterialIcons name="remove-circle-outline" size={30} color="#262626"/>
                                 </TouchableOpacity>
                                 <View style={{ height: 30, width: 30, justifyContent: "center", alignItems: 'center', backgroundColor: "#262626", borderRadius: 8, marginRight: 10, marginLeft: 10}}>
-                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>n</Text>
+                                    <Text style={{...globalStyles.branco1, ...globalStyles.h6}}>{qtd}</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => {setQtd(qtd+1); setTotal(total + preco)}}>
                                     <MaterialIcons name="add-circle-outline" size={30} color="#262626"/>
@@ -106,7 +106,7 @@ export default function Product({navigation}) {
                             }>
                                 <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                                     <Text style={{color:"#FAFAFA", ...globalStyles.sub2, marginRight: 20}}>Adicionar</Text> 
-                                    <Text style={{color:"#FAFAFA", ...globalStyles.sub1}}>R${total.toFixed(2)}</Text>
+                                    <Text style={{color:"#FAFAFA", ...globalStyles.sub1}}>R${total}</Text>
                                 </View>
                             </TouchableOpacity>   
                         </View>
