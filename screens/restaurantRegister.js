@@ -58,6 +58,7 @@ export default function RestaurantRegister({navigation}) {
                                 type:values.type
                             })
                             firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("")
+                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/conquistas/").set("")
                         })
                     }).then(() =>{
                         Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}])
