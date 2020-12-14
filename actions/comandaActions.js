@@ -69,7 +69,7 @@ export const abrirComanda = (codigo=1, userId=1) => {
             pagamento: false,
           });
           dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo]});
-          dispatch(setComanda(codigo, userId, true));
+          dispatch(setComanda(codigo, userId, true, null));
         }
       } else {
         dispatch({type: "COMANDA_INEXISTENTE"});

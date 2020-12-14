@@ -22,9 +22,9 @@ export default function Product({route, navigation}) {
 
     const dispatch = useDispatch();
 
-    const [preco, setPreco] = useState(Number(route.params.preco));
+    const [preco, setPreco] = useState(teste.valor);
     const [total, setTotal] = useState(0)
-    const [qtd, setQtd] = useState(0);
+    const [qtd, setQtd] = useState(1);
     const molhos = [17, 11];
 
     const somaQtd = () => {
@@ -42,15 +42,15 @@ export default function Product({route, navigation}) {
                             />
                         </View>
                         <View style={styles.destaqueNome}>
-                            <Text style={{...globalStyles.sub1}}>{route.params.nome}</Text>
+                            <Text style={{...globalStyles.sub1}}>{teste.nome}</Text>
                             <View style={{flexDirection: 'row', alignItems: "center"}}>
                                 <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#000" />
                                 <Text style={{...globalStyles.body4}}>4,2 (42)</Text>
                             </View>
-                            <Text style={{...globalStyles.sub1}}>R${preco}</Text>
+                            <Text style={{...globalStyles.sub1}}>R${teste.preco*teste.quantidade}</Text>
                         </View>
                         <View style={{margin: 10, textAlign: 'justify'}}>
-                            <Text>{route.params.descricao}</Text>
+                            <Text>{"Macarronada ao molho vermelho"}</Text>
                         </View>
                         <Text style={{...globalStyles.sub1, marginLeft: 10, marginTop: 20}}>Adicionais</Text>
 
@@ -100,7 +100,6 @@ export default function Product({route, navigation}) {
                                 </TouchableOpacity>
                             </View>
                             <TouchableOpacity style={{...globalStyles.mediumButtonStyle, height: 30, width: 180, marginRight: 10}} onPress={() => {
-                                console.log(teste.quantidade);
                                 dispatch(adicionarCarrinho(teste));
                             }
                             }>

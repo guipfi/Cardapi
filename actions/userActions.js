@@ -97,11 +97,13 @@ export const setComanda = (comanda=null, userID=1, autorizado=true, outUser=null
         referencia="/autorizacoes/"+userID;
       }
       if(outUser) {
+        console.log("aqui")
         firebase.database().ref('comandas/'+comanda+referencia).update({
           nome: outUser.nome,
           foto: outUser.foto
         });
       } else {
+        console.log("aqui2")
         firebase.database().ref('comandas/'+comanda+referencia).update({
           nome: getState().user.name,
           foto: getState().user.photoURL
