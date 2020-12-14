@@ -17,6 +17,7 @@ export default function RestaurantProfile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
     const [endereco, setEndereco] = useState(null)
     const [image,setImage] = useState(null)
+    const [isLoading, setLoading] = useState(true);
     const userData = useSelector((state)=>state.user)
     const dispatch = useDispatch()
 
@@ -61,7 +62,10 @@ export default function RestaurantProfile({navigation}){
                         'conquistas': realtime[1].ativas !=undefined ? Object.getOwnPropertyNames(realtime[1].ativas):[]
                         }
                     // Adiciona os dados do usuário logado para o estado do Redux
-                    dispatch(loginUser(object))
+                    if(isLoading == true){
+                        dispatch(loginUser(object))
+                        setLoading(false)
+                    }
                 })
             }
         } else {

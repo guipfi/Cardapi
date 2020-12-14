@@ -35,7 +35,6 @@ export default function Comanda({navigation}){
 
   useEffect(() => {
     if(consumo.isLoading) {
-      console.log("aqui")
       dispatch(carregarConsumo(user.comanda.id));
       dispatch(controleComanda());
     }
@@ -109,6 +108,7 @@ onClosed={() => {
         <View style={styles.buttonShadow}>
           <TouchableOpacity
             onPress={() => {
+              Alert.alert("Conta encerrada", "Agradecemos a sua presença, volte sempre!");
               dispatch(removerParticipantes(consumo));
               navigation.goBack();
             }}

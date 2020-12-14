@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
 import {Picker} from '@react-native-picker/picker';
 import * as yup from 'yup';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const UserSchema  = yup.object({
     name: yup.string().required('Digite um nome válido').min(2,'Digite um nome maior'),
@@ -88,6 +89,7 @@ export default function RestaurantRegister({navigation}) {
             {(props) => (
                 <KeyboardAvoidingView
                 behavior='height'>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <TextInput 
                         style={{...globalStyles.normalInput, marginTop:"5.468%"}}
                         placeholder="Nome"
@@ -144,7 +146,7 @@ export default function RestaurantRegister({navigation}) {
 
                     <Picker
                         selectedValue={props.values.type}
-                        style={{height: 50, width: 300}}
+                        style={{height: 200, width: 300}}
                         onValueChange={props.handleChange('type')}>
                         <Picker.Item label="Selecione uma Categoria" value="" />    
                         <Picker.Item label="Comida Brasileira" value="Brasileira" />
@@ -167,6 +169,7 @@ export default function RestaurantRegister({navigation}) {
                         </View>
                         </TouchableOpacity>
                     </View>
+                    </ScrollView>
                 </KeyboardAvoidingView>
             )}
         </Formik>

@@ -27,7 +27,7 @@ export const deleteFavorite = (favorito) =>{
   }
 }
 
-export const setComanda = (comanda=null, userID=1, autorizado=true) => {
+export const setComanda = (comanda=null, userID=1, autorizado=true, outUser=null) => {
   return (dispatch, getState) => {
     if(comanda) {
       firebase.database().ref('users/'+userID+'/profile/comanda').update({
@@ -41,15 +41,21 @@ export const setComanda = (comanda=null, userID=1, autorizado=true) => {
       } else {
         referencia="/autorizacoes/"+userID;
       }
-      firebase.database().ref('comandas/'+comanda+referencia).update({
-        nome: getState().user.name,
-        foto: getState().user.photoURL
-      });
+      if(outUser) {
+        firebase.database().ref('comandas/'+comanda+referencia).update({
+          nome: outUser.nome,
+          foto: outUser.foto
+        });
+      } else {
+        firebase.database().ref('comandas/'+comanda+referencia).update({
+          nome: getState().user.name,
+          foto: getState().user.photoURL
+        });
+      } 
     } else {
       firebase.database().ref('users/'+userID+'/profile/comanda').remove();
     }
     if(getState().user.id==userID) {
-       console.log("ENTROU P SETAR A COMANDA");
       dispatch({type: 'SET_COMANDA', payload: {id: comanda, autorizado: autorizado}});
     }
   }

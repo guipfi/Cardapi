@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import {globalStyles} from '../styles/global';
@@ -12,7 +12,7 @@ export default function InputNormal({label,placeholder,onChangeText,value, keybo
                 <View style={styles.passwordEye}>
                     <TextInput 
                         multiline={multiline}
-                        style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
+                        style={{marginBottom:"3%", ...globalStyles.body1, flex:1, minWidth: "88%"}}
                         placeholder={placeholder}
                         onChangeText={onChangeText}
                         value={value}
