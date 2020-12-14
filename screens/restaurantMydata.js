@@ -247,19 +247,19 @@ export default function RestaurantMyData({navigation}) {
                         <InputNormal placeholder="HH:MM - HH:MM" label="Segunda-feira" onChangeText={props.handleChange('monday')} value={props.values.monday} />
                         <Text style={styles.errorStyle}></Text>
 
-                        <InputNormal placeholder="HH:MM - HH:MM" label="Terça-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Terça-feira" onChangeText={props.handleChange('tuesday')} value={props.values.tuesday} />
                         <Text style={styles.errorStyle}></Text>
 
-                        <InputNormal placeholder="HH:MM - HH:MM" label="Quarta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Quarta-feira" onChangeText={props.handleChange('wednesday')} value={props.values.wednesday} />
                         <Text style={styles.errorStyle}></Text>
 
-                        <InputNormal placeholder="HH:MM - HH:MM" label="Quinta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Quinta-feira" onChangeText={props.handleChange('thursday')} value={props.values.thursday} />
                         <Text style={styles.errorStyle}></Text>
 
-                        <InputNormal placeholder="HH:MM - HH:MM" label="Sexta-feira" onChangeText={props.handleChange('phone')} value="" />
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Sexta-feira" onChangeText={props.handleChange('friday')} value={props.values.friday} />
                         <Text style={styles.errorStyle}></Text>
 
-                        <InputNormal placeholder="HH:MM - HH:MM" label="Sábado" onChangeText={props.handleChange('phone')} value="" />
+                        <InputNormal placeholder="HH:MM - HH:MM" label="Sábado" onChangeText={props.handleChange('saturday')} value={props.values.saturday} />
                         <Text style={styles.errorStyle}></Text>
 
                         <View style={{borderTopWidth: 1, paddingTop: 1, marginTop: 5, marginBottom: 10}}>

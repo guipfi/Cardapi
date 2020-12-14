@@ -7,7 +7,8 @@ import {
   TextInput,
   ScrollView,
   FlatList,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -51,8 +52,12 @@ export default function Carrinho({user, comanda}){
           <View style={styles.buttonShadow}>
             <TouchableOpacity
               onPress={() => {
-                dispatch(fazerPedido(user.id, comanda.comanda_id, carrinho));
-                dispatch(limparCarrinho());
+                Alert.alert("Enviar pedido", "O pedido será enviado para a cozinha.", [
+                  {text: "Confirmar", onPress: () => { 
+                  dispatch(fazerPedido(user.id, comanda.comanda_id, carrinho))
+                  dispatch(limparCarrinho())
+                  Alert.alert("Pedido confirmado", "Seu pedido foi enviado para a cozinha.")}}, 
+                  {text: "Cancelar"}]);
               }}
                 style={{width: '100%', height: '100%'}}
               >
