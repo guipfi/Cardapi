@@ -69,7 +69,7 @@ export default function RestaurantMyData({navigation}) {
     if(!isLoading){
         return(
             <FlatList ListHeaderComponent={
-                <View style={{width:'100%', flex:1}}>
+                <View style={{width:'100%'}}>
                     <PopUpMsg message="Seus dados foram atualizados com sucesso!" onClosed={()=>navigation.navigate('Perfil do Restaurante')} isOk={true} isOpen={modal}/>
                 <View style={styles.containerForms}>     
                 <Formik
