@@ -22,7 +22,6 @@ export default function ComandaControl({navigation}) {
       dispatch(carregarComanda(user.comanda.id, user.id));
       return <Loading />
     } else {
-      console.log(30 + JSON.stringify(user));
       if(!user.comanda.autorizado) {
         return (
           <Modal 

@@ -22,7 +22,7 @@ export default function restaurantTable({navigation}) {
 
   useEffect(() => {
     if(!comandas) {
-      dispatch(carregarComandas());
+      dispatch(carregarComandas(user.id));
     }
   }, [])
 
@@ -46,7 +46,7 @@ export default function restaurantTable({navigation}) {
   
 
   const adicionarComandaHandler = () => {
-    dispatch(criarComanda(mesa));
+    dispatch(criarComanda(mesa,user.id));
     setMesa('');
     setOpenModalAdd(false);
   }
@@ -121,7 +121,7 @@ export default function restaurantTable({navigation}) {
                     <View style={{flex:0.5, alignSelf: 'center'}}>
                     { !item.owner ? 
                         <TouchableOpacity onPress={() => {
-                        deleteHandler(item.comanda_id);
+                          deleteHandler(item.comanda_id);
                         }}>
                         <MaterialIcons name="delete" size={30} color={globalStyles.vermelho1.color}/>
                         </TouchableOpacity> 

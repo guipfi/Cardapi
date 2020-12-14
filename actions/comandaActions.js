@@ -63,7 +63,6 @@ export const abrirComanda = (codigo=1, userId=1) => {
           dispatch({type: "COMANDA_OCUPADA_REQUISITAR", payload: [comanda, codigo]});
           dispatch(setComanda(codigo, userId, false));
         } else {
-          console.log("NOVA");
           firebase.database().ref('comandas/' + codigo).update({
             owner: userId,
             chamando: false,

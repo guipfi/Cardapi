@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, FlatList, Image} from 'react-n
 import {useDispatch, useSelector} from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
 import {firebase} from '../utils/firebase';
+import {setComanda} from '../actions/userActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -13,6 +14,8 @@ export default function GerenciarComanda({voltar, navigation}) {
   const [requisicoes, setRequisicoes] = useState([]);
 
   const comanda = useSelector(state => state.comanda);
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -95,7 +98,8 @@ export default function GerenciarComanda({voltar, navigation}) {
                   <View style={{width: 50, height: 50, borderRadius: 360, borderColor: "black",backgroundColor: "green", justifyContent: 'center', alignItems: 'center', marginRight: 5}}>
                       <View style={styles.Shadow}>
                       <TouchableOpacity onPress={() => {
-                        setComanda(comanda.comanda_id, item.id, true);
+                        console.log(comanda.comanda_id, item.id, true);
+                        dispatch(setComanda(comanda.comanda_id, item.id, true, item));
                       }}>
                       <MaterialIcons name="check" size={30} color={globalStyles.branco1.color}/>
                       </TouchableOpacity>  
@@ -104,7 +108,7 @@ export default function GerenciarComanda({voltar, navigation}) {
                   <View style={{width: 50, height: 50, borderRadius: 360, borderColor: "black",backgroundColor: globalStyles.vermelho1.color, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={styles.Shadow}>
                       <TouchableOpacity onPress={() => {
-                        setComanda(null, item.id);
+                        dispatch(setComanda(null, item.id, true, item));
                       }}>
                       <MaterialIcons  name="close" size={30} color={globalStyles.branco1.color}/>
                       </TouchableOpacity>  
