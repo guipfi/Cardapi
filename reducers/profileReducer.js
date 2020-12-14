@@ -1,4 +1,0 @@
-const initState =
-{
-  comanda: null
-}

@@ -28,13 +28,15 @@ export const carregarConsumo = (comandaId=1) => {
         if(processados==Object.values(snap.val()).length) {
           consumo.forEach((participante) => {
             let pedidos = [];
-            Object.keys(participante.pedidos).forEach((key) => {
-              pedidos.push({
-                id: key,
-                pedidos: participante.pedidos[key]
+            if(participante.pedidos) {
+              Object.keys(participante.pedidos).forEach((key) => {
+                pedidos.push({
+                  id: key,
+                  pedidos: participante.pedidos[key]
+                });
               });
-            });
-            participante.pedidos=pedidos;
+              participante.pedidos=pedidos;
+            }
           });
           consumo.reverse();
           dispatch({type: 'CARREGAR_CONSUMO', payload: consumo});

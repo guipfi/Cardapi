@@ -58,7 +58,6 @@ export default function Login({navigation}) {
                                     }
                             })
                         })} catch (e) {
-                            console.log(e.code)
                             if(e.code == 'auth/invalid-email'){
                                 setError('Um campo ou mais estão inválidos');
                             } else if(e.code == 'auth/user-disabled'){

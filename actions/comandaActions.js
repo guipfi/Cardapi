@@ -60,24 +60,27 @@ export const abrirComanda = (codigo=1, userId=1) => {
     }).then(() => {
       if(comanda) {
         if(comanda.owner) {
-          dispatch({type: "COMANDA_OCUPADA_ATRIBUIDA", payload: [comanda, codigo]});
-          firebase.database().ref('comandas/'+codigo+'/consumo/'+userId).push();
-          dispatch(setComanda(codigo, userId));
+          dispatch({type: "COMANDA_OCUPADA_REQUISITAR", payload: [comanda, codigo]});
+          dispatch(setComanda(codigo, userId, false));
         } else {
-          dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo]});
+          console.log("NOVA");
           firebase.database().ref('comandas/' + codigo).update({
-            owner: userId
+            owner: userId,
+            chamando: false,
+            pagamento: false,
           });
-          firebase.database().ref('comandas/'+codigo+'/consumo/'+userId).push();
-          dispatch(setComanda(codigo, userId));
+          dispatch({type: "COMANDA_ATRIBUIDA", payload: [comanda, codigo]});
+          dispatch(setComanda(codigo, userId, true));
         }
-        firebase.database().ref('comandas/' + codigo).update({
-          chamando: false,
-          pagamento: false,
-        });
       } else {
         dispatch({type: "COMANDA_INEXISTENTE"});
       }
     })
+  }
+}
+
+export const cancelarEntrada = (comandaId, userId) => {
+  return () => {
+    firebase.database().ref('comandas/'+comandaId+'/autorizacao/'+userId).remove();
   }
 }

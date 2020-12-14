@@ -12,8 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Card({img,name,type,wifi,estacionamento,music,acessible,user, id}){
     const [image, setImage] = useState('default_profile.png')
     const userRedux = useSelector(state => state.user)
-    const dispatch = useDispatch()
-    console.log(userRedux)
+    const dispatch = useDispatch();
     // Se o array do estado do redux for diferente de vazio e encontrar o elemento no array, então pinta o coração de vermelho
     const [isFavorite, setFavorite] = useState(false);
     

@@ -39,8 +39,7 @@ export default function RestaurantProfile({navigation}){
                     snapshot.forEach(childSnapshot => {
                         const data = childSnapshot.val();
                         realtime.push(data);
-                    });
-
+                    })
                     const object = {
                         'id': user.uid,
                         'email':user.email,
@@ -60,7 +59,7 @@ export default function RestaurantProfile({navigation}){
                         'pratos':  realtime[0].pratos!=undefined ? Object.getOwnPropertyNames(realtime[0].pratos):[],
                         'acompanhamentos':  realtime[0].acompanhamentos!=undefined ? Object.getOwnPropertyNames(realtime[0].acompanhamentos):[],
                         'conquistas': realtime[1].ativas !=undefined ? Object.getOwnPropertyNames(realtime[1].ativas):[]
-                        } 
+                        }
                     // Adiciona os dados do usuário logado para o estado do Redux
                     dispatch(loginUser(object))
                 })
