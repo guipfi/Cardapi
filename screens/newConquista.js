@@ -23,6 +23,7 @@ export default function NewConquista({navigation}){
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const restaurant = useSelector(state => state.user);
+    const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/conquistas/ativas/")
 
     useEffect(() => {
         let isMounted = true
@@ -51,7 +52,7 @@ export default function NewConquista({navigation}){
     })
 
     return(
-            <View style={{backgroundColor:'white', marginBottom:10,height:640}}>
+            <View style={{backgroundColor:'white', marginBottom:10,flex:1}}>
                 <PopUpMsg message="A sua nova conquista foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Conquistas')} isOk={true} isOpen={modal}/>    
                 <View style={styles.containerForms}>
                     <Formik
@@ -68,7 +69,7 @@ export default function NewConquista({navigation}){
                                 "quant": values.quant
                             }
                             
-                            myRef.update(object).then(() =>{
+                            myRef.push(object).then(() =>{
                                 setModal(true)
                             })
 
@@ -77,7 +78,7 @@ export default function NewConquista({navigation}){
                     {(props) =>{
                         if(!isLoading){
                             return(
-                                <KeyboardAvoidingView behavior='height'>
+                                <KeyboardAvoidingView >
 
                                     <InputNormal placeholder="(Insira aqui o nome da conquista)" label="Nome da conquista" onChangeText={props.handleChange('name')} value={props.values.name} />
                                     <Text style={styles.errorStyle}>{props.errors.name}</Text>
@@ -99,42 +100,7 @@ export default function NewConquista({navigation}){
                                     <InputNormal placeholder="(Digite o número de cardapoints)" label="Cardapoints" keyboardType='numeric' onChangeText={props.handleChange('points')} value={props.values.points} />
                                     <Text style={styles.errorStyle}>{props.errors.points}</Text>  
 
-                                    <Text styles={{...globalStyles.legenda2}}>Selecione o prato relacionado a conquista</Text>
-                                    <Picker
-                                    selectedValue={props.values.item}
-                                    style={{height: 50, width: 300}}
-                                    onValueChange={props.handleChange('item')}>
-                                        {
-                                        itens.map((value,index)=>{
-                                            return(
-                                                <Picker.Item key={value} label={value} value={value} />
-                                            )
-
-                                        })
-                                        }
-                                    </Picker>
-
-                                    <InputNormal placeholder="(Insira aqui a quantidade de vezes que ele precisa consumir o item)" label="Quant de itens" onChangeText={props.handleChange('quant')} value={props.values.quant} />
-                                    <Text style={styles.errorStyle}>{props.errors.quant}</Text>
-
-                                    <View>
-                                        <View style={{alignItems:"center", marginTop:"72.9%"}}>
-                                            <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={showDatepicker}>
-                                                <Text style={{color:"#FAFAFA", ...globalStyles.body1}}>Selecione a data limite</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        {show && (
-                                        <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={props.values.date}
-                                        mode={mode}
-                                        display="default"
-                                        onChange={props.handleChange('date')}
-                                        />
-                                        )}
-                                    </View>
-
-                                    <View style={{alignItems:"center", marginTop:"72.9%"}}>
+                                    <View style={{alignItems:"center"}}>
                                         <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
                                             <Text style={{color:"#FAFAFA", ...globalStyles.body1}}>Criar nova Conquista</Text>
                                         </TouchableOpacity>

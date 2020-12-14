@@ -1,4 +1,3 @@
-import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 import {firebase} from '../utils/firebase';
 
 export const loginUser = (user) => {
@@ -28,20 +27,31 @@ export const deleteFavorite = (favorito) =>{
   }
 }
 
-export const setComanda = (comanda=1, userID=1) => {
+export const setComanda = (comanda=null, userID=1, autorizado=true) => {
   return (dispatch, getState) => {
     if(comanda) {
-      firebase.database().ref('users/'+userID+'/profile').update({
-        comanda: comanda
+      firebase.database().ref('users/'+userID+'/profile/comanda').update({
+        id: comanda,
+        autorizado: autorizado
       });
-      firebase.database().ref('comandas/'+comanda+'/consumo/'+userID).update({
+      let referencia
+      if(autorizado) {
+        referencia="/consumo/"+userID;
+        firebase.database().ref('comandas/'+comanda+'/autorizacoes/'+userID).remove();
+      } else {
+        referencia="/autorizacoes/"+userID;
+      }
+      firebase.database().ref('comandas/'+comanda+referencia).update({
         nome: getState().user.name,
         foto: getState().user.photoURL
       });
     } else {
       firebase.database().ref('users/'+userID+'/profile/comanda').remove();
     }
-    dispatch({type: 'SET_COMANDA', payload: comanda});
+    if(getState().user.id==userID) {
+       console.log("ENTROU P SETAR A COMANDA");
+      dispatch({type: 'SET_COMANDA', payload: {id: comanda, autorizado: autorizado}});
+    }
   }
 }
 

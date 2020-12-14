@@ -39,7 +39,6 @@ export default function Profile({navigation}){
           quality: 1,
         });
     
-        console.log(result);
     
         if (!result.cancelled) {
           setImage(result.uri);
@@ -50,7 +49,6 @@ export default function Profile({navigation}){
                 resolve(xhr.response);
                 };
                 xhr.onerror = function(e) {
-                console.log(e);
                 reject(new TypeError('Network request failed'));
                 };
                 xhr.responseType = 'blob';

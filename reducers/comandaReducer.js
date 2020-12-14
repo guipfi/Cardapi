@@ -48,8 +48,7 @@ export const comandaReducer = (state=initState, action) => {
         status: 1,
         isLoading: false
       }
-    case "COMANDA_OCUPADA_ATRIBUIDA":
-      Alert.alert("Bem vindo à comanda","Você já pode começar a fazer pedidos!");
+    case "COMANDA_OCUPADA_REQUISITAR":
       return {
         ...state,
         comanda_id: action.payload[1],
@@ -58,7 +57,7 @@ export const comandaReducer = (state=initState, action) => {
         pagamento: false,
         chamando: false,
         owner: false,
-        status: 1,
+        status: 2,
         isLoading: false
       }
     case "COMANDA_INEXISTENTE":

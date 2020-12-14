@@ -17,6 +17,7 @@ import {abrirComanda, chamarGarcom} from '../actions/comandaActions';
 import {useSelector, useDispatch} from 'react-redux';
 import { carregarConsumo } from '../actions/consumoActions';
 import {controleComanda} from '../actions/userActions';
+import GerenciarComanda from '../shared/GerenciarComanda';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -34,7 +35,8 @@ export default function Comanda({navigation}){
 
   useEffect(() => {
     if(consumo.isLoading) {
-      dispatch(carregarConsumo(user.comanda));
+      console.log("aqui")
+      dispatch(carregarConsumo(user.comanda.id));
       dispatch(controleComanda());
     }
   }, []);
@@ -42,6 +44,8 @@ export default function Comanda({navigation}){
   const [modalVisible, setModalVisible] = useState(true);
 
   const [resumoConta, setResumoConta] = useState(false);
+
+  const [gerenciarComanda, setGerenciarComanda] = useState(false);
 
   const [moneyPayment, setMoneyPayment] = useState(true);
 
@@ -89,7 +93,9 @@ onClosed={() => {
   navigation.goBack();
   }}
 >
-{ resumoConta ?
+
+{ 
+  resumoConta ?
 <FlatList
       listKey="resumo"
       showsVerticalScrollIndicator={false}
@@ -118,6 +124,9 @@ onClosed={() => {
       </View>
       )}
   />
+  :
+  gerenciarComanda ? 
+  <GerenciarComanda voltar={setGerenciarComanda} navigation={navigation} />
   :
 <FlatList
 listKey="comanda"
@@ -190,7 +199,7 @@ ListHeaderComponent={() => (
       <View style={styles.buttonShadow}>
         <TouchableOpacity
           onPress={() => {
-            Alert.alert("Em breve", "A funcionalidade está em desenvolvimento")
+            setGerenciarComanda(true);
           }}
             style={{width: '100%', height: '100%'}}
           >

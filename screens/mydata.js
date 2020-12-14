@@ -99,7 +99,6 @@ export default function MyData({navigation}){
                                 setModal(true)
                         })
                     } catch(e){
-                        console.log(e.code)
                         if(e.code == "auth/wrong-password"){
                             setError("Por favor insira a senha correta para atualizar seus dados")
                         }
