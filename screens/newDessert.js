@@ -7,7 +7,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {firebase} from '../utils/firebase'
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+
+import {updateSobremesas} from '../actions/userActions';
 
 import Loading from '../shared/Loading'
 import PopUpMsg from '../shared/PopUpMsg';
@@ -20,6 +22,7 @@ export default function NewDessert({navigation}){
     const [isLoading, setLoading] = useState(false)
     const [image, setImage] = useState("default_profile.png")
     const [modal,setModal] = useState(false);
+    const dispatch = useDispatch()
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -57,7 +60,7 @@ export default function NewDessert({navigation}){
                         onSubmit={async (values) =>{
                             setLoading(true)
                             console.log("aqui")
-
+                            dispatch(updateSobremesas(key))
                             const object = {
                                 "nome":values.name,
                                 "descricao":values.desc,

@@ -12,7 +12,7 @@ export default function InputNormal({label,placeholder,onChangeText,value, keybo
                 <View style={styles.passwordEye}>
                     <TextInput 
                         multiline={multiline}
-                        style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
+                        style={{marginBottom:"3%", ...globalStyles.body1, flex:1,minWidth:"88%"}}
                         placeholder={placeholder}
                         onChangeText={onChangeText}
                         value={value}

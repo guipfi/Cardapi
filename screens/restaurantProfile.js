@@ -128,6 +128,7 @@ export default function RestaurantProfile({navigation}){
 
     const toMenu = () =>{
         navigation.navigate('Meu Cardápio')
+        
     }
 
     const toComandas = () => {
@@ -168,7 +169,7 @@ export default function RestaurantProfile({navigation}){
 
                     <View style={{flexDirection:'row', marginTop:"4.3%"}}>
                         <MaterialIcons style={{marginRight:"1%"}} name="room" size={16} color="black" />
-                        <Text style={globalStyles.body3}>{endereco!=null ? userData.endereco :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
+                        <Text style={globalStyles.body3}>{endereco!=null ? userData.endereco :'O seu endereço ainda não foi definido'}</Text>
                     </View>
                     <View style={{flexDirection:'row', marginTop:"1%"}}>
                         <MaterialCommunityIcons style={{marginRight:"1%"}} name="phone" size={16} color="black" />

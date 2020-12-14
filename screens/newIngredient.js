@@ -5,8 +5,10 @@ import {TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
 import {firebase} from '../utils/firebase'
 import {Formik} from 'formik';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import * as yup from 'yup';
+
+import {updateAcompanhamentos} from '../actions/userActions';
 
 import Loading from '../shared/Loading'
 import PopUpMsg from '../shared/PopUpMsg';
@@ -14,6 +16,7 @@ import PopUpMsg from '../shared/PopUpMsg';
 
 export default function NewIngredient({navigation}){
     const [modal,setModal] = useState(false)
+    const dispatch = useDispatch()
     const [isLoading, setLoading] = useState(false)
     const restaurant = useSelector(state => state.user);
     const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/cardapio/acompanhamentos").push();
@@ -31,8 +34,10 @@ export default function NewIngredient({navigation}){
                     <Formik
                         initialValues={{name:'', price:''}}
                         validationSchema={UserSchema}
+                        
                         onSubmit={async (values) =>{
                             setLoading(true)
+                            dispatch(updateAcompanhamentos(key))
                             const object = {
                                 "nome":values.name,
                                 "preco":values.price,

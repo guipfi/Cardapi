@@ -7,8 +7,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {firebase} from '../utils/firebase'
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 
+
+import {updateBebidas} from '../actions/userActions';
 import Loading from '../shared/Loading'
 import PopUpMsg from '../shared/PopUpMsg';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,6 +19,7 @@ export default function NewDrink({navigation}){
     const restaurant = useSelector(state => state.user);
     const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/cardapio/bebidas").push();
     const key = myRef.key
+    const dispatch = useDispatch()
     const [isLoading, setLoading] = useState(false)
     const [image, setImage] = useState("default_profile.png")
     const [modal,setModal] = useState(false);
@@ -57,7 +60,7 @@ export default function NewDrink({navigation}){
                         onSubmit={async (values) =>{
                             setLoading(true)
                             console.log("aqui")
-
+                            dispatch(updateBebidas(key))
                             const object = {
                                 "nome":values.name,
                                 "descricao":values.desc,

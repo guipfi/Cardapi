@@ -20,10 +20,65 @@ export const updateFavorite = (favorito) =>{
   }
 }
 
+export const updatePratos = (prato) =>{
+  return{
+    type: "UPDATE_PRATOS",
+    payload: prato
+  }
+}
+
+export const deletePratos = (prato) =>{
+  return{
+    type: "DELETE_PRATOS",
+    payload: prato
+  }
+}
+
+export const updateBebidas = (bebida) =>{
+  return{
+    type: "UPDATE_BEBIDAS",
+    payload: bebida
+  }
+}
+
+export const deleteBebidas = (bebida) =>{
+  return{
+    type: "DELETE_BEBIDAS",
+    payload: bebida
+  }
+}
+
+export const updateSobremesas = (sobremesa) =>{
+  return{
+    type: "UPDATE_SOBREMESAS",
+    payload: sobremesa
+  }
+}
+
+export const deleteSobremesas = (sobremesa) =>{
+  return{
+    type: "DELETE_SOBREMESAS",
+    payload: sobremesa
+  }
+}
+
 export const deleteFavorite = (favorito) =>{
   return{
     type: "DELETE_FAVORITO",
     payload: favorito
+  }
+}
+export const updateAcompanhamentos = (acompanhamento) =>{
+  return{
+    type: "UPDATE_ACOMPANHAMENTOS",
+    payload: acompanhamento
+  }
+}
+
+export const deleteAcompanhamentos = (acompanhamento) =>{
+  return{
+    type: "DELETE_ACOMPANHAMENTOS",
+    payload: acompanhamento
   }
 }
 

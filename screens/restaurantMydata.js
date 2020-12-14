@@ -4,6 +4,10 @@ import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
 import PopUpMsg from '../shared/PopUpMsg';
 
+
+import {useSelector, useDispatch} from 'react-redux';
+import {loginUser} from '../actions/userActions';
+
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import InputNormal from '../shared/InputNormal';
@@ -22,6 +26,7 @@ const UserSchema  = yup.object({
 
 export default function RestaurantMyData({navigation}) {
     const user = firebase.auth().currentUser
+    const state = useSelector(state => state.user)
     const [modal,setModal] = useState(false)
     const [isDelete,setDelete] = useState(false);
     const [userData,setUserData] = useState('')
@@ -133,6 +138,26 @@ export default function RestaurantMyData({navigation}) {
                                         'acessible':isAcessible
                                     }).then(()=>{
                                         user.updateEmail(values.email)
+                                        dispatch(loginUser({
+                                            ...state,
+                                            'name': values.name,
+                                            'cnpj':values.cnpj,
+                                            'endereco':values.endereco,
+                                            'phone': values.phone,
+                                            'bio':values.bio,
+                                            'price': values.price,
+                                            'sunday': values.sunday,
+                                            'monday': values.monday,
+                                            'tuesday': values.tuesday,
+                                            'wednesday': values.wednesday,
+                                            'thursday': values.thursday,
+                                            'friday': values.friday,
+                                            'saturday': values.saturday,
+                                            'wifi':isWifi,
+                                            'music':isMusic,
+                                            'estacionamento':isEstacionamento,
+                                            'acessible':isAcessible
+                                        }))
                                         setModal(true)
                                     })} catch(e){
                                         console.log(e)

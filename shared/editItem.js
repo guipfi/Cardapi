@@ -5,8 +5,11 @@ import {TouchableOpacity } from 'react-native-gesture-handler';
 import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons';
 import {Formik} from 'formik';
+import {useDispatch} from 'react-redux'
 import {firebase} from '../utils/firebase'
 import * as yup from 'yup';
+
+import {deleteBebidas,deletePratos,deleteSobremesas} from '../actions/userActions';
 
 import * as ImagePicker from 'expo-image-picker';
 import Loading from '../shared/Loading'
@@ -16,6 +19,7 @@ import PopUpMsg from '../shared/PopUpMsg';
 export default function EditItem({navigation, route}){
     const [isLoading,setLoading] = useState(false)
     const [modal,setModal] = useState(false)
+    const dispatch = useDispatch()
     const [image, setImage] = useState('default_profile.png')
     const [itens,setItens] = useState(null)
 
@@ -62,9 +66,15 @@ export default function EditItem({navigation, route}){
     const excluirItem = () =>{
         firebase.database().ref("restaurant/"+route.params.restaurante+"/cardapio/"+route.params.tipo+"/"+route.params.id).remove().then(() =>{
             navigation.goBack()
+            if(route.params.tipo == 'bebidas')
+                dispatch(deleteBebidas(route.params.id))
+            else if(route.params.tipo == 'pratos')
+                dispatch(deletePratos(route.params.id))
+            else if(route.params.tipo == 'sobremesas')
+                dispatch(deleteSobremesas(route.params.id))
         })
     }
-
+    
     if(itens){
     return(
         <ScrollView>

@@ -7,7 +7,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {firebase} from '../utils/firebase'
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+
+import {updatePratos} from '../actions/userActions';
+
 
 import Loading from '../shared/Loading'
 import PopUpMsg from '../shared/PopUpMsg';
@@ -17,6 +20,7 @@ export default function NewItem({navigation}){
     const restaurant = useSelector(state => state.user);
     const myRef = firebase.database().ref("restaurant/"+restaurant.id+"/cardapio/pratos").push();
     const key = myRef.key
+    const dispatch = useDispatch()
     const [isLoading, setLoading] = useState(false)
     const [image, setImage] = useState("default_profile.png")
     const [modal,setModal] = useState(false);
@@ -56,7 +60,7 @@ export default function NewItem({navigation}){
                         validationSchema={UserSchema}
                         onSubmit={async (values) =>{
                             setLoading(true)
-
+                            dispatch(updatePratos(key))
                             const object = {
                                 "nome":values.name,
                                 "descricao":values.desc,
