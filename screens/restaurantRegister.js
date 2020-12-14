@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {globalStyles} from '../styles/global';
 import {Formik} from 'formik';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -20,6 +21,8 @@ export default function RestaurantRegister({navigation}) {
     const [hidePass, setHidePass] = useState(true);
     const [hidePassConfirm, setHidePassConfirm] = useState(true);
 
+    const dispatch = useDispatch();
+
     const LoginUser = () =>{
         navigation.navigate('Login')
     }
@@ -36,7 +39,7 @@ export default function RestaurantRegister({navigation}) {
                             displayName:values.name,
                             photoURL:'default_profile.png'
                         }).then(() =>{
-                            firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
+                            let user_data = {
                                 name:values.name,
                                 cnpj:values.cnpj,
                                 phone:values.phone,
@@ -48,12 +51,17 @@ export default function RestaurantRegister({navigation}) {
                                 bio: '',
                                 img:"default_profile.png",
                                 type:values.type
+                            };
+                            firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
+                                ...user_data
                             })
-                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("")
+                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("");
+                            console.log(JSON.stringify(user_data));
+                            dispatch({type: 'LOGIN_USER', user: user_data });
+                        }).then(() =>{
+                            Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}]);
+                            navigation.replace('Home Restaurante3')
                         })
-                    }).then(() =>{
-                        Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}])
-                        navigation.replace('Home Restaurante3')
                     })
                 } catch(e){
                     console.log(e.code)

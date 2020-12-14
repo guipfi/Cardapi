@@ -52,11 +52,13 @@ const Consumo = ({consumo}) => {
   const renderFooterConsumo = () => {
     let total = 0;
     consumo.forEach((pessoa) => {
-        pessoa.pedidos.forEach((pedido) => {
-          pedido.pedidos.forEach((produto) => {
-            total += produto.quantidade * produto.valor;
+        if(pessoa.pedidos) {
+          pessoa.pedidos.forEach((pedido) => {
+            pedido.pedidos.forEach((produto) => {
+              total += produto.quantidade * produto.valor;
+            });
           });
-        });
+        }
     });
     total = total.toFixed(2);
     return (

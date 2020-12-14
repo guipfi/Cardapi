@@ -42,6 +42,7 @@ export default function Home({navigation}){
         if (userListener) {
             setUser(firebase.auth().currentUser);
             if(user != null){
+                console.log(user);
                 const realtime = []
                 const refUser = firebase.database().ref('users/'+user.uid);
                 const listener = refUser.once('value', snapshot =>{

@@ -19,6 +19,8 @@ export default function RestaurantProfile({navigation}){
     const [sobremesas,setSobremesa] = useState([]);
     const [acompanhamentos,setAcompanhamento] = useState([]);
     const [pratos, setPrato] = useState([]);
+    const [isLoading,setLoading] = useState(true)
+    const user2 = useSelector(state => state.user)
     const [endereco, setEndereco] = useState(null)
     const [image,setImage] = useState(null)
     const userData = useSelector((state)=>state.user)
@@ -26,6 +28,10 @@ export default function RestaurantProfile({navigation}){
 
      useEffect(() => {
          if(user){
+             console.log(20 + user.photoURL);
+             console.log(30 + user2.img);
+             console.log(JSON.stringify(user2));
+             console.log(JSON.stringify(user));
              firebase.storage().ref(user.photoURL).getDownloadURL().then((url) =>{
                  setImage(url);
              })
@@ -43,8 +49,7 @@ export default function RestaurantProfile({navigation}){
                     snapshot.forEach(childSnapshot => {
                         const data = childSnapshot.val();
                         realtime.push(data);
-                    });
-
+                    })
                     const object = {
                         'id': user.uid,
                         'email':user.email,
@@ -63,9 +68,12 @@ export default function RestaurantProfile({navigation}){
                         'bebidas': realtime[0].bebidas!=undefined ? Object.getOwnPropertyNames(realtime[0].bebidas):[],
                         'pratos':  realtime[0].pratos!=undefined ? Object.getOwnPropertyNames(realtime[0].pratos):[],
                         'acompanhamentos':  realtime[0].acompanhamentos!=undefined ? Object.getOwnPropertyNames(realtime[0].acompanhamentos):[]
-                        } 
+                        }
                     // Adiciona os dados do usuário logado para o estado do Redux
-                    dispatch(loginUser(object))
+                    if(isLoading == true) {
+                        dispatch(loginUser(object))
+                        setLoading(false)
+                    }
                 })
             }
         } else {
