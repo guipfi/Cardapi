@@ -18,3 +18,9 @@ export const deleteItem = (item) => {
     item: item
   }
 }
+
+export const limparCarrinho = () => {
+  return {
+    type: "LIMPAR_CARRINHO"
+  }
+}

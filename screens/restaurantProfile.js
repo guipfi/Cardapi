@@ -152,7 +152,7 @@ export default function RestaurantProfile({navigation}){
                     </TouchableOpacity>
                     <View style={{flex:1}}>
                         <View style={{flex:1,flexDirection:'row',marginBottom:"4.375%", justifyContent:'space-between'}}>
-                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}></Text>
+                            <Text style={{...globalStyles.sub1, marginLeft:"4%"}}>{userData.name}</Text>
                                 <Text style={{...globalStyles.body3, marginRight:"4%"}}>Ver mais</Text>
                             </View>
                         <View style={{marginLeft:"4%"}}>
@@ -165,11 +165,11 @@ export default function RestaurantProfile({navigation}){
 
                     <View style={{flexDirection:'row', marginTop:"4.3%"}}>
                         <MaterialIcons style={{marginRight:"1%"}} name="room" size={16} color="black" />
-                        <Text style={globalStyles.body3}>{endereco!=null ? "oi" :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
+                        <Text style={globalStyles.body3}>{endereco!=null ? userData.endereco :'Rua Fernando Diniz, 4222, Boqueirão - Santos/SP'}</Text>
                     </View>
                     <View style={{flexDirection:'row', marginTop:"1%"}}>
                         <MaterialCommunityIcons style={{marginRight:"1%"}} name="phone" size={16} color="black" />
-                        <Text style={globalStyles.body3}></Text>
+                        <Text style={globalStyles.body3}>{userData.phone}</Text>
                     </View>
                 </View>
             </View>

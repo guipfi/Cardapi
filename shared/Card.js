@@ -1,7 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import {firebase} from '../utils/firebase'
 import {StyleSheet, View, Text,Image, TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
+import {updateFavorite,deleteFavorite} from '../actions/userActions';
 
 // Estilo Global
 import {globalStyles} from '../styles/global';
@@ -11,20 +12,38 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Card({img,name,type,wifi,estacionamento,music,acessible,user, id}){
     const [image, setImage] = useState('default_profile.png')
     const userRedux = useSelector(state => state.user)
-    const [isFavorite, setFavorite] = useState((userRedux.favorite != undefined &&
-         Object.getOwnPropertyNames(userRedux.favorite).find((element) => element == id) !=undefined) ? true: false);
-
+    const dispatch = useDispatch()
+    console.log(userRedux)
+    // Se o array do estado do redux for diferente de vazio e encontrar o elemento no array, então pinta o coração de vermelho
+    const [isFavorite, setFavorite] = useState(false);
+    
+    // Função que realiza as ações de favoritamento/desfavoritamento
     const Favorite = (param) =>{
         if(user) {
             if(param == true){
-                firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).set(true)  
+                // O parâmetro user  pode ser tanto vindo do Auth quanto do State do Redux
+                if(user.uid == undefined){  
+                    firebase.database().ref('users/'+user.id+"/profile/favorite/"+id).set(true)
+                } else{
+                    firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).set(true)
+                }
+                dispatch(updateFavorite(id))
             } else{
-                firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).remove()
+                if(user.uid == undefined){
+                    firebase.database().ref('users/'+user.id+"/profile/favorite/"+id).remove()
+                } else{
+                    firebase.database().ref('users/'+user.uid+"/profile/favorite/"+id).remove()
+                }
+                dispatch(deleteFavorite(id))
             }
             setFavorite(param);
         }
     }
     useEffect(() => {
+            if(user){
+                setFavorite(userRedux!=undefined && userRedux!=null && userRedux.favorite.length > 0 &&
+            userRedux.favorite.find((element) => element == id) !=undefined) ? true: false
+            }
             if(img == undefined){
                 img = image
             }

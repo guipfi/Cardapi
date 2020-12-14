@@ -14,11 +14,11 @@ export default function ComandaControl({navigation}) {
   const dispatch = useDispatch();
 
   if(user.comanda) {
-    if(comanda.isLoading) {
-      dispatch(carregarComanda(user.comanda));
-      return <Loading />
-    } else {
+    if(!comanda.isLoading) {
       return <Comanda navigation={navigation} /> 
+    } else {
+      dispatch(carregarComanda(user.comanda, user.id));
+      return <Loading /> 
     }
   } else {
     return <Scan navigation={navigation} />

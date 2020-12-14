@@ -31,6 +31,8 @@ function Scan({navigation}){
 
   const [codComanda, setCodComanda] = useState('');
 
+  const [modalVisible, setModalVisible] = useState(true);
+
   const dispatch = useDispatch();
 
   const submitHandler = (cod=codComanda) => {
@@ -44,8 +46,9 @@ function Scan({navigation}){
     swipeToClose={false}
     backdropOpacity={0.5}
     position= {"bottom"}
-    isOpen={true}
-    onClosed={() => navigation.goBack()}
+    isOpen={modalVisible}
+    onClosed={() => 
+      navigation.goBack()}
   >
   <ScrollView>
   <View style={{...globalStyles.container}}>
@@ -59,7 +62,7 @@ function Scan({navigation}){
         <View>
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack()
+              setModalVisible(false);
             }}
             >
             <Text style={{...globalStyles.h4, padding: '5%'}}>X</Text>

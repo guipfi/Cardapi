@@ -29,18 +29,18 @@ export default function NewItem({navigation}){
             }
         }
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
         });
     
         if (!result.cancelled) {
-          setImage(result.uri);
+            setImage(result.uri);
         }
-      };
+    };
 
-      const UserSchema  = yup.object({
+    const UserSchema  = yup.object({
           name: yup.string().required('Digite um nome para o seu prato').min(2,'Digite um nome maior'),
           desc: yup.string().required('Digite uma descrição para o seu prato').min(10, "O produto deve ter uma descrição de no mínimo 10 caracteres."),   
           price: yup.number().required('O prato deve possuir um preço')
@@ -48,6 +48,7 @@ export default function NewItem({navigation}){
         
         return(
             <ScrollView>
+                <PopUpMsg message="O seu novo prato foi adicionado com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
             <View style={{backgroundColor:'white', marginBottom:10,height:640}}>
                 <View style={styles.containerForms}>
                     <Formik
@@ -55,34 +56,35 @@ export default function NewItem({navigation}){
                         validationSchema={UserSchema}
                         onSubmit={async (values) =>{
                             setLoading(true)
-                            console.log("aqui")
 
                             const object = {
                                 "nome":values.name,
                                 "descricao":values.desc,
                                 "preco":values.price,
-                                "img":restaurant.id +"/"+key
+                                "img":image =="default_profile.png" ? image: restaurant.id +"/"+key
                             }    
                             myRef.update(object).then(async () => {
-                                const blob = await new Promise((resolve, reject) => {
-                                    const xhr = new XMLHttpRequest();
-                                    xhr.onload = function() {
-                                    resolve(xhr.response);
-                                    };
-                                    xhr.onerror = function(e) {
-                                    console.log(e);
-                                    reject(new TypeError('Network request failed'));
-                                    };
-                                    xhr.responseType = 'blob';
-                                    xhr.open('GET', image, true);
-                                    xhr.send(null);
-                                });
-                        
-                                console.log(key)
-                        
-                                const upload = await firebase.storage().ref(object['img']).put(blob)
-                        
-                                blob.close()
+                                if(image != "default_profile.png"){
+                                    const blob = await new Promise((resolve, reject) => {
+                                        const xhr = new XMLHttpRequest();
+                                        xhr.onload = function() {
+                                        resolve(xhr.response);
+                                        };
+                                        xhr.onerror = function(e) {
+                                        console.log(e);
+                                        reject(new TypeError('Network request failed'));
+                                        };
+                                        xhr.responseType = 'blob';
+                                        xhr.open('GET', image, true);
+                                        xhr.send(null);
+                                    });
+                            
+                                    console.log(key)
+                            
+                                    const upload = await firebase.storage().ref(object['img']).put(blob)
+                            
+                                    blob.close()
+                                }
                             }).then(() =>{
                                 setModal(true)
                             })
@@ -94,7 +96,8 @@ export default function NewItem({navigation}){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
                                 <InputNormal placeholder="(Insira aqui o nome do seu prato)" label="Nome do Prato" onChangeText={props.handleChange('name')} value={props.values.name} />
-    
+                                <Text style={styles.errorStyle}>{props.errors.name}</Text> 
+
                                 <View style={{...styles.inputLabel}}>
                                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>Descrição</Text>
                                 <View style={styles.passwordEye}>
@@ -107,9 +110,10 @@ export default function NewItem({navigation}){
                                     />
                                 </View>
                             </View>
+                            <Text style={styles.errorStyle}>{props.errors.desc}</Text>  
     
                                 <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
-    
+                                <Text style={styles.errorStyle}>{props.errors.price}</Text>  
                                 
                              
                                 <View style={{marginTop:"9.9%", alignItems:'center'}}>
@@ -130,8 +134,7 @@ export default function NewItem({navigation}){
                             )
                         } else{
                             return(
-                                <View style={{width:360, height:640}}>
-                                <PopUpMsg message="O seu novo prato foi adicionado com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
+                                <View style={{width:"100%", height:"100%"}}>
                                 <Loading />
                                 </View>
                             )    
@@ -165,5 +168,8 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between'
     },
-
+    errorStyle:{
+        ...globalStyles.legenda1,
+        color: "#A60400"
+    }
 });

@@ -48,6 +48,7 @@ export default function NewDessert({navigation}){
         
         return(
             <ScrollView>
+                    <PopUpMsg message="A sua nova sobremesa foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
             <View style={{backgroundColor:'white', marginBottom:10,height:640}}>
                 <View style={styles.containerForms}>
                     <Formik
@@ -61,28 +62,30 @@ export default function NewDessert({navigation}){
                                 "nome":values.name,
                                 "descricao":values.desc,
                                 "preco":values.price,
-                                "img":restaurant.id +"/"+key
+                                "img": image =="default_profile.png" ? image: restaurant.id +"/"+key
                             }    
                             myRef.update(object).then(async () => {
-                                const blob = await new Promise((resolve, reject) => {
-                                    const xhr = new XMLHttpRequest();
-                                    xhr.onload = function() {
-                                    resolve(xhr.response);
-                                    };
-                                    xhr.onerror = function(e) {
-                                    console.log(e);
-                                    reject(new TypeError('Network request failed'));
-                                    };
-                                    xhr.responseType = 'blob';
-                                    xhr.open('GET', image, true);
-                                    xhr.send(null);
-                                });
-                        
-                                console.log(key)
-                        
-                                const upload = await firebase.storage().ref(object['img']).put(blob)
-                        
-                                blob.close()
+                                if(image != "default_profile.png"){
+                                    const blob = await new Promise((resolve, reject) => {
+                                        const xhr = new XMLHttpRequest();
+                                        xhr.onload = function() {
+                                        resolve(xhr.response);
+                                        };
+                                        xhr.onerror = function(e) {
+                                        console.log(e);
+                                        reject(new TypeError('Network request failed'));
+                                        };
+                                        xhr.responseType = 'blob';
+                                        xhr.open('GET', image, true);
+                                        xhr.send(null);
+                                    });
+                            
+                                    console.log(key)
+                            
+                                    const upload = await firebase.storage().ref(object['img']).put(blob)
+                            
+                                    blob.close()
+                                }
                             }).then(() =>{
                                 setModal(true)
                             })
@@ -94,22 +97,25 @@ export default function NewDessert({navigation}){
                             return(
                                 <KeyboardAvoidingView behavior='height'>
                                 <InputNormal placeholder="(Insira aqui o nome da sua sobremesa)" label="Nome da sobremesa" onChangeText={props.handleChange('name')} value={props.values.name} />
-    
+                                <Text style={styles.errorStyle}>{props.errors.name}</Text>  
+                                
                                 <View style={{...styles.inputLabel}}>
                                 <Text style={{...globalStyles.legenda2, ...globalStyles.preto2, marginTop:"4%"}}>Descrição</Text>
-                                <View style={styles.passwordEye}>
-                                    <TextInput 
-                                    multiline={true}
-                                    style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
-                                    placeholder="(Digite a descrição da sobremesa)"
-                                    onChangeText= {props.handleChange('desc')} 
-                                    value={props.values.desc}
-                                    />
+
+                                    <View style={styles.passwordEye}>
+                                        <TextInput 
+                                        multiline={true}
+                                        style={{marginBottom:"3%", ...globalStyles.body1, flex:1}}
+                                        placeholder="(Digite a descrição da sobremesa)"
+                                        onChangeText= {props.handleChange('desc')} 
+                                        value={props.values.desc}
+                                        />
+                                    </View>
                                 </View>
-                            </View>
+                                <Text style={styles.errorStyle}>{props.errors.desc}</Text>  
     
-                                <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
-    
+                            <InputNormal placeholder="(Digite o preço)" label="Preço" keyboardType='numeric' onChangeText={props.handleChange('price')} value={props.values.price} />
+                            <Text style={styles.errorStyle}>{props.errors.price}</Text>  
                                 
                              
                                 <View style={{marginTop:"9.9%", alignItems:'center'}}>
@@ -131,7 +137,6 @@ export default function NewDessert({navigation}){
                         } else{
                             return(
                                 <View style={{width:360, height:640}}>
-                                <PopUpMsg message="A sua nova sobremesa foi adicionada com sucesso!" onClosed={()=>navigation.navigate('Meu Cardápio')} isOk={true} isOpen={modal}/>    
                                 <Loading />
                                 </View>
                             )    
@@ -165,5 +170,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between'
     },
+    errorStyle:{
+        ...globalStyles.legenda1,
+        color: "#A60400"
+    }
 
 });

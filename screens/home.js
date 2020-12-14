@@ -5,7 +5,7 @@ import Loading from '../shared/Loading'
 import {firebase} from '../utils/firebase';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {loginUser} from '../actions/userActions';
+import {loginUser,guestUser} from '../actions/userActions';
 
 import Card from '../shared/Card';
 // Estilo Global
@@ -21,6 +21,8 @@ export default function Home({navigation}){
     const dispatch = useDispatch()
 
     useEffect(() => {
+
+        let isMounted = true
         // Carrega os restaurantes antes de montar o componente
         const refRestaurant = firebase.database().ref('restaurant/');
         const listener =  refRestaurant.once('value', snapshot => {
@@ -30,8 +32,9 @@ export default function Home({navigation}){
                 const data = childSnapshot.val();
                 restaurantes.push({id: key, ...data });
             });
-            setData(restaurantes)
+            if(isMounted) setData(restaurantes)
         });
+        return () => {isMounted = false}
     }, []);
 
     // Fica ouvindo qualquer tipo de alteração no Firebase Authorization
@@ -55,7 +58,7 @@ export default function Home({navigation}){
                         'name':realtime[0].name,
                         'cpf':realtime[0].cpf,
                         'phone':realtime[0].phone,
-                        'favorite': realtime[0].favorite,
+                        'favorite': realtime[0].favorite == undefined ? [] : Object.keys(realtime[0].favorite),
                         comanda: realtime[0].comanda
                     }
 
@@ -67,6 +70,7 @@ export default function Home({navigation}){
                 })
             }
         } else {
+            dispatch(guestUser())
             setLoading(false)
         }
       });

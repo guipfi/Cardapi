@@ -7,6 +7,7 @@ export const criarComanda= (mesa, restauranteId=20) => {
 }
 
 export const carregarComandas = (restauranteId=20) => {
+  console.log("ENTROU");
   return (dispatch) => {
     const ref = firebase.database().ref("comandas/");
     ref.orderByChild("restaurante").equalTo(restauranteId).on("value", snap => {

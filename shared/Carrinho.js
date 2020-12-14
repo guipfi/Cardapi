@@ -7,17 +7,20 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  SafeAreaView,
+  Alert
 } from "react-native";
 import Modal from "react-native-modalbox";
 import { MaterialIcons } from '@expo/vector-icons';
 import {useSelector, useDispatch} from 'react-redux';
-import {addItem, deleteItem} from '../actions/cartActions';
+import {addItem, deleteItem, limparCarrinho} from '../actions/cartActions';
  
 // Estilo Global
 import {globalStyles} from '../styles/global';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { fazerPedido } from '../actions/consumoActions';
 
-export default function Carrinho(){
+export default function Carrinho({user, comanda}){
 
   const dispatch = useDispatch();
 
@@ -33,6 +36,7 @@ export default function Carrinho(){
   }
 
   const renderFooter = () => {
+    console.log(JSON.stringify(carrinho));
     let subtotal = 0;
     carrinho.forEach((item) => {
       subtotal += item.quantidade * item.valor;
@@ -48,7 +52,12 @@ export default function Carrinho(){
           <View style={styles.buttonShadow}>
             <TouchableOpacity
               onPress={() => {
-                setModalVisible(!modalVisible);
+                Alert.alert("Enviar pedido", "O pedido será enviado para a cozinha.", [
+                  {text: "Confirmar", onPress: () => { 
+                  dispatch(fazerPedido(user.id, comanda.comanda_id, carrinho))
+                  dispatch(limparCarrinho())
+                  Alert.alert("Pedido confirmado", "Seu pedido foi enviado para a cozinha.")}}, 
+                  {text: "Cancelar"}]);
               }}
                 style={{width: '100%', height: '100%'}}
               >
@@ -85,8 +94,9 @@ export default function Carrinho(){
   }
 
   return (
-      <View>
+        <SafeAreaView>
         <FlatList 
+          listKey="carrinho"
           ItemSeparatorComponent={renderSeparator}
           scrollEnabled={false}
           data={carrinho}
@@ -129,12 +139,11 @@ export default function Carrinho(){
               }
             </View>       
           )}
-          listKey={'carrinho'}
-          keyExtractor={item => item.product_id}
+          keyExtractor={item => item.product_id.toString()}
           ListFooterComponent={() => {return (carrinho.length > 0 ? renderFooter() : null)}}
           ListEmptyComponent={renderEmpty}
         />
-      </View>
+        </SafeAreaView>
   );
 };
 

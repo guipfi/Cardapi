@@ -1,3 +1,5 @@
+import {Alert} from 'react-native';
+
 
 const initState = 
 {
@@ -24,6 +26,7 @@ export const comandaReducer = (state=initState, action) => {
         restaurante: action.payload[0].restaurante,
         pagamento: action.payload[0].pagamento,
         chamando: action.payload[0].chamando,
+        owner: action.payload[0].owner,
         status: 1
       }
     }
@@ -33,7 +36,7 @@ export const comandaReducer = (state=initState, action) => {
         isLoading: false
       }
     case "COMANDA_ATRIBUIDA":
-      alert("Comanda iniciada com sucesso!");
+      Alert.alert("Comanda iniciada","Você já pode começar a fazer pedidos!");
       return {
         ...state,
         comanda_id: action.payload[1],
@@ -41,18 +44,25 @@ export const comandaReducer = (state=initState, action) => {
         restaurante: action.payload[0].restaurante,
         pagamento: false,
         chamando: false,
+        owner: true,
         status: 1,
         isLoading: false
       }
-    case "COMANDA_OCUPADA":
-      alert("Essa comanda já está ocupada.");
+    case "COMANDA_OCUPADA_ATRIBUIDA":
+      Alert.alert("Bem vindo à comanda","Você já pode começar a fazer pedidos!");
       return {
         ...state,
-        isLoading: false,
-        status: 2
+        comanda_id: action.payload[1],
+        mesa: action.payload[0].mesa,
+        restaurante: action.payload[0].restaurante,
+        pagamento: false,
+        chamando: false,
+        owner: false,
+        status: 1,
+        isLoading: false
       }
     case "COMANDA_INEXISTENTE":
-      alert("Comanda inválida.");
+      Alert.alert("Comanda inválida","O código inserido não é válido.");
       return {
         ...state,
         isLoading: false,

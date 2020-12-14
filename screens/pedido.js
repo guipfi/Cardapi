@@ -28,6 +28,7 @@ export default function Pedido(){
         onClosed= {() => setModalVisible(false)}
       >
       <FlatList
+        listKey="pedido"
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
         <View>
@@ -46,7 +47,6 @@ export default function Pedido(){
           <Carrinho />
         </View>
       }
-      listKey='pedido'
       />
       </Modal>
     </View>
