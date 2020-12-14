@@ -162,7 +162,7 @@ export default function RestaurantProfile({navigation}){
                             </View>
                         <View style={{marginLeft:"4%"}}>
                             <Text style={{...globalStyles.body3, color: "#009922"}}>Aberto</Text>
-                            <Text style={globalStyles.body3}>Desafios Propostos: 3</Text>
+                            <Text style={globalStyles.body3}>Desafios Propostos: {userData ? userData.conquistas.length:"0"}</Text>
                         </View>
                     </View>
                 </View>
