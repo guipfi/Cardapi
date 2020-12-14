@@ -15,10 +15,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function RestaurantProfile({navigation}){
     const [user,setUser] = useState(firebase.auth().currentUser)
-    const [bebidas,setBebidas] = useState([]);
-    const [sobremesas,setSobremesa] = useState([]);
-    const [acompanhamentos,setAcompanhamento] = useState([]);
-    const [pratos, setPrato] = useState([]);
     const [endereco, setEndereco] = useState(null)
     const [image,setImage] = useState(null)
     const userData = useSelector((state)=>state.user)
@@ -33,7 +29,7 @@ export default function RestaurantProfile({navigation}){
         
      }, []);
 
-     firebase.auth().onAuthStateChanged(function(userListener) {
+     const unsubscribe = firebase.auth().onAuthStateChanged(function(userListener) {
         if (userListener) {
             setUser(firebase.auth().currentUser);
             if(user != null){
@@ -49,29 +45,34 @@ export default function RestaurantProfile({navigation}){
                         'id': user.uid,
                         'email':user.email,
                         'photoURL':user.photoURL,
-                        'name':realtime[1].name,
-                        'cnpj':realtime[1].cnpj,
-                        'categoria': realtime[1].type,
-                        'phone':realtime[1].phone,
-                        'endereco': realtime[1].endereco,
-                        'acessible': realtime[1].acessible,
+                        'name':realtime[2].name,
+                        'cnpj':realtime[2].cnpj,
+                        'categoria': realtime[2].type,
+                        'phone':realtime[2].phone,
+                        'endereco': realtime[2].endereco,
+                        'acessible': realtime[2].acessible,
                         'estacionamento': realtime[1].estacionamento,
-                        'music': realtime[1].music,
-                        'wifi': realtime[1].wifi,
-                        'bio': realtime[1].bio,
+                        'music': realtime[2].music,
+                        'wifi': realtime[2].wifi,
+                        'bio': realtime[2].bio,
                         'sobremesas': realtime[0].sobremesas!=undefined ? Object.getOwnPropertyNames(realtime[0].sobremesas):[],
                         'bebidas': realtime[0].bebidas!=undefined ? Object.getOwnPropertyNames(realtime[0].bebidas):[],
                         'pratos':  realtime[0].pratos!=undefined ? Object.getOwnPropertyNames(realtime[0].pratos):[],
-                        'acompanhamentos':  realtime[0].acompanhamentos!=undefined ? Object.getOwnPropertyNames(realtime[0].acompanhamentos):[]
+                        'acompanhamentos':  realtime[0].acompanhamentos!=undefined ? Object.getOwnPropertyNames(realtime[0].acompanhamentos):[],
+                        'conquistas': realtime[1].ativas !=undefined ? Object.getOwnPropertyNames(realtime[1].ativas):[]
                         } 
                     // Adiciona os dados do usuário logado para o estado do Redux
                     dispatch(loginUser(object))
+                    console.log(realtime[1])
                 })
             }
         } else {
           // No user is signed in.
         }
       });
+
+      
+      
 
     const pickImage = async () => {
         if (Platform.OS !== 'web') {
@@ -135,6 +136,10 @@ export default function RestaurantProfile({navigation}){
         navigation.navigate('Comandas')
     }
 
+    const toConquistas = () => {
+        navigation.navigate('Conquistas')
+    }
+
     useEffect(() =>{
         if(user == null){
             return navigation.replace('Login')
@@ -190,7 +195,9 @@ export default function RestaurantProfile({navigation}){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
-                        <Text style={globalStyles.body1}>Conquistas</Text>
+                        <TouchableOpacity onPress={toConquistas}>
+                            <Text style={globalStyles.body1}>Conquistas</Text>
+                        </TouchableOpacity>
                 </View>
                 <View style={styles.OptionMenu}>
                     <Text style={globalStyles.body1}>Formas de Pagamento</Text>
