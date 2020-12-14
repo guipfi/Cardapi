@@ -218,7 +218,8 @@ export default function RestaurantProfile({navigation}){
                 
                 <View style={{alignItems:"center", marginTop:"9%"}}>
                 <TouchableOpacity onPress={() => {firebase.auth().signOut().then(() =>{
-                    navigation.replace('Login')
+                    navigation.replace('Login');
+                    dispatch({type: 'LOGOUT'});
                 })}}>
                     <Text style={{...globalStyles.body1, color:"#8C0A07"}}>Sair</Text>
                 </TouchableOpacity>
