@@ -50,13 +50,21 @@ export default function RestaurantRegister({navigation}) {
                                 wifi: false,
                                 bio: '',
                                 img:"default_profile.png",
+                                // sunday: '',
+                                // monday: '',
+                                // tuesday: '',
+                                // wednesday: '',
+                                // thursday: '',
+                                // friday: '',
+                                // saturday: '',
+                                // price: '',
                                 type:values.type
                             };
                             firebase.database().ref('restaurant/' + firebase.auth().currentUser.uid + '/profile').set({
                                 ...user_data
                             })
-                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("");
-                            console.log(JSON.stringify(user_data));
+                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/cardapio/").set("")
+                            firebase.database().ref('restaurant/'+firebase.auth().currentUser.uid+"/conquistas/").set("")
                             dispatch({type: 'LOGIN_USER', user: user_data });
                         }).then(() =>{
                             Alert.alert("Seu Cadastro foi um sucesso","Agora você já pode trabalhar com a Cardapi!", [{text:"Entendido",onPress: () => console.log("apertado")}]);
@@ -144,7 +152,8 @@ export default function RestaurantRegister({navigation}) {
                         <Picker.Item label="Pizzaria" value="Pizzaria" />
                         <Picker.Item label="Churrascaria" value="Churrascaria" />
                         <Picker.Item label="Sorveteria" value="Sorveteria" />
-                    </Picker>
+                    </Picker>                  
+
                     <Text style={styles.errorStyle}>{props.errors.passwordConfirm}</Text>        
                     <View style={{alignItems:"center"}}>
                         <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={props.handleSubmit}>
@@ -154,7 +163,7 @@ export default function RestaurantRegister({navigation}) {
 
                         <TouchableOpacity onPress={LoginUser}>
                         <View style={{flexDirection:"row"}}>
-                            <Text style={{...globalStyles.body3, marginTop:"7.06%"}}>Já possui conta? Faça o <Text style={{color:"#A60400", textDecorationLine:" underline"}}>Login</Text></Text>
+                            <Text style={{...globalStyles.body3, marginTop:"7.06%"}}>Já possui conta? Faça o <Text style={{color:"#A60400"}}>Login</Text></Text>
                         </View>
                         </TouchableOpacity>
                     </View>

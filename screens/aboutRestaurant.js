@@ -1,27 +1,61 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import {globalStyles} from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {firebase} from '../utils/firebase';
 import Loading from '../shared/Loading';
 
-export default function AboutRestaurant(){
+export default function AboutRestaurant({route}){
+
+    const [picture, setPicture] = useState(route.params.img);
+    
+    useEffect(() => {
+        if(picture == undefined){
+            setPicture('default_profile.png');
+        }
+        firebase.storage().ref(route.params.img).getDownloadURL().then((url) =>{
+            setPicture(url);
+        })
+    }, []);
+    // const renderHora = (hora) =>{
+    //     console.log('Jagger');
+    //     console.log(hora);
+    //     if(hora === ''){
+    //         return(
+    //             <Text>Sem horário definido!</Text>
+    //         )
+    //     }
+    //     else if(hora == 'Fechado'){
+    //         return(
+    //             <Text style={{color: 'red'}}>Fechado</Text>
+    //         )
+    //     }
+    //     else {
+    //         return(
+    //             <Text>Tales</Text>
+    //         )
+    //     }
+    // }
+
     return(
         <View style={styles.container}>
             <FlatList
                 ListFooterComponent={
                     <View style={{marginLeft: "4%", marginTop:'5%', marginRight:"4%"}}>
                     <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: "5%"}}>
-                        <Image  source={require('../assets/images/pagina_restaurante_cantina_logo.png')} 
-                                resizeMode="contain"
+                        <Image source={{uri: picture}} 
+                               style={{position:'relative', width:"100%", height:150}} 
+                               resizeMode="contain"
                         />
                     </View>
                     <View>
-                        <Text style={{...globalStyles.h5, marginBottom: 10, marginRight: 10}}>Cantina Tradicional de Santos</Text>
-                        <Text style={{...globalStyles.body4, textAlign: "justify"}}>A Cantina Tradicional é um restaurante de tradição na gastronomia italiana clássica. Com mais de 30 anos no mercado, a Cantina é um negócio familiar que foi preservado pelas gerações. Os pratos preferidos pelos clientes são a Macarronada Indiana e a Pomba Assada no Rum. A casa conta com música ao vivo, estacionamento além de espaço kids, acessibilidade e desafios para obter creditos</Text>
+                        <Text style={{...globalStyles.h5, marginBottom: 10, marginRight: 10}}>{route.params.name}</Text>
+                        <Text style={{...globalStyles.body4, textAlign: "justify"}}>{route.params.bio}</Text>
                     </View>
                     <View>
-                    <Text style={{...globalStyles.h5, marginBottom: 10, marginTop: 10}}>Serviços</Text>
+                        <Text>{console.log("Route")}</Text>
+                        <Text>{console.log(route)}</Text>
+                        <Text style={{...globalStyles.h5, marginBottom: 10, marginTop: 10}}>Serviços</Text>
                     </View>
                     <View style={{flexDirection: "row", alignItems: "center", marginBottom: 10}}>
                         <MaterialIcons name="accessible" size={20} color="black" style={{paddingRight:"1%"}} />
@@ -51,31 +85,31 @@ export default function AboutRestaurant(){
                     
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Domingo</Text>
-                        <Text>11:00 até 23:00</Text>
+                        <Text>{route.params.sunday}</Text>
                     </View>  
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Segunda-Feira</Text>
-                        <Text style={{color: 'red'}}>Fechado</Text>
+                        <Text>{route.params.monday}</Text>
                     </View>  
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Terça-Feira</Text>
-                        <Text>11:00 até 23:00</Text>
+                        <Text>{route.params.tuesday}</Text>
                     </View> 
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Quarta-Feira</Text>
-                        <Text>11:00 até 23:00</Text>
+                        <Text>{route.params.wednesday}</Text>
                     </View> 
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Quinta-Feira</Text>
-                        <Text>11:00 até 23:00</Text>
+                        <Text>{route.params.thursday}</Text>
                     </View> 
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between", marginBottom: 5}}>
                         <Text style={globalStyles.body1}>Sexta-Feira</Text>
-                        <Text>11:00 até 01:00</Text>
+                        <Text>{route.params.friday}</Text>
                     </View> 
                     <View style={{flexDirection: 'row', maxWidth: "60%", justifyContent: "space-between"}}>
                         <Text style={globalStyles.body1}>Sábado</Text>
-                        <Text>11:00 até 01:00</Text>
+                        <Text>{route.params.saturday}</Text>
                     </View> 
                     <Text style={{marginTop: 5}}>* Sujeito a mudanças.</Text>
                     <Text style={{...globalStyles.h5, marginBottom: 10, marginTop: 10}}>Meios de Pagamento</Text>

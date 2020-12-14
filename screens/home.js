@@ -78,7 +78,7 @@ export default function Home({navigation}){
     
     const renderItem = ({item}) =>{
         return(
-            <TouchableOpacity onPress={() => navigation.navigate('PageStack')}>
+            <TouchableOpacity onPress={() => navigation.navigate('PageStack', {screen: 'Pagina do Restaurante', params: item})}>
                 <Card name={item.profile.name} type={item.profile.type} id={item.id} img = {item.profile.img} wifi = {item.profile.wifi} estacionameto = {item.profile.estacionameto} 
                 music = {item.profile.music} acessible ={item.profile.acessible}  user = {user}/>
             </TouchableOpacity>

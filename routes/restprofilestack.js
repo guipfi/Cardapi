@@ -13,6 +13,8 @@ import NewIngredient from '../screens/newIngredient'
 import NewDessert from '../screens/newDessert'
 import restaurantTable from '../screens/restaurantTables';
 import EditItem from '../shared/editItem';
+import RestauranteConquistas from '../screens/restauranteConquistas';
+import NewConquista from '../screens/newConquista';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -29,6 +31,8 @@ const RestaurantProfileNavigator = () => (
         <Screen name= "Editar Item" component={EditItem} options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />
         <Screen name="Novo Acompanhamento" component={NewIngredient}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />      
         <Screen name="Upload" component={UploadScreen}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />   
+        <Screen name="Conquistas" component={RestauranteConquistas}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} /> 
+        <Screen name="Nova Conquista" component={NewConquista}  options ={{headerTitleAlign:"center", headerTintColor:"white", headerStyle:{backgroundColor:"#A60400"}}} />  
     </Navigator>
 )
 
