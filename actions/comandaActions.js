@@ -80,6 +80,6 @@ export const abrirComanda = (codigo=1, userId=1) => {
 
 export const cancelarEntrada = (comandaId, userId) => {
   return () => {
-    firebase.database().ref('comandas/'+comandaId+'/autorizacao/'+userId).remove();
+    firebase.database().ref('comandas/'+comandaId+'/autorizacoes/'+userId).remove();
   }
 }

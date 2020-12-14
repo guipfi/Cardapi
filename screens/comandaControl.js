@@ -17,6 +17,9 @@ export default function ComandaControl({navigation}) {
 
   const dispatch = useDispatch();
 
+  console.log(1 + JSON.stringify(user));
+  console.log(2 + JSON.stringify(comanda));
+
   if(user.comanda) {
     if(comanda.isLoading) {
       dispatch(carregarComanda(user.comanda.id, user.id));
@@ -37,9 +40,10 @@ export default function ComandaControl({navigation}) {
                 <View>
                   <TouchableOpacity style={globalStyles.mediumButtonStyle} onPress={() => {
                     dispatch(cancelarEntrada(user.comanda.id, user.id));
-                    dispatch(setComanda(null, user.id, false));
+                    dispatch(setComanda(null, user.id, false, null));
+                    navigation.goBack();
                   }}>
-                    <Text style={{color:globalStyles.vermelho3.color}}>Cancelar</Text>
+                    <Text style={{color:globalStyles.vermelho3}}>Cancelar</Text>
                   </TouchableOpacity>
                 </View>
               </View>

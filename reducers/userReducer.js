@@ -1,4 +1,5 @@
-const initState = [{
+const initState = 
+{
     'id':'',
     "name":'',
     "photoURL":'',
@@ -11,7 +12,7 @@ const initState = [{
     'bebidas': [],
     'sobremesas':[],
     'acompanhamentos':[]
-}];
+}
 
 export const userReducer = (state = initState, action) =>{
     let user;
@@ -86,17 +87,24 @@ export const userReducer = (state = initState, action) =>{
       }
     case "SET_COMANDA":
       if(action.payload) {
-        return {
-          ...state,
-          comanda: {id: action.payload.id, autorizado: action.payload.autorizado}
+        if(action.payload.id) {
+          return {
+            ...state,
+            comanda: {id: action.payload.id, autorizado: action.payload.autorizado}
+          }
         }
-      } else {
-        return {
-          ...state,
-          comanda: null
-        }
+      } 
+      return {
+        ...state,
+        comanda: null
       }
-      
+    case "ATUALIZAR DADOS":
+      console.log("entrou");
+      console.log(action.payload);
+      return {
+        ...state,
+        ...action.payload
+      }
     default:
       return state;
   }

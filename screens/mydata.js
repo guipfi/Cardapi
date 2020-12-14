@@ -87,17 +87,17 @@ export default function MyData({navigation}){
                                     displayName: values.name
                                 })
 
-                                firebase.database().ref("/users/"+user.uid+"/profile/").set({
+                                firebase.database().ref("/users/"+user.uid+"/profile/").update({
                                     'name': values.name,
                                     'phone': values.phone,
                                     'cpf': userData[0].cpf
                                 })
                                 
                                 user.updateEmail(values.email)
-                                dispatch(loginUser({'name':values.name,'phone':values.phone,'cpf':userData[0].cpf,'email':values.email}))
-
+                                console.log("deu dispatch");
+                                dispatch({type: 'ATUALIZAR DADOS', payload: {name:values.name,phone:values.phone,cpf:userData[0].cpf,email:values.email}});
                                 setModal(true)
-                        })
+                        });
                     } catch(e){
                         if(e.code == "auth/wrong-password"){
                             setError("Por favor insira a senha correta para atualizar seus dados")
