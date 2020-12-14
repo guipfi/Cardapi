@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity, Image, KeyboardAvoidingView, Alert } from 'react-native';
 import {globalStyles} from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -7,16 +7,26 @@ import Loading from '../shared/Loading';
 
 export default function Header(props) {
     
+    const [picture, setPicture] = useState(props.img);
     const [isFavorite, setFavorite] = useState('false');
     const Favorite = () =>{
         setFavorite(!isFavorite);
     }
+
+    useEffect(() => {
+        if(picture == undefined){
+            setPicture('default_profile.png');
+        }
+        firebase.storage().ref(props.img).getDownloadURL().then((url) =>{
+            setPicture(url);
+        })
+    }, []);
     
     return(
         <View style={styles.header}>
             <View style={styles.logoContainer}>
                 <Image  style={styles.logo} 
-                        source={require("../assets/images/pagina_restaurante_cantina_logo_pequeno.png")}
+                        source={{uri: picture}}
                         resizeMode="contain"     
                 />
             </View>
@@ -32,22 +42,22 @@ export default function Header(props) {
                     </View>
                 </View>
                 <View style={styles.subdetail}>
-                    <Text style={{...globalStyles.legenda1}}>Massas Italianas</Text>
+                    <Text style={{...globalStyles.legenda1}}>{props.type}</Text>
                     <Text style={{...globalStyles.legenda1}}>3,7km</Text>
                     <Text style={{...globalStyles.legenda1, color: "green"}}>Aberto</Text>
                 </View>
                 <View style={styles.subInfo}>
-                    <View style={{flex: 1, flexDirection: "row"}}>
+                    <View style={{flex: 2, flexDirection: "row"}}>
                         <MaterialIcons style={{marginRight: 2}} name="star" size={15} color="#000" />
                         <Text style={{...globalStyles.body3}}>3,8 (26)</Text>
                     </View>
-                    <View style={{flex: 1, flexDirection: "row", justifyContent: "center"}}>
+                    <View style={{flex: 2, flexDirection: "row", justifyContent: "center"}}>
                         <Image source={require("../assets/icons/trophy_icon.png")} />
                         <Text style={{...globalStyles.body3}}>5/12 (41%)</Text>
                     </View>
-                    <View style={{flex: 1, flexDirection: "row"}}>
+                    <View style={{flex: 3, flexDirection: "row"}}>
                         <MaterialIcons style={{marginRight: 2, marginLeft: 20}} name="local-offer" size={15} color="#000" />
-                        <Text style={{...globalStyles.body3}}>R$ 45</Text>
+                        <Text style={{...globalStyles.body3}}>{props.price}</Text>
                     </View>
                 </View>
             </View>
@@ -78,6 +88,8 @@ const styles = StyleSheet.create({
         flex: 1,
         minWidth: 60,
         minHeight: 60,
+        borderColor:'black',
+        borderWidth: 1
     },
    
     headerText: {
