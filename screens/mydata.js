@@ -70,7 +70,12 @@ export default function MyData({navigation}){
             <View style={{width:'100%',height:"100%"}}>
             <View style={styles.containerForms}>     
             <Formik
-                initialValues={{name: user.displayName, cpf:'', phone:userData[0].phone, email:user.email, newPassword:'', newPasswordConfirm:'', oldPassword:''}}
+                initialValues={{name: user!=null ? user.displayName : '', 
+                                cpf:'', phone:userData[0].phone, 
+                                email:user!=null ? user.email: '', 
+                                newPassword:'',
+                                newPasswordConfirm:'', 
+                                oldPassword:''}}
                 validationSchema={UserSchema}
                 onSubmit={ async (values) => {
                     var credential = firebase.auth.EmailAuthProvider.credential(
